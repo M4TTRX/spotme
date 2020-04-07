@@ -22,7 +22,7 @@ class _AddProgressState extends State<AddProgress> {
           },
           label: new Text("Log new exercise", style: TextStyle(fontSize: 16))),
       body: StreamBuilder<Object>(
-        stream: service.homeInfoStream,
+        stream: service.HomeViewDataStream,
         builder: (context, snapchot) {
           return _buildHomeBody(snapchot.data);
         },
@@ -30,17 +30,10 @@ class _AddProgressState extends State<AddProgress> {
     );
   }
 
-  Widget _buildHomeBody(HomeInfo data) {
-    // Generate list of cards
-    var quizCardList = List<Widget>();
-    quizCardList.add(Text(data.welcomeString));
-    for (var exercise in data.yourWeekOverview.exercises) {
-      quizCardList.add(ExerciseProgressView(exercise));
-    }
+  Widget _buildHomeBody(HomeViewData data) {
     // Return in listview
     return ListView(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 32.0),
-      children: quizCardList,
     );
   }
 }

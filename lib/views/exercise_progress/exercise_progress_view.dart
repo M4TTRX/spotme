@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:home_workouts/model/week_overviews/week_exercise.dart';
+import 'package:home_workouts/model/challenges/challenge_progress.dart';
 import 'package:home_workouts/views/shared/buttons/basic_button.dart';
 import 'package:home_workouts/views/shared/text/headings.dart';
 import 'package:home_workouts/views/shared/whitespace.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
-class ExerciseProgressView extends Container {
-  ExerciseProgressView(WeekExercise exercise)
+class ChallengeProgressView extends Container {
+  ChallengeProgressView(ChallengeProgress challengeProgress)
       : super(
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -15,11 +15,11 @@ class ExerciseProgressView extends Container {
                   padding: const EdgeInsets.only(top: 20),
                   child: Row(
                     children: <Widget>[
-                      Heading2(exercise.type),
+                      Heading2(challengeProgress.getChallengeType()),
                       WhiteSpace(),
-                      Text(exercise.completed.toString() +
+                      Text(challengeProgress.getCompleted().toString() +
                           " / " +
-                          exercise.needed.toString()),
+                          challengeProgress.getNeeded().toString()),
                     ],
                   ),
                 ),
@@ -29,7 +29,8 @@ class ExerciseProgressView extends Container {
                     linearStrokeCap: LinearStrokeCap.roundAll,
                     lineHeight: 16.0,
                     animation: true,
-                    percent: exercise.completed / exercise.needed,
+                    percent: challengeProgress.getCompleted() /
+                        challengeProgress.getNeeded(),
                   ),
                 ),
                 Row(

@@ -36,7 +36,7 @@ class _HomeViewState extends State<HomeView> {
       ),
       backgroundColor: Colors.white,
       body: StreamBuilder<Object>(
-        stream: service.homeInfoStream,
+        stream: service.HomeViewDataStream,
         builder: (context, snapchot) {
           return _buildHomeBody(snapchot.data);
         },
@@ -44,7 +44,7 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  Widget _buildHomeBody(HomeInfo data) {
+  Widget _buildHomeBody(HomeViewData data) {
     if (data == null) {
       return Container();
     }
@@ -56,8 +56,8 @@ class _HomeViewState extends State<HomeView> {
         child: TitleText(data.welcomeString ?? "Welcome"),
       ),
     );
-    for (var exercise in data.yourWeekOverview.exercises) {
-      homeViewBody.add(ExerciseProgressView(exercise));
+    for (var exercise in data.challengesProgress) {
+      // homeViewBody.add(ExerciseProgressView(exercise));
     }
     // Return in Listview
     return ScrollConfiguration(

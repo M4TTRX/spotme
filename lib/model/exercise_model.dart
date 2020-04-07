@@ -3,23 +3,27 @@ import 'dart:convert';
 class Exercise {
   String type;
   int amount;
-  DateTime timestamp;
+  String unit;
+  DateTime createDate;
 
   Exercise({
     this.type,
     this.amount,
-    this.timestamp,
+    this.unit,
+    this.createDate,
   });
 
   Exercise copyWith({
     String type,
     int amount,
-    DateTime timestamp,
+    String unit,
+    DateTime createDate,
   }) {
     return Exercise(
       type: type ?? this.type,
       amount: amount ?? this.amount,
-      timestamp: timestamp ?? this.timestamp,
+      unit: unit ?? this.unit,
+      createDate: createDate ?? this.createDate,
     );
   }
 
@@ -27,7 +31,8 @@ class Exercise {
     return {
       'type': type,
       'amount': amount,
-      'timestamp': timestamp.millisecondsSinceEpoch,
+      'unit': unit,
+      'createDate': createDate.millisecondsSinceEpoch,
     };
   }
 
@@ -37,7 +42,8 @@ class Exercise {
     return Exercise(
       type: map['type'],
       amount: map['amount'],
-      timestamp: DateTime.fromMillisecondsSinceEpoch(map['timestamp']),
+      unit: map['unit'],
+      createDate: DateTime.fromMillisecondsSinceEpoch(map['createDate']),
     );
   }
 
@@ -46,8 +52,9 @@ class Exercise {
   static Exercise fromJson(String source) => fromMap(json.decode(source));
 
   @override
-  String toString() =>
-      'Exercise(type: $type, amount: $amount, timestamp: $timestamp)';
+  String toString() {
+    return 'Exercise(type: $type, amount: $amount, unit: $unit, createDate: $createDate)';
+  }
 
   @override
   bool operator ==(Object o) {
@@ -56,9 +63,15 @@ class Exercise {
     return o is Exercise &&
         o.type == type &&
         o.amount == amount &&
-        o.timestamp == timestamp;
+        o.unit == unit &&
+        o.createDate == createDate;
   }
 
   @override
-  int get hashCode => type.hashCode ^ amount.hashCode ^ timestamp.hashCode;
+  int get hashCode {
+    return type.hashCode ^
+        amount.hashCode ^
+        unit.hashCode ^
+        createDate.hashCode;
+  }
 }
