@@ -36,9 +36,9 @@ class _HomeViewState extends State<HomeView> {
       ),
       backgroundColor: Colors.white,
       body: StreamBuilder<Object>(
-        stream: service.HomeViewDataStream,
-        builder: (context, snapchot) {
-          return _buildHomeBody(snapchot.data);
+        stream: service.homeViewDataStream,
+        builder: (context, snapshot) {
+          return _buildHomeBody(snapshot.data);
         },
       ),
     );

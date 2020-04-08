@@ -26,6 +26,8 @@ class UserChallengeProgressView extends Container {
                 Padding(
                   padding: const EdgeInsets.only(top: 8),
                   child: LinearPercentIndicator(
+                    progressColor: Colors.indigo,
+                    backgroundColor: Colors.grey[200],
                     linearStrokeCap: LinearStrokeCap.roundAll,
                     lineHeight: 16.0,
                     animation: true,

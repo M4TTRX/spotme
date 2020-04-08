@@ -21,7 +21,7 @@ class _AddProgressViewState extends State<AddProgressView> {
           },
           label: new Text("Log new exercise", style: TextStyle(fontSize: 16))),
       body: StreamBuilder<Object>(
-        stream: service.HomeViewDataStream,
+        stream: service.homeViewDataStream,
         builder: (context, snapchot) {
           return _buildHomeBody(snapchot.data);
         },

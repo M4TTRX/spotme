@@ -22,6 +22,7 @@ class _SignInViewState extends State<SignInView> {
   String email = "";
   String password = "";
 
+  // error data
   String error = "";
 
   // Loading data

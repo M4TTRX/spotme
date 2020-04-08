@@ -12,7 +12,7 @@ class AuthService {
     return User(
       id: firebaseUser.uid,
       email: firebaseUser.email,
-      userName: firebaseUser.displayName ?? "Rando",
+      username: firebaseUser.displayName ?? "Rando",
     );
   }
 
