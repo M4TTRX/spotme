@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:home_workouts/model/home_model.dart';
 import 'package:home_workouts/service/auth_service.dart';
 import 'package:home_workouts/service/service.dart';
-import 'package:home_workouts/views/exercise_progress/exercise_progress_view.dart';
+import 'package:home_workouts/views/challenge_progress/challenge_progress.dart';
 import 'package:home_workouts/views/shared/padding.dart';
 import 'package:home_workouts/views/shared/scroll_behavior.dart';
 import 'package:home_workouts/views/shared/text/title.dart';
@@ -56,8 +56,10 @@ class _HomeViewState extends State<HomeView> {
         child: TitleText(data.welcomeString ?? "Welcome"),
       ),
     );
-    for (var exercise in data.challengesProgress) {
-      // homeViewBody.add(ExerciseProgressView(exercise));
+    if (data.challengesProgress != null) {
+      for (var UserChallengeProgress in data.challengesProgress) {
+        homeViewBody.add(UserChallengeProgressView(UserChallengeProgress));
+      }
     }
     // Return in Listview
     return ScrollConfiguration(

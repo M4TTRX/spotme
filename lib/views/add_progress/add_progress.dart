@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:home_workouts/model/home_model.dart';
 import 'package:home_workouts/service/service.dart';
-import 'package:home_workouts/views/exercise_progress/exercise_progress_view.dart';
 
-class AddProgress extends StatefulWidget {
-  AddProgress({Key key}) : super(key: key);
+class AddProgressView extends StatefulWidget {
+  AddProgressView({Key key}) : super(key: key);
   @override
-  _AddProgressState createState() => _AddProgressState();
+  _AddProgressViewState createState() => _AddProgressViewState();
 }
 
-class _AddProgressState extends State<AddProgress> {
+class _AddProgressViewState extends State<AddProgressView> {
   AppService service = AppService();
 
   @override

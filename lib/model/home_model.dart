@@ -2,13 +2,14 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
-import 'package:home_workouts/model/challenges/challenge_progress.dart';
 import 'package:home_workouts/model/user_model.dart';
+
+import 'challenges/challenge_progress_model.dart';
 
 class HomeViewData {
   User user;
   String welcomeString;
-  List<ChallengeProgress> challengesProgress;
+  List<UserChallengeProgress> challengesProgress;
   HomeViewData({
     this.user,
     this.welcomeString,
@@ -18,7 +19,7 @@ class HomeViewData {
   HomeViewData copyWith({
     User user,
     String welcomeString,
-    List<ChallengeProgress> challengesProgress,
+    List<UserChallengeProgress> challengesProgress,
   }) {
     return HomeViewData(
       user: user ?? this.user,
@@ -42,8 +43,9 @@ class HomeViewData {
     return HomeViewData(
       user: User.fromMap(map['user']),
       welcomeString: map['welcomeString'],
-      challengesProgress: List<ChallengeProgress>.from(
-          map['challengesProgress']?.map((x) => ChallengeProgress.fromMap(x))),
+      challengesProgress: List<UserChallengeProgress>.from(
+          map['challengesProgress']
+              ?.map((x) => UserChallengeProgress.fromMap(x))),
     );
   }
 

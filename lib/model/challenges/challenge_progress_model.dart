@@ -2,30 +2,34 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
-import 'package:home_workouts/model/challenges/challenge.dart';
-
 import '../exercise_model.dart';
+import '../user_model.dart';
+import 'challenge_model.dart';
 
-class ChallengeProgress {
+class UserChallengeProgress {
+  // user is the user who's challenge progress is tracked
+  User user;
   // The challenge being tracked
   Challenge challenge;
   // the exercises accomplished towards that challenge
   List<Exercise> exercises;
-
   // missingExercise is the exercise the user would have to do in order to be caught up
   Exercise missingExercise;
-  ChallengeProgress({
+
+  // Generated methods
+  // ==============================================================================
+  UserChallengeProgress({
     this.challenge,
     this.exercises,
     this.missingExercise,
   });
 
-  ChallengeProgress copyWith({
+  UserChallengeProgress copyWith({
     Challenge challenge,
     List<Exercise> exercises,
     Exercise missingExercise,
   }) {
-    return ChallengeProgress(
+    return UserChallengeProgress(
       challenge: challenge ?? this.challenge,
       exercises: exercises ?? this.exercises,
       missingExercise: missingExercise ?? this.missingExercise,
@@ -40,10 +44,10 @@ class ChallengeProgress {
     };
   }
 
-  static ChallengeProgress fromMap(Map<String, dynamic> map) {
+  static UserChallengeProgress fromMap(Map<String, dynamic> map) {
     if (map == null) return null;
 
-    return ChallengeProgress(
+    return UserChallengeProgress(
       challenge: Challenge.fromMap(map['challenge']),
       exercises: List<Exercise>.from(
           map['exercises']?.map((x) => Exercise.fromMap(x))),
@@ -53,18 +57,18 @@ class ChallengeProgress {
 
   String toJson() => json.encode(toMap());
 
-  static ChallengeProgress fromJson(String source) =>
+  static UserChallengeProgress fromJson(String source) =>
       fromMap(json.decode(source));
 
   @override
   String toString() =>
-      'ChallengeProgress(challenge: $challenge, exercises: $exercises, missingExercise: $missingExercise)';
+      'UserChallengeProgress(challenge: $challenge, exercises: $exercises, missingExercise: $missingExercise)';
 
   @override
   bool operator ==(Object o) {
     if (identical(this, o)) return true;
 
-    return o is ChallengeProgress &&
+    return o is UserChallengeProgress &&
         o.challenge == challenge &&
         listEquals(o.exercises, exercises) &&
         o.missingExercise == missingExercise;

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:home_workouts/model/user_model.dart';
 
-class Exercise {
+class DatabaseExercise {
   // type describes the type of the exercise
   String type;
   // amount defines the quantity of the exercise, can be weight, distance, reps ect...
@@ -11,25 +11,25 @@ class Exercise {
   String unit;
   // create date is a timestamp at which the exercise was done
   DateTime createDate;
-  // user is the person who performed the exercise
-  User user;
+  // userID is the id person who performed the exercise
+  String userID;
 
   // Generated methods
   // ==============================================================================
-  Exercise({
+  DatabaseExercise({
     this.type,
     this.amount,
     this.unit,
     this.createDate,
   });
 
-  Exercise copyWith({
+  DatabaseExercise copyWith({
     String type,
     double amount,
     String unit,
     DateTime createDate,
   }) {
-    return Exercise(
+    return DatabaseExercise(
       type: type ?? this.type,
       amount: amount ?? this.amount,
       unit: unit ?? this.unit,
@@ -46,10 +46,10 @@ class Exercise {
     };
   }
 
-  static Exercise fromMap(Map<String, dynamic> map) {
+  static DatabaseExercise fromMap(Map<String, dynamic> map) {
     if (map == null) return null;
 
-    return Exercise(
+    return DatabaseExercise(
       type: map['type'],
       amount: map['amount'],
       unit: map['unit'],
@@ -59,18 +59,19 @@ class Exercise {
 
   String toJson() => json.encode(toMap());
 
-  static Exercise fromJson(String source) => fromMap(json.decode(source));
+  static DatabaseExercise fromJson(String source) =>
+      fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'Exercise(type: $type, amount: $amount, unit: $unit, createDate: $createDate)';
+    return 'DatabaseExercise(type: $type, amount: $amount, unit: $unit, createDate: $createDate)';
   }
 
   @override
   bool operator ==(Object o) {
     if (identical(this, o)) return true;
 
-    return o is Exercise &&
+    return o is DatabaseExercise &&
         o.type == type &&
         o.amount == amount &&
         o.unit == unit &&

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 
 import 'package:home_workouts/model/exercise_model.dart';
+import 'package:home_workouts/model/user_model.dart';
 
 class Challenge {
   // The unique identifier to that challenge
@@ -12,11 +13,11 @@ class Challenge {
   // The exercise that will have to be done daily
   Exercise exercise;
   // How much you have to do of the challenge every day
-  int amountRequiredPerDay;
+  double amountRequiredPerDay;
   // Duration of one cycle of the challenge in days
-  int duration;
-  // The uid of all users participating in this challenge
-  List<String> participantIDs;
+  double duration;
+  // The all the participants in the challenge
+  List<User> participants;
 
   // the day the challenge started
   DateTime startDate;
@@ -29,7 +30,7 @@ class Challenge {
     this.exercise,
     this.amountRequiredPerDay,
     this.duration,
-    this.participantIDs,
+    this.participants,
     this.startDate,
   });
 
@@ -37,9 +38,9 @@ class Challenge {
     String id,
     String name,
     Exercise exercise,
-    int amountRequiredPerDay,
-    int duration,
-    List<String> participantIDs,
+    double amountRequiredPerDay,
+    double duration,
+    List<User> participants,
     DateTime startDate,
   }) {
     return Challenge(
@@ -48,7 +49,7 @@ class Challenge {
       exercise: exercise ?? this.exercise,
       amountRequiredPerDay: amountRequiredPerDay ?? this.amountRequiredPerDay,
       duration: duration ?? this.duration,
-      participantIDs: participantIDs ?? this.participantIDs,
+      participants: participants ?? this.participants,
       startDate: startDate ?? this.startDate,
     );
   }
@@ -60,7 +61,7 @@ class Challenge {
       'exercise': exercise.toMap(),
       'amountRequiredPerDay': amountRequiredPerDay,
       'duration': duration,
-      'participantIDs': List<dynamic>.from(participantIDs.map((x) => x)),
+      'participants': List<dynamic>.from(participants.map((x) => x.toMap())),
       'startDate': startDate.millisecondsSinceEpoch,
     };
   }
@@ -74,7 +75,8 @@ class Challenge {
       exercise: Exercise.fromMap(map['exercise']),
       amountRequiredPerDay: map['amountRequiredPerDay'],
       duration: map['duration'],
-      participantIDs: List<String>.from(map['participantIDs']),
+      participants:
+          List<User>.from(map['participants']?.map((x) => User.fromMap(x))),
       startDate: DateTime.fromMillisecondsSinceEpoch(map['startDate']),
     );
   }
@@ -85,7 +87,7 @@ class Challenge {
 
   @override
   String toString() {
-    return 'Challenge(id: $id, name: $name, exercise: $exercise, amountRequiredPerDay: $amountRequiredPerDay, duration: $duration, participantIDs: $participantIDs, startDate: $startDate)';
+    return 'Challenge(id: $id, name: $name, exercise: $exercise, amountRequiredPerDay: $amountRequiredPerDay, duration: $duration, participants: $participants, startDate: $startDate)';
   }
 
   @override
@@ -98,7 +100,7 @@ class Challenge {
         o.exercise == exercise &&
         o.amountRequiredPerDay == amountRequiredPerDay &&
         o.duration == duration &&
-        listEquals(o.participantIDs, participantIDs) &&
+        listEquals(o.participants, participants) &&
         o.startDate == startDate;
   }
 
@@ -109,7 +111,7 @@ class Challenge {
         exercise.hashCode ^
         amountRequiredPerDay.hashCode ^
         duration.hashCode ^
-        participantIDs.hashCode ^
+        participants.hashCode ^
         startDate.hashCode;
   }
 
