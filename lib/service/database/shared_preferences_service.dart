@@ -19,7 +19,7 @@ class SharedPreferencesService {
   static Future<User> getUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String jsonObject = prefs.getString(_accountPreferenceKey);
-    User account = User(userName: "<unknown>");
+    User account = User(username: "<unknown>");
     try {
       var m = jsonDecode(jsonObject);
       account = User.fromMap(m);

@@ -1,71 +1,73 @@
 import 'dart:convert';
 
-import 'package:home_workouts/model/week_overviews/friends_overview.dart';
-import 'package:home_workouts/model/week_overviews/week_overview.dart';
+import 'package:flutter/foundation.dart';
 
-class HomeInfo {
+import 'package:home_workouts/model/user_model.dart';
+
+import 'challenges/challenge_progress_model.dart';
+
+class HomeViewData {
+  User user;
   String welcomeString;
-  WeekOverview yourWeekOverview;
-  List<FriendsOverview> friendsOverView;
-  HomeInfo({
+  List<UserChallengeProgress> challengesProgress;
+  HomeViewData({
+    this.user,
     this.welcomeString,
-    this.yourWeekOverview,
-    this.friendsOverView,
+    this.challengesProgress,
   });
 
-  HomeInfo copyWith({
+  HomeViewData copyWith({
+    User user,
     String welcomeString,
-    WeekOverview yourWeekOverview,
-    List<FriendsOverview> friendsOverView,
+    List<UserChallengeProgress> challengesProgress,
   }) {
-    return HomeInfo(
+    return HomeViewData(
+      user: user ?? this.user,
       welcomeString: welcomeString ?? this.welcomeString,
-      yourWeekOverview: yourWeekOverview ?? this.yourWeekOverview,
-      friendsOverView: friendsOverView ?? this.friendsOverView,
+      challengesProgress: challengesProgress ?? this.challengesProgress,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
+      'user': user.toMap(),
       'welcomeString': welcomeString,
-      'yourWeekOverview': yourWeekOverview.toMap(),
-      'friendsOverView':
-          List<dynamic>.from(friendsOverView.map((x) => x.toMap())),
+      'challengesProgress':
+          List<dynamic>.from(challengesProgress.map((x) => x.toMap())),
     };
   }
 
-  static HomeInfo fromMap(Map<String, dynamic> map) {
+  static HomeViewData fromMap(Map<String, dynamic> map) {
     if (map == null) return null;
 
-    return HomeInfo(
+    return HomeViewData(
+      user: User.fromMap(map['user']),
       welcomeString: map['welcomeString'],
-      yourWeekOverview: WeekOverview.fromMap(map['yourWeekOverview']),
-      friendsOverView: List<FriendsOverview>.from(
-          map['friendsOverView']?.map((x) => FriendsOverview.fromMap(x))),
+      challengesProgress: List<UserChallengeProgress>.from(
+          map['challengesProgress']
+              ?.map((x) => UserChallengeProgress.fromMap(x))),
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  static HomeInfo fromJson(String source) => fromMap(json.decode(source));
+  static HomeViewData fromJson(String source) => fromMap(json.decode(source));
 
   @override
   String toString() =>
-      'HomeInfo(welcomeString: $welcomeString, yourWeekOverview: $yourWeekOverview, friendsOverView: $friendsOverView)';
+      'HomeViewData(user: $user, welcomeString: $welcomeString, challengesProgress: $challengesProgress)';
 
   @override
   bool operator ==(Object o) {
     if (identical(this, o)) return true;
 
-    return o is HomeInfo &&
+    return o is HomeViewData &&
+        o.user == user &&
         o.welcomeString == welcomeString &&
-        o.yourWeekOverview == yourWeekOverview &&
-        o.friendsOverView == friendsOverView;
+        listEquals(o.challengesProgress, challengesProgress);
   }
 
   @override
   int get hashCode =>
-      welcomeString.hashCode ^
-      yourWeekOverview.hashCode ^
-      friendsOverView.hashCode;
+      user.hashCode ^ welcomeString.hashCode ^ challengesProgress.hashCode;
 }

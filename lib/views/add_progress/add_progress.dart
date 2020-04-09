@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:home_workouts/model/home_model.dart';
 import 'package:home_workouts/service/service.dart';
-import 'package:home_workouts/views/exercise_progress/exercise_progress_view.dart';
 
-class AddProgress extends StatefulWidget {
-  AddProgress({Key key}) : super(key: key);
+class AddProgressView extends StatefulWidget {
+  AddProgressView({Key key}) : super(key: key);
   @override
-  _AddProgressState createState() => _AddProgressState();
+  _AddProgressViewState createState() => _AddProgressViewState();
 }
 
-class _AddProgressState extends State<AddProgress> {
+class _AddProgressViewState extends State<AddProgressView> {
   AppService service = AppService();
 
   @override
@@ -22,7 +21,7 @@ class _AddProgressState extends State<AddProgress> {
           },
           label: new Text("Log new exercise", style: TextStyle(fontSize: 16))),
       body: StreamBuilder<Object>(
-        stream: service.homeInfoStream,
+        stream: service.homeViewDataStream,
         builder: (context, snapchot) {
           return _buildHomeBody(snapchot.data);
         },
@@ -30,17 +29,10 @@ class _AddProgressState extends State<AddProgress> {
     );
   }
 
-  Widget _buildHomeBody(HomeInfo data) {
-    // Generate list of cards
-    var quizCardList = List<Widget>();
-    quizCardList.add(Text(data.welcomeString));
-    for (var exercise in data.yourWeekOverview.exercises) {
-      quizCardList.add(ExerciseProgressView(exercise));
-    }
+  Widget _buildHomeBody(HomeViewData data) {
     // Return in listview
     return ListView(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 32.0),
-      children: quizCardList,
     );
   }
 }
