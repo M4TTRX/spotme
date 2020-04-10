@@ -15,10 +15,12 @@ class AddExerciseView extends StatefulWidget {
   AddExerciseView({this.exercise});
 
   @override
-  _AddExerciseViewState createState() => _AddExerciseViewState();
+  _AddExerciseViewState createState() => _AddExerciseViewState(exercise);
 }
 
 class _AddExerciseViewState extends State<AddExerciseView> {
+  _AddExerciseViewState(this.exercise);
+
   // Form Keys
   final _formKey = GlobalKey<FormState>();
 
@@ -29,7 +31,7 @@ class _AddExerciseViewState extends State<AddExerciseView> {
   Exercise exercise;
 
   @override
-  Widget build(BuildContext context, {Exercise exercise}) {
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -95,6 +97,7 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                               ),
                               onPressed: () {
                                 setState(() {
+                                  HapticFeedback.selectionClick();
                                   exercise.amount--;
                                 });
                               },
@@ -121,6 +124,7 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                               ),
                               onPressed: () {
                                 setState(() {
+                                  HapticFeedback.selectionClick();
                                   exercise.amount++;
                                 });
                               },
@@ -151,8 +155,12 @@ class _AddExerciseViewState extends State<AddExerciseView> {
             ),
           ),
           PrimaryButton("Save", () async {
-            await _service.putExercise(exercise);
-            Navigator.pop(context);
+            if (_formKey.currentState.validate()) {
+              await _service.putExercise(exercise);
+              Navigator.pop(context);
+            } else {
+              HapticFeedback.heavyImpact();
+            }
           }),
         ],
       ),
@@ -208,7 +216,7 @@ class _AddExerciseViewState extends State<AddExerciseView> {
               FlatButton(
                   child: const Text('Save'),
                   onPressed: () {
-                    HapticFeedback.lightImpact();
+                    HapticFeedback.mediumImpact();
                     exercise.unit = _newUnit;
                     Navigator.pop(context);
                   })

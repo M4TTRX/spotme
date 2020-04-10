@@ -12,10 +12,13 @@ class Heading1 extends Text {
 }
 
 class Heading2 extends Text {
-  Heading2(String data)
+  Heading2(String data, {color: Colors.black})
       : super(
           data,
-          style: TextStyle(fontSize: 18, fontFamily: "Red Hat Text"),
+          style: TextStyle(
+              fontSize: 18,
+              fontFamily: "Red Hat Text",
+              color: color ?? Colors.black),
         );
 }
 

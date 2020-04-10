@@ -36,9 +36,9 @@ class _UserChalleneProgressViewState extends State<UserChalleneProgressView> {
                 children: <Widget>[
                   Heading2(_challengeProgress.getChallengeType()),
                   WhiteSpace(),
-                  Text(_challengeProgress.getCompleted().toString() +
+                  Text(_challengeProgress.getCompleted().round().toString() +
                       " / " +
-                      _challengeProgress.getNeeded().toString()),
+                      _challengeProgress.getNeeded().round().toString()),
                 ],
               ),
             ),
@@ -71,7 +71,8 @@ class _UserChalleneProgressViewState extends State<UserChalleneProgressView> {
 
   _addExercise(BuildContext context) async {
     await Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-      return AddExerciseView();
+      return AddExerciseView(
+          exercise: _challengeProgress.getAddProgressExercise());
     }));
   }
 }
