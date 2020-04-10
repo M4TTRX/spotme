@@ -57,8 +57,8 @@ class _HomeViewState extends State<HomeView> {
       ),
     );
     if (data.challengesProgress != null) {
-      for (var UserChallengeProgress in data.challengesProgress) {
-        homeViewBody.add(UserChallengeProgressView(UserChallengeProgress));
+      for (var userChallengeProgress in data.challengesProgress) {
+        homeViewBody.add(UserChalleneProgressView(userChallengeProgress));
       }
     }
     // Return in Listview

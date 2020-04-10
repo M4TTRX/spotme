@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
 class Heading1 extends Text {
-  Heading1(String data)
+  Heading1(String data, {color: Colors.black})
       : super(
           data,
-          style: TextStyle(fontSize: 24, fontFamily: "Red Hat Text"),
+          style: TextStyle(
+              fontSize: 24,
+              fontFamily: "Red Hat Text",
+              color: color ?? Colors.black),
         );
 }
 
