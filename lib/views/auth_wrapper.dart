@@ -4,6 +4,7 @@ import 'package:home_workouts/views/authenticate/authenticate.dart';
 import 'package:provider/provider.dart';
 
 import 'home/home.dart';
+import 'activity/activity.dart';
 
 class AuthWrapper extends StatelessWidget {
   @override
@@ -12,7 +13,8 @@ class AuthWrapper extends StatelessWidget {
     if (user == null) {
       return Authenticate();
     } else {
-      return HomeView();
+      return ActivityView();
+      //return HomeView();
     }
   }
 }
