@@ -67,7 +67,6 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                       children: <Widget>[
                         TextFormField(
                           initialValue: exercise.type ?? "",
-                          keyboardType: TextInputType.emailAddress,
                           validator: (val) =>
                               val.isEmpty ? "Invalid name" : null,
                           decoration: InputDecoration(
@@ -77,7 +76,6 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                               borderRadius: BorderRadius.circular(8.0),
                               borderSide: BorderSide(),
                             ),
-                            //fillColor: Colors.green
                           ),
                           onChanged: (val) {
                             setState(() => exercise.type = val);
@@ -97,23 +95,35 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                               ),
                               onPressed: () {
                                 setState(() {
-                                  HapticFeedback.selectionClick();
+                                  HapticFeedback.lightImpact();
                                   exercise.amount--;
                                 });
                               },
                             ),
                             Container(
                               width: 128,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Text(
-                                    exercise.amount.round().toString(),
-                                    style: TextStyle(
-                                        fontSize: 64,
-                                        fontFamily: "Red Hat Text"),
-                                  ),
-                                ],
+                              child: TextFormField(
+                                autovalidate: true,
+                                textAlign: TextAlign.center,
+                                keyboardType: TextInputType.number,
+                                controller: TextEditingController(
+                                  text: exercise.amount == null
+                                      ? ""
+                                      : exercise.amount.round().toString(),
+                                ),
+                                style: TextStyle(
+                                  fontSize: 64,
+                                  fontFamily: "Red Hat Text",
+                                ),
+                                validator: (val) =>
+                                    val.isEmpty ? "Invalid amount" : null,
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                ),
+                                onChanged: (val) {
+                                  exercise.amount = double.parse(val);
+                                  setState(() {});
+                                },
                               ),
                             ),
                             MaterialButton(
@@ -124,7 +134,7 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                               ),
                               onPressed: () {
                                 setState(() {
-                                  HapticFeedback.selectionClick();
+                                  HapticFeedback.lightImpact();
                                   exercise.amount++;
                                 });
                               },

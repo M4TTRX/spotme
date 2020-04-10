@@ -82,6 +82,7 @@ class AppService {
     return fireStoreDbResult;
   }
 
+  // putExercise stores an exercise for the user
   Future putExercise(Exercise exercise) async {
     // get the userID
     String userID = await _getUserID();
@@ -95,12 +96,7 @@ class AppService {
       createDate: DateTime.now(),
       userID: userID,
     );
-    dynamic result = await fireStoreDb.upsertExercise(databaseExercise);
-    if (result == null) {
-      print("An error occured when saving this exercise");
-      return null;
-    }
-    return result;
+    await fireStoreDb.upsertExercise(databaseExercise);
   }
 
   // SharedPreference stuff (useless)
