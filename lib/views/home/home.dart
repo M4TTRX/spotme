@@ -21,10 +21,25 @@ class _HomeViewState extends State<HomeView> {
 
   final AuthService _authService = AuthService();
 
+  // currentNavBarIndex is the index of which page we are on in the navigation bar
+  int _currentNavBarIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton.extended(
+      bottomNavigationBar: BottomAppBar(
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Icon(Icons.home),
+            Icon(Icons.history),
+          ],
+        ),
+        shape: CircularNotchedRectangle(),
+        color: Colors.blueGrey,
+      ),
+      floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.white,
         foregroundColor: Colors.indigo,
         onPressed: () async {
@@ -32,25 +47,25 @@ class _HomeViewState extends State<HomeView> {
           await _addExercise(context);
           setState(() {});
         },
-        label: Heading1("Add Exercise"),
-        icon: Icon(
+        child: Icon(
           Icons.add,
           size: 32,
         ),
       ),
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0.0,
-        actions: <Widget>[
-          FlatButton.icon(
-            icon: Icon(Icons.person),
-            label: Text('Logout'),
-            onPressed: () async {
-              await _authService.signOut();
-            },
-          )
-        ],
-      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      // appBar: AppBar(
+      //   backgroundColor: Colors.white,
+      //   elevation: 0.0,
+      //   actions: <Widget>[
+      //     FlatButton.icon(
+      //       icon: Icon(Icons.person),
+      //       label: Text('Logout'),
+      //       onPressed: () async {
+      //         await _authService.signOut();
+      //       },
+      //     )
+      //   ],
+      // ),
       backgroundColor: Colors.white,
       body: StreamBuilder<Object>(
         stream: service.homeViewDataStream,
