@@ -16,6 +16,12 @@ class UserChallengeProgress {
   // missingExercise is the exercise the user would have to do in order to be caught up
   Exercise missingExercise;
 
+  Exercise getAddProgressExercise() {
+    Exercise exercise = this.challenge.exercise;
+    exercise.amount = this.getNeeded() - this.getCompleted();
+    return exercise;
+  }
+
   // Generated methods
   // ==============================================================================
   UserChallengeProgress({
@@ -80,11 +86,11 @@ class UserChallengeProgress {
 
   String getChallengeType() => this.challenge.getChallengeType();
 
-  int getCompleted() {
+  double getCompleted() {
     return 2;
   }
 
-  int getNeeded() {
+  double getNeeded() {
     return 10;
   }
 }

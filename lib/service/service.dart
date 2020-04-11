@@ -1,9 +1,11 @@
 import 'package:home_workouts/model/challenges/challenge_model.dart';
 import 'package:home_workouts/model/challenges/challenge_progress_model.dart';
+import 'package:home_workouts/model/database/exercise_db_model.dart';
 import 'package:home_workouts/model/exercise_model.dart';
 import 'package:home_workouts/model/user_model.dart';
 import 'package:home_workouts/model/home_model.dart';
 import 'package:home_workouts/service/database/firestore_database_service.dart';
+import 'package:uuid/uuid.dart';
 
 import 'auth_service.dart';
 import 'database/shared_preferences_service.dart';
@@ -49,7 +51,6 @@ class AppService {
       return user.id;
     }
     return "";
-    ;
   }
 
   // gets the id of the account signed in
@@ -79,6 +80,23 @@ class AppService {
       return null;
     }
     return fireStoreDbResult;
+  }
+
+  // putExercise stores an exercise for the user
+  Future putExercise(Exercise exercise) async {
+    // get the userID
+    String userID = await _getUserID();
+    final FireStoreDatabaseService fireStoreDb =
+        FireStoreDatabaseService(userId: userID);
+    DatabaseExercise databaseExercise = DatabaseExercise(
+      id: Uuid().v4(),
+      type: exercise.type ?? "Unknown Exercise Type",
+      amount: exercise.amount ?? 0.0,
+      unit: exercise.unit ?? "",
+      createDate: DateTime.now(),
+      userID: userID,
+    );
+    await fireStoreDb.upsertExercise(databaseExercise);
   }
 
   // SharedPreference stuff (useless)

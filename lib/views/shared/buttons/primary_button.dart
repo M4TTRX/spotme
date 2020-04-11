@@ -13,11 +13,11 @@ class PrimaryButton extends Card {
           color: Colors.indigo,
           child: InkWell(
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16),
+              padding: const EdgeInsets.symmetric(vertical: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  ButtonBodyText(
+                  Heading1(
                     text,
                     color: Colors.white,
                   ),
