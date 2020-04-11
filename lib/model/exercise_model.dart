@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:home_workouts/model/user_model.dart';
 
 class Exercise {
+  String id;
   // type describes the type of the exercise
   String type;
   // amount defines the quantity of the exercise, can be weight, distance, reps ect...
