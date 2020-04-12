@@ -28,16 +28,66 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Icon(Icons.home),
-            Icon(Icons.history),
-          ],
+        child: Container(
+          height: 64,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              MaterialButton(
+                minWidth: 48,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(Icons.home),
+                    Text("Home"),
+                  ],
+                ),
+                onPressed: () {},
+              ),
+              MaterialButton(
+                minWidth: 48,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(Icons.trending_up),
+                    Text("Challenges"),
+                  ],
+                ),
+                onPressed: () {},
+              ),
+              SizedBox(
+                width: 64,
+              ),
+              MaterialButton(
+                minWidth: 48,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(Icons.history),
+                    Text("Activity"),
+                  ],
+                ),
+                onPressed: () {},
+              ),
+              MaterialButton(
+                minWidth: 48,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(Icons.account_circle),
+                    Text("Account"),
+                  ],
+                ),
+                onPressed: () {},
+              ),
+            ],
+          ),
         ),
         shape: CircularNotchedRectangle(),
-        color: Colors.blueGrey,
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.white,
@@ -53,19 +103,19 @@ class _HomeViewState extends State<HomeView> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      // appBar: AppBar(
-      //   backgroundColor: Colors.white,
-      //   elevation: 0.0,
-      //   actions: <Widget>[
-      //     FlatButton.icon(
-      //       icon: Icon(Icons.person),
-      //       label: Text('Logout'),
-      //       onPressed: () async {
-      //         await _authService.signOut();
-      //       },
-      //     )
-      //   ],
-      // ),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0.0,
+        actions: <Widget>[
+          FlatButton.icon(
+            icon: Icon(Icons.person),
+            label: Text('Logout'),
+            onPressed: () async {
+              await _authService.signOut();
+            },
+          )
+        ],
+      ),
       backgroundColor: Colors.white,
       body: StreamBuilder<Object>(
         stream: service.homeViewDataStream,
