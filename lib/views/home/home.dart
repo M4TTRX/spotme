@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:home_workouts/model/home_model.dart';
-import 'package:home_workouts/service/auth_service.dart';
 import 'package:home_workouts/service/service.dart';
-import 'package:home_workouts/views/add_progress/add_exercise_view.dart';
 import 'package:home_workouts/views/challenge_progress/challenge_progress.dart';
 import 'package:home_workouts/views/shared/padding.dart';
 import 'package:home_workouts/views/shared/scroll_behavior.dart';
-import 'package:home_workouts/views/shared/text/headings.dart';
 import 'package:home_workouts/views/shared/text/title.dart';
 
 class HomeView extends StatefulWidget {
@@ -19,45 +15,13 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   AppService service = AppService();
 
-  final AuthService _authService = AuthService();
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.indigo,
-        onPressed: () async {
-          HapticFeedback.mediumImpact();
-          await _addExercise(context);
-          setState(() {});
-        },
-        label: Heading1("Add Exercise"),
-        icon: Icon(
-          Icons.add,
-          size: 32,
-        ),
-      ),
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0.0,
-        actions: <Widget>[
-          FlatButton.icon(
-            icon: Icon(Icons.person),
-            label: Text('Logout'),
-            onPressed: () async {
-              await _authService.signOut();
-            },
-          )
-        ],
-      ),
-      backgroundColor: Colors.white,
-      body: StreamBuilder<Object>(
-        stream: service.homeViewDataStream,
-        builder: (context, snapshot) {
-          return _buildHomeBody(snapshot.data);
-        },
-      ),
+    return StreamBuilder<Object>(
+      stream: service.homeViewDataStream,
+      builder: (context, snapshot) {
+        return _buildHomeBody(snapshot.data);
+      },
     );
   }
 
@@ -75,7 +39,7 @@ class _HomeViewState extends State<HomeView> {
     );
     if (data.challengesProgress != null) {
       for (var userChallengeProgress in data.challengesProgress) {
-        homeViewBody.add(UserChalleneProgressView(userChallengeProgress));
+        homeViewBody.add(UserChallengeProgressView(userChallengeProgress));
       }
     }
     // Return in Listview
@@ -86,11 +50,5 @@ class _HomeViewState extends State<HomeView> {
         children: homeViewBody,
       ),
     );
-  }
-
-  _addExercise(BuildContext context) async {
-    await Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-      return AddExerciseView();
-    }));
   }
 }
