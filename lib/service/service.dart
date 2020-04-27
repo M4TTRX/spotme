@@ -60,7 +60,6 @@ class AppService {
       return user.username;
     }
     return "";
-    ;
   }
 
   // Methods

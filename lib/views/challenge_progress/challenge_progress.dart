@@ -7,18 +7,18 @@ import 'package:home_workouts/views/shared/text/headings.dart';
 import 'package:home_workouts/views/shared/whitespace.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
-class UserChalleneProgressView extends StatefulWidget {
+class UserChallengeProgressView extends StatefulWidget {
   final UserChallengeProgress _challengeProgress;
 
-  UserChalleneProgressView(this._challengeProgress);
+  UserChallengeProgressView(this._challengeProgress);
 
   @override
-  _UserChalleneProgressViewState createState() =>
-      _UserChalleneProgressViewState(_challengeProgress);
+  _UserChallengeProgressViewState createState() =>
+      _UserChallengeProgressViewState(_challengeProgress);
 }
 
-class _UserChalleneProgressViewState extends State<UserChalleneProgressView> {
-  _UserChalleneProgressViewState(this._challengeProgress);
+class _UserChallengeProgressViewState extends State<UserChallengeProgressView> {
+  _UserChallengeProgressViewState(this._challengeProgress);
 
   final UserChallengeProgress _challengeProgress;
 
