@@ -45,30 +45,6 @@ class AppService {
   }
 
   Stream<List<Exercise>> get exerciseDataStream async* {
-    /*Exercise exerciseDataStream = Exercise(challengesProgress: [
-      UserChallengeProgress(
-        exercises: [],
-        challenge: Challenge(exercise: Exercise(type: "Push Ups")),
-      )
-    ]);*/
-    /*
-    Exercise exerciseDataStream;
-
-    // get the userID from stream
-    String userID = await _getUserID();
-
-    // fetch user data if possible
-    if (userID.length > 0) {
-      final FireStoreDatabaseService fireStoreDb =
-          FireStoreDatabaseService(userId: userID);
-
-      await for (User user in fireStoreDb.users.distinct()) {
-        print(user.username);
-        exerciseDataStream.welcomeString = "Welcome " + user.username + "!";
-        yield exerciseDataStream;
-      }
-    }
-    */
     List<Exercise> exerciseDataStream = new List();
 
     // get the userID from stream
@@ -78,21 +54,10 @@ class AppService {
       final FireStoreDatabaseService fireStoreDb =
           FireStoreDatabaseService(userId: userID);
 
-      await for (User user in fireStoreDb.users.distinct()) {
-          exerciseDataStream.add(Exercise(
-            type: "Push Ups",
-            amount: 25,
-            unit: "reps",
-            createDate: new DateTime.now()
-          ));
-
-          exerciseDataStream.add(Exercise(
-            type: "Sit Ups",
-            amount: 25,
-            unit: "reps",
-            createDate: new DateTime.now()
-          ));
-          yield exerciseDataStream;
+      await for (List<Exercise> exercises in fireStoreDb.exercises.distinct()) {
+        print(exercises);
+        exerciseDataStream = exercises;
+        yield exerciseDataStream;
       }
     }
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:home_workouts/model/selected_screen_model.dart';
 import 'package:home_workouts/service/auth_service.dart';
+import 'package:home_workouts/views/activity/activity_view.dart';
 import 'package:home_workouts/views/add_progress/add_exercise_view.dart';
 import 'package:home_workouts/views/home/home.dart';
 import 'package:home_workouts/views/work_in_progress/wip_view.dart';
@@ -163,7 +164,7 @@ class _MainNavigationViewState extends State<MainNavigationView> {
         break;
       case SelectedScreen.ACTIVITY:
         {
-          return WorkInProgressView();
+          return ActivityView();
         }
         break;
       case SelectedScreen.ACCOUNT:
