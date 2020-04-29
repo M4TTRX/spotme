@@ -5,6 +5,7 @@ import 'package:home_workouts/service/auth_service.dart';
 import 'package:home_workouts/views/activity/activity_view.dart';
 import 'package:home_workouts/views/add_progress/add_exercise_view.dart';
 import 'package:home_workouts/views/home/home.dart';
+import 'package:home_workouts/views/shared/text/title.dart';
 import 'package:home_workouts/views/work_in_progress/wip_view.dart';
 
 class MainNavigationView extends StatefulWidget {
@@ -133,6 +134,7 @@ class _MainNavigationViewState extends State<MainNavigationView> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       appBar: AppBar(
+        title: _getTitle(),
         backgroundColor: Colors.white,
         elevation: 0.0,
         actions: <Widget>[
@@ -176,6 +178,40 @@ class _MainNavigationViewState extends State<MainNavigationView> {
         {
           _selectedScreen = SelectedScreen.HOME;
           return HomeView();
+        }
+        break;
+    }
+  }
+
+  Widget _getTitle() {
+    switch (_selectedScreen) {
+      case SelectedScreen.HOME:
+        {
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            child: TitleText("Home"),
+          );
+        }
+        break;
+      case SelectedScreen.CHALLENGES:
+        {
+          return TitleText("Challenges");
+        }
+        break;
+      case SelectedScreen.ACTIVITY:
+        {
+          return TitleText("Activity");
+        }
+        break;
+      case SelectedScreen.ACCOUNT:
+        {
+          return TitleText("Account");
+        }
+        break;
+      default:
+        {
+          _selectedScreen = SelectedScreen.HOME;
+          return TitleText("");
         }
         break;
     }

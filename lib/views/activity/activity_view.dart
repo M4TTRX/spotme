@@ -5,6 +5,7 @@ import 'package:home_workouts/service/auth_service.dart';
 import 'package:home_workouts/service/service.dart';
 
 import 'package:home_workouts/views/shared/scroll_behavior.dart';
+import 'package:home_workouts/views/shared/text/headings.dart';
 import 'package:home_workouts/views/shared/text/subtitle.dart';
 import 'package:home_workouts/views/shared/text/title.dart';
 import 'package:home_workouts/views/shared/text/simple_text.dart';
@@ -36,31 +37,34 @@ class _ActivityViewState extends State<ActivityView> {
       return Container();
     }
     // Generate list of cards
-    var homeViewBody = List<Widget>();
-    homeViewBody.add(
-      Padding(
-        padding: const EdgeInsets.only(bottom: 8.0),
-        child: TitleText("Activity"),
-      ),
-    );
+    var activityViewBody = List<Widget>();
     DateTime currDay = DateTime(0, 0, 0, 0);
     for (var exercise in data) {
       if (!isSameDay(currDay, exercise.createDate)) {
-        homeViewBody.add(
+        activityViewBody.add(
           Padding(
-            padding: const EdgeInsets.only(bottom: 8.0),
-            child: SubtitleText(toPrettyString(exercise.createDate)),
+            padding: const EdgeInsets.only(bottom: 1.0),
+            child: Heading1(
+              toPrettyString(exercise.createDate),
+              color: Colors.indigo,
+            ),
           ),
         );
+        activityViewBody.add(Divider(
+          thickness: 2,
+          height: 16,
+        ));
         currDay = exercise.createDate;
       }
-      homeViewBody.add(
+      activityViewBody.add(
         Padding(
             padding: const EdgeInsets.only(bottom: 8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                SimpleText(exercise.type),
+                Body(
+                  exercise.type,
+                ),
                 WhiteSpace(),
                 Card(
                     elevation: 0,
@@ -75,11 +79,6 @@ class _ActivityViewState extends State<ActivityView> {
               ],
             )),
       );
-      homeViewBody.add(Padding(
-          padding: const EdgeInsets.only(bottom: 8.0),
-          child: Divider(
-            color: Colors.black,
-          )));
     }
 
     // Return in Listview
@@ -87,7 +86,7 @@ class _ActivityViewState extends State<ActivityView> {
       behavior: BasicScrollBehaviour(),
       child: ListView(
         padding: containerPadding,
-        children: homeViewBody,
+        children: activityViewBody,
       ),
     );
   }
