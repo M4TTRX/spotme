@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:home_workouts/model/database/exercise_db_model.dart';
+import 'package:home_workouts/model/exercise_model.dart';
 import 'package:home_workouts/model/user_model.dart';
 
 class FireStoreDatabaseService {
@@ -43,6 +44,20 @@ class FireStoreDatabaseService {
     return await exercisesCollection
         .document(exercise.id)
         .setData(exercise.toMap());
+  }
+
+  List<Exercise> _getExercisesFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.documents.map((doc) {
+      return Exercise.fromMap(doc.data);
+    }).toList();
+  }
+
+  Stream<List<Exercise>> get exercises {
+    return exercisesCollection
+        .where("userID", isEqualTo: this.userId)
+        .orderBy("createDate", descending: true)
+        .snapshots()
+        .map(_getExercisesFromSnapshot);
   }
 
   final CollectionReference challengesCollection =

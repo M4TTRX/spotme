@@ -44,6 +44,28 @@ class AppService {
     yield homeViewData;
   }
 
+  Stream<List<Exercise>> get exerciseDataStream async* {
+    List<Exercise> exerciseDataStream = new List();
+
+    // get the userID from stream
+    String userID = await _getUserID();
+
+    if (userID.length > 0) {
+      final FireStoreDatabaseService fireStoreDb =
+          FireStoreDatabaseService(userId: userID);
+
+      await for (List<Exercise> exercises in fireStoreDb.exercises.distinct()) {
+        print(exercises);
+        exerciseDataStream = exercises;
+        yield exerciseDataStream;
+      }
+    }
+
+    yield exerciseDataStream;
+  }
+
+  // ========================================================================
+
   // gets the id of the account signed in
   Future<String> _getUserID() async {
     await for (User user in authService.user.distinct()) {
