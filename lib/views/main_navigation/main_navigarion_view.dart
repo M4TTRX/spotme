@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:home_workouts/model/selected_screen_model.dart';
 import 'package:home_workouts/service/auth_service.dart';
+import 'package:home_workouts/views/account/account_view.dart';
 import 'package:home_workouts/views/activity/activity_view.dart';
 import 'package:home_workouts/views/add_progress/add_exercise_view.dart';
 import 'package:home_workouts/views/home/home.dart';
@@ -48,27 +49,6 @@ class _MainNavigationViewState extends State<MainNavigationView> {
                   });
                 },
               ),
-              MaterialButton(
-                minWidth: 48,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(
-                      Icons.trending_up,
-                      color: _selectedScreen == SelectedScreen.CHALLENGES
-                          ? Colors.indigo
-                          : Colors.black,
-                    ),
-                    Text("Challenges"),
-                  ],
-                ),
-                onPressed: () {
-                  setState(() {
-                    _selectedScreen = SelectedScreen.CHALLENGES;
-                  });
-                },
-              ),
               SizedBox(
                 width: 64,
               ),
@@ -90,27 +70,6 @@ class _MainNavigationViewState extends State<MainNavigationView> {
                 onPressed: () {
                   setState(() {
                     _selectedScreen = SelectedScreen.ACTIVITY;
-                  });
-                },
-              ),
-              MaterialButton(
-                minWidth: 48,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(
-                      Icons.account_circle,
-                      color: _selectedScreen == SelectedScreen.ACCOUNT
-                          ? Colors.indigo
-                          : Colors.black,
-                    ),
-                    Text("Account"),
-                  ],
-                ),
-                onPressed: () {
-                  setState(() {
-                    _selectedScreen = SelectedScreen.ACCOUNT;
                   });
                 },
               ),
@@ -139,11 +98,14 @@ class _MainNavigationViewState extends State<MainNavigationView> {
         elevation: 0.0,
         actions: <Widget>[
           FlatButton.icon(
-            icon: Icon(Icons.person),
-            label: Text('Logout'),
+            icon: Icon(
+              Icons.account_circle,
+              size: 32,
+            ),
             onPressed: () async {
-              await _authService.signOut();
+              await _openAccountView(context);
             },
+            label: Text(""),
           )
         ],
       ),
@@ -171,7 +133,7 @@ class _MainNavigationViewState extends State<MainNavigationView> {
         break;
       case SelectedScreen.ACCOUNT:
         {
-          return WorkInProgressView();
+          return AccountView();
         }
         break;
       default:
@@ -220,6 +182,12 @@ class _MainNavigationViewState extends State<MainNavigationView> {
   _addExercise(BuildContext context) async {
     await Navigator.of(context).push(MaterialPageRoute(builder: (context) {
       return AddExerciseView();
+    }));
+  }
+
+  _openAccountView(BuildContext context) async {
+    await Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+      return AccountView();
     }));
   }
 }

@@ -140,7 +140,7 @@ class _RegisterViewState extends State<RegisterView> {
                         return null;
                       },
                       decoration: new InputDecoration(
-                        labelText: "Validate Password",
+                        labelText: "Please Re-Enter password correctly",
                         fillColor: Colors.white,
                         border: new OutlineInputBorder(
                           borderRadius: new BorderRadius.circular(8.0),
@@ -178,7 +178,7 @@ class _RegisterViewState extends State<RegisterView> {
                       height: 8,
                     ),
                     SecondaryButton(
-                      "Sign In instead",
+                      "Sign In",
                       _goToSignIn,
                     )
                   ],

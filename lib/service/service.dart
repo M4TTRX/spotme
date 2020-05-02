@@ -64,6 +64,19 @@ class AppService {
     yield exerciseDataStream;
   }
 
+  Stream<User> get userStream async* {
+    String userID = await _getUserID();
+    if (userID.length > 0) {
+      final FireStoreDatabaseService fireStoreDb =
+          FireStoreDatabaseService(userId: userID);
+
+      await for (User user in fireStoreDb.users.distinct()) {
+        yield user;
+      }
+    }
+    yield User();
+  }
+
   // ========================================================================
 
   // gets the id of the account signed in

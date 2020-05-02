@@ -8,6 +8,7 @@ import 'package:home_workouts/views/shared/padding.dart';
 import 'package:home_workouts/views/shared/scroll_behavior.dart';
 import 'package:home_workouts/views/shared/text/headings.dart';
 import 'package:home_workouts/views/shared/text/title.dart';
+import 'package:home_workouts/views/shared/white_app_bar.dart';
 import 'package:home_workouts/views/shared/whitespace.dart';
 
 class AddExerciseView extends StatefulWidget {
@@ -33,13 +34,7 @@ class _AddExerciseViewState extends State<AddExerciseView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        iconTheme: IconThemeData(
-          color: Colors.black, //change your color here
-        ),
-      ),
+      appBar: WhiteAppBar(),
       backgroundColor: Colors.white,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: _buildBody(),

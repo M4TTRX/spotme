@@ -95,7 +95,7 @@ class _SignInViewState extends State<SignInView> {
                         SizedBox(
                           height: 24,
                         ),
-                        PrimaryButton("Sign in", () async {
+                        PrimaryButton("Sign In", () async {
                           if (_formKey.currentState.validate()) {
                             setState(() {
                               _loading = true;
@@ -117,7 +117,7 @@ class _SignInViewState extends State<SignInView> {
                           height: 8,
                         ),
                         SecondaryButton(
-                          "Register instead",
+                          "Register",
                           () async {
                             await Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(builder: (context) {
