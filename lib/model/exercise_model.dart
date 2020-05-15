@@ -7,6 +7,7 @@ class Exercise {
   // type describes the type of the exercise
   String type;
   // amount defines the quantity of the exercise, can be weight, distance, reps ect...
+  @deprecated
   double amount;
   // unit defines what was done, the amount is meaningless if there is no unit
   String unit;
