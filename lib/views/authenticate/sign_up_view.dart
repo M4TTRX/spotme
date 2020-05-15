@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:home_workouts/service/auth_service.dart';
 import 'package:home_workouts/service/service.dart';
-import 'package:home_workouts/views/authenticate/sign_in.dart';
+import 'package:home_workouts/views/authenticate/sign_in_view.dart';
 import 'package:home_workouts/views/shared/buttons/primary_button.dart';
 import 'package:home_workouts/views/shared/buttons/secondary_button.dart';
 import 'package:home_workouts/views/shared/padding.dart';

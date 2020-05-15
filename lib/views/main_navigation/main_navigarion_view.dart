@@ -5,7 +5,7 @@ import 'package:home_workouts/service/auth_service.dart';
 import 'package:home_workouts/views/account/account_view.dart';
 import 'package:home_workouts/views/activity/activity_view.dart';
 import 'package:home_workouts/views/add_progress/add_exercise_view.dart';
-import 'package:home_workouts/views/home/home.dart';
+import 'package:home_workouts/views/home/home_view.dart';
 import 'package:home_workouts/views/shared/text/title.dart';
 import 'package:home_workouts/views/work_in_progress/wip_view.dart';
 
@@ -16,8 +16,6 @@ class MainNavigationView extends StatefulWidget {
 
 class _MainNavigationViewState extends State<MainNavigationView> {
   SelectedScreen _selectedScreen = SelectedScreen.HOME;
-
-  final AuthService _authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
