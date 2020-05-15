@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:home_workouts/service/auth_service.dart';
-import 'package:home_workouts/views/authenticate/register.dart';
 import 'package:home_workouts/views/shared/buttons/primary_button.dart';
 import 'package:home_workouts/views/shared/buttons/secondary_button.dart';
 import 'package:home_workouts/views/shared/loading.dart';
@@ -117,11 +116,11 @@ class _SignInViewState extends State<SignInView> {
                           height: 8,
                         ),
                         SecondaryButton(
-                          "Register",
+                          "Sign Up",
                           () async {
                             await Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(builder: (context) {
-                              return RegisterView();
+                              return SignUpView();
                             }));
                           },
                         ),

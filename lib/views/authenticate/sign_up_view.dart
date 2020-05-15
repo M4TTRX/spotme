@@ -7,12 +7,12 @@ import 'package:home_workouts/views/shared/buttons/secondary_button.dart';
 import 'package:home_workouts/views/shared/padding.dart';
 import 'package:home_workouts/views/shared/scroll_behavior.dart';
 
-class RegisterView extends StatefulWidget {
+class SignUpView extends StatefulWidget {
   @override
-  _RegisterViewState createState() => _RegisterViewState();
+  _SignUpViewState createState() => _SignUpViewState();
 }
 
-class _RegisterViewState extends State<RegisterView> {
+class _SignUpViewState extends State<SignUpView> {
   final AppService _service = AppService();
 
   // Form Keys
@@ -45,7 +45,7 @@ class _RegisterViewState extends State<RegisterView> {
           backgroundColor: Colors.white,
           elevation: 0.0,
           title: Text(
-            'Register bro',
+            'Sign up bro',
             style: TextStyle(color: Colors.black),
           ),
         ),
@@ -155,7 +155,7 @@ class _RegisterViewState extends State<RegisterView> {
                     SizedBox(
                       height: 24,
                     ),
-                    PrimaryButton("Register", () async {
+                    PrimaryButton("Sign Up", () async {
                       if (_formKey.currentState.validate()) {
                         dynamic result = await _service.registerUser(
                             username, email, password);
