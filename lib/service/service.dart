@@ -88,15 +88,6 @@ class AppService {
     return "";
   }
 
-  // gets the id of the account signed in
-  Future<String> _getWelcomeString(FireStoreDatabaseService fireStoreDb) async {
-    await for (User user in fireStoreDb.users.distinct()) {
-      print(user.username);
-      return user.username;
-    }
-    return "";
-  }
-
   // Methods
   // ===============================================================
   Future registerUser(String username, String email, String password) async {

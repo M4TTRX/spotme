@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:home_workouts/model/challenges/challenge_progress_model.dart';
-import 'package:home_workouts/model/exercise_model.dart';
 import 'package:home_workouts/views/add_progress/add_exercise_view.dart';
 import 'package:home_workouts/views/shared/buttons/basic_button.dart';
 import 'package:home_workouts/views/shared/text/headings.dart';

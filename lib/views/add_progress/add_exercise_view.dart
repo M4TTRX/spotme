@@ -9,7 +9,6 @@ import 'package:home_workouts/views/shared/scroll_behavior.dart';
 import 'package:home_workouts/views/shared/text/headings.dart';
 import 'package:home_workouts/views/shared/text/title.dart';
 import 'package:home_workouts/views/shared/white_app_bar.dart';
-import 'package:home_workouts/views/shared/whitespace.dart';
 
 class AddExerciseView extends StatefulWidget {
   final Exercise exercise;

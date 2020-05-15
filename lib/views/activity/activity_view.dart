@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:home_workouts/helpers/date_time_helper.dart';
 
-import 'package:home_workouts/service/auth_service.dart';
 import 'package:home_workouts/service/service.dart';
 
 import 'package:home_workouts/views/shared/scroll_behavior.dart';
 import 'package:home_workouts/views/shared/text/headings.dart';
-import 'package:home_workouts/views/shared/text/subtitle.dart';
-import 'package:home_workouts/views/shared/text/title.dart';
 import 'package:home_workouts/views/shared/text/simple_text.dart';
 
 import 'package:home_workouts/model/exercise_model.dart';

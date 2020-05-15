@@ -1,12 +1,10 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:home_workouts/model/user_model.dart';
 import 'package:home_workouts/service/auth_service.dart';
 import 'package:home_workouts/service/service.dart';
 import 'package:home_workouts/views/shared/buttons/danger_button.dart';
 import 'package:home_workouts/views/shared/padding.dart';
-import 'package:home_workouts/views/shared/scroll_behavior.dart';
 import 'package:home_workouts/views/shared/text/headings.dart';
 import 'package:home_workouts/views/shared/text/title.dart';
 import 'package:home_workouts/views/shared/white_app_bar.dart';

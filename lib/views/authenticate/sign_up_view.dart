@@ -27,7 +27,6 @@ class _SignUpViewState extends State<SignUpView> {
   String error = "";
 
   // Loading data
-  bool _loading = false;
 
   void _goToSignIn() async {
     await Navigator.of(context)
@@ -158,12 +157,9 @@ class _SignUpViewState extends State<SignUpView> {
                       if (_formKey.currentState.validate()) {
                         dynamic result = await _service.registerUser(
                             username, email, password);
-                        setState(() {
-                          _loading = true;
-                        });
+                        setState(() {});
                         if (result == null) {
                           setState(() {
-                            _loading = false;
                             error =
                                 "Your email is probably invalid or already used";
                           });

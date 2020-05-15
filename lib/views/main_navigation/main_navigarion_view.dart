@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:home_workouts/model/selected_screen_model.dart';
-import 'package:home_workouts/service/auth_service.dart';
 import 'package:home_workouts/views/account/account_view.dart';
 import 'package:home_workouts/views/activity/activity_view.dart';
 import 'package:home_workouts/views/add_progress/add_exercise_view.dart';
