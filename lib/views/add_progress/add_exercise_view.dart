@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:home_workouts/model/exercise_model.dart';
+import 'package:home_workouts/model/exercise_set.dart';
 import 'package:home_workouts/service/service.dart';
 import 'package:home_workouts/views/shared/buttons/basic_button.dart';
 import 'package:home_workouts/views/shared/buttons/primary_button.dart';
@@ -41,7 +42,7 @@ class _AddExerciseViewState extends State<AddExerciseView> {
   }
 
   Widget _buildBody() {
-    exercise = exercise ?? Exercise(amount: 30, type: "", unit: "");
+    exercise = exercise ?? Exercise(type: "", unit: "");
     return Container(
       padding: containerPadding,
       child: Column(
@@ -51,7 +52,6 @@ class _AddExerciseViewState extends State<AddExerciseView> {
               behavior: BasicScrollBehaviour(),
               child: ListView(
                 children: <Widget>[
-                  TitleText("Add an exercise you did"),
                   SizedBox(
                     height: 24,
                   ),
@@ -77,63 +77,6 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                         ),
                         SizedBox(
                           height: 48,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            MaterialButton(
-                              shape: CircleBorder(),
-                              child: Icon(
-                                Icons.remove,
-                                size: 48,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  HapticFeedback.lightImpact();
-                                  exercise.amount--;
-                                });
-                              },
-                            ),
-                            Container(
-                              width: 128,
-                              child: TextFormField(
-                                autovalidate: true,
-                                textAlign: TextAlign.center,
-                                keyboardType: TextInputType.number,
-                                controller: TextEditingController(
-                                  text: exercise.amount == null
-                                      ? ""
-                                      : exercise.amount.round().toString(),
-                                ),
-                                style: TextStyle(
-                                  fontSize: 64,
-                                  fontFamily: "Red Hat Text",
-                                ),
-                                validator: (val) =>
-                                    val.isEmpty ? "Invalid amount" : null,
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                ),
-                                onChanged: (val) {
-                                  exercise.amount = double.parse(val);
-                                  setState(() {});
-                                },
-                              ),
-                            ),
-                            MaterialButton(
-                              shape: CircleBorder(),
-                              child: Icon(
-                                Icons.add,
-                                size: 48,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  HapticFeedback.lightImpact();
-                                  exercise.amount++;
-                                });
-                              },
-                            ),
-                          ],
                         ),
                         SizedBox(
                           height: 32,

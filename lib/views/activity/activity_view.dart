@@ -9,7 +9,6 @@ import 'package:home_workouts/views/shared/text/simple_text.dart';
 
 import 'package:home_workouts/model/exercise_model.dart';
 import 'package:home_workouts/views/shared/padding.dart';
-import 'package:home_workouts/views/shared/text/title.dart';
 import 'package:home_workouts/views/shared/whitespace.dart';
 
 class ActivityView extends StatefulWidget {
@@ -88,7 +87,7 @@ class _ActivityViewState extends State<ActivityView> {
                     color: Colors.grey[200],
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: SimpleText((exercise.amount).toInt().toString()),
+                      child: SimpleText(exercise.getDisplayAmount()),
                     ))
               ],
             )),
