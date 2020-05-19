@@ -10,6 +10,8 @@ import 'package:home_workouts/views/shared/scroll_behavior.dart';
 import 'package:home_workouts/views/shared/text/headings.dart';
 import 'package:home_workouts/views/shared/text/title.dart';
 import 'package:home_workouts/views/shared/white_app_bar.dart';
+import 'package:home_workouts/views/shared/whitespace.dart';
+import 'package:uuid/uuid.dart';
 
 class AddExerciseView extends StatefulWidget {
   final Exercise exercise;
@@ -91,18 +93,10 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                     setState(() => exercise.type = val);
                   },
                 ),
-                Column(
-                  children: _displaySets(this.exercise),
-                ),
+                _displaySets(exercise),
                 BasicButton("Add Set", () {
                   setState(() => exercise.sets.add(ExerciseSet()));
                 }),
-                exercise.unit == null || exercise.unit.isEmpty
-                    ? Container()
-                    : Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
-                        child: TitleText(exercise.unit),
-                      ),
               ],
             ),
           )
@@ -111,45 +105,67 @@ class _AddExerciseViewState extends State<AddExerciseView> {
     );
   }
 
-  List<Widget> _displaySets(Exercise exercise) {
+  Widget _displaySets(Exercise exercise) {
     var sets = List<Widget>();
     if (exercise.sets != null) {
       for (int i = 0; i < exercise.sets.length; i++) {
         sets.add(Row(children: [
-          TextFormField(
-            initialValue: exercise.sets[i].amount.toString() ?? "",
-            validator: (val) => val.isEmpty ? "Invalid value" : null,
-            decoration: InputDecoration(
-              labelText: "Amount",
-              fillColor: Colors.white,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.0),
-                borderSide: BorderSide(),
+          Container(
+            key: Key(Uuid().v4()),
+            width: 128,
+            child: TextFormField(
+              keyboardType: TextInputType.number,
+              initialValue: exercise.sets[i].amount == null
+                  ? ""
+                  : exercise.sets[i].amount.toString(),
+              validator: (val) => val.isEmpty ? "Invalid value" : null,
+              decoration: InputDecoration(
+                labelText: "Amount",
+                fillColor: Colors.white,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                  borderSide: BorderSide(),
+                ),
               ),
+              onChanged: (val) {
+                setState(() => exercise.sets[i].amount = double.parse(val));
+              },
             ),
-            onChanged: (val) {
-              setState(() => exercise.sets[i].amount = double.parse(val));
-            },
           ),
           Icon(Icons.clear),
-          TextFormField(
-            initialValue: exercise.sets[i].repetitions.toString() ?? "",
-            validator: (val) => val.isEmpty ? "Invalid value" : null,
-            decoration: InputDecoration(
-              labelText: "Reps",
-              fillColor: Colors.white,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.0),
-                borderSide: BorderSide(),
+          Container(
+            width: 128,
+            child: TextFormField(
+              keyboardType: TextInputType.number,
+              initialValue: exercise.sets[i].repetitions == null
+                  ? ""
+                  : exercise.sets[i].repetitions.toString(),
+              validator: (val) => val.isEmpty ? "Invalid value" : null,
+              decoration: InputDecoration(
+                labelText: "Reps",
+                fillColor: Colors.white,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                  borderSide: BorderSide(),
+                ),
               ),
+              onChanged: (val) {
+                setState(() => exercise.sets[i].repetitions = int.parse(val));
+              },
             ),
-            onChanged: (val) {
-              setState(() => exercise.sets[i].repetitions = int.parse(val));
-            },
           ),
+          WhiteSpace(),
+          IconButton(
+            icon: Icon(Icons.remove_circle_outline),
+            onPressed: () {
+              setState(() => exercise.sets.removeAt(i));
+            },
+          )
         ]));
       }
     }
-    return sets;
+    return Column(
+      children: sets,
+    );
   }
 }
