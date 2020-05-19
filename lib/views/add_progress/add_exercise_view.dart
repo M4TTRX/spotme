@@ -34,141 +34,122 @@ class _AddExerciseViewState extends State<AddExerciseView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: WhiteAppBar(),
+      appBar: AppBar(
+        title: TitleText("Add Activity"),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        iconTheme: IconThemeData(
+          color: Colors.black, //change your color here
+        ),
+      ),
       backgroundColor: Colors.white,
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () async {
+          if (_formKey.currentState.validate()) {
+            await _service.putExercise(exercise);
+            Navigator.pop(context);
+          } else {
+            HapticFeedback.heavyImpact();
+          }
+        },
+        label: Heading2("Add Exercise"),
+        icon: Icon(
+          Icons.add,
+          size: 32,
+          color: Colors.indigo,
+        ),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+      ),
       body: _buildBody(),
     );
   }
 
   Widget _buildBody() {
-    exercise = exercise ?? Exercise(type: "", unit: "");
-    return Container(
-      padding: containerPadding,
-      child: Column(
+    exercise = exercise ?? Exercise(type: "", unit: "", sets: [ExerciseSet()]);
+    return ScrollConfiguration(
+      behavior: BasicScrollBehaviour(),
+      child: ListView(
+        padding: containerPadding,
         children: <Widget>[
-          Expanded(
-            child: ScrollConfiguration(
-              behavior: BasicScrollBehaviour(),
-              child: ListView(
-                children: <Widget>[
-                  SizedBox(
-                    height: 24,
-                  ),
-                  Form(
-                    key: _formKey,
-                    child: Column(
-                      children: <Widget>[
-                        TextFormField(
-                          initialValue: exercise.type ?? "",
-                          validator: (val) =>
-                              val.isEmpty ? "Invalid name" : null,
-                          decoration: InputDecoration(
-                            labelText: "Exercise type",
-                            fillColor: Colors.white,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                              borderSide: BorderSide(),
-                            ),
-                          ),
-                          onChanged: (val) {
-                            setState(() => exercise.type = val);
-                          },
-                        ),
-                        SizedBox(
-                          height: 48,
-                        ),
-                        SizedBox(
-                          height: 32,
-                        ),
-                        exercise.unit == null || exercise.unit.isEmpty
-                            ? Container()
-                            : Padding(
-                                padding: const EdgeInsets.only(bottom: 8.0),
-                                child: TitleText(exercise.unit),
-                              ),
-                        BasicButton(
-                            (exercise.unit == null || exercise.unit.isEmpty)
-                                ? "Add unit"
-                                : "Edit unit", () async {
-                          await _showDialog(context);
-                          setState(() {});
-                        }),
-                      ],
+          Form(
+            key: _formKey,
+            child: Column(
+              children: <Widget>[
+                TextFormField(
+                  initialValue: exercise.type ?? "",
+                  validator: (val) => val.isEmpty ? "Invalid name" : null,
+                  decoration: InputDecoration(
+                    labelText: "Name",
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                      borderSide: BorderSide(),
                     ),
-                  )
-                ],
-              ),
+                  ),
+                  onChanged: (val) {
+                    setState(() => exercise.type = val);
+                  },
+                ),
+                Column(
+                  children: _displaySets(this.exercise),
+                ),
+                BasicButton("Add Set", () {
+                  setState(() => exercise.sets.add(ExerciseSet()));
+                }),
+                exercise.unit == null || exercise.unit.isEmpty
+                    ? Container()
+                    : Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: TitleText(exercise.unit),
+                      ),
+              ],
             ),
-          ),
-          PrimaryButton("Save", () async {
-            if (_formKey.currentState.validate()) {
-              await _service.putExercise(exercise);
-              Navigator.pop(context);
-            } else {
-              HapticFeedback.heavyImpact();
-            }
-          }),
+          )
         ],
       ),
     );
   }
 
-  _showDialog(context) async {
-    await showDialog<String>(
-        context: context,
-        builder: (BuildContext context) {
-          String _newUnit = "";
-          return AlertDialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-            contentPadding: const EdgeInsets.all(16.0),
-            content: Container(
-              height: 128,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Heading1(
-                    "Put a unit",
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 24),
-                    child: TextField(
-                      autofocus: true,
-                      onChanged: (val) {
-                        setState(() => _newUnit = val);
-                      },
-                      decoration: InputDecoration(
-                        labelText: "Exercise type",
-                        fillColor: Colors.white,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                          borderSide: BorderSide(),
-                        ),
-                        //fillColor: Colors.green
-                      ),
-                    ),
-                  ),
-                ],
+  List<Widget> _displaySets(Exercise exercise) {
+    var sets = List<Widget>();
+    if (exercise.sets != null) {
+      for (int i = 0; i < exercise.sets.length; i++) {
+        sets.add(Row(children: [
+          TextFormField(
+            initialValue: exercise.sets[i].amount.toString() ?? "",
+            validator: (val) => val.isEmpty ? "Invalid value" : null,
+            decoration: InputDecoration(
+              labelText: "Amount",
+              fillColor: Colors.white,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.0),
+                borderSide: BorderSide(),
               ),
             ),
-            actions: <Widget>[
-              FlatButton(
-                  child: const Text('Cancel'),
-                  onPressed: () {
-                    HapticFeedback.lightImpact();
-                    Navigator.pop(context);
-                  }),
-              FlatButton(
-                  child: const Text('Save'),
-                  onPressed: () {
-                    HapticFeedback.mediumImpact();
-                    exercise.unit = _newUnit;
-                    Navigator.pop(context);
-                  })
-            ],
-          );
-        });
+            onChanged: (val) {
+              setState(() => exercise.sets[i].amount = double.parse(val));
+            },
+          ),
+          Icon(Icons.clear),
+          TextFormField(
+            initialValue: exercise.sets[i].repetitions.toString() ?? "",
+            validator: (val) => val.isEmpty ? "Invalid value" : null,
+            decoration: InputDecoration(
+              labelText: "Reps",
+              fillColor: Colors.white,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.0),
+                borderSide: BorderSide(),
+              ),
+            ),
+            onChanged: (val) {
+              setState(() => exercise.sets[i].repetitions = int.parse(val));
+            },
+          ),
+        ]));
+      }
+    }
+    return sets;
   }
 }
