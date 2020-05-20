@@ -17,6 +17,8 @@ class DatabaseExercise {
   DateTime createDate;
   // userID is the ID of the user who performed the exercise
   String userID;
+  // notes represents the optional notes a user may put on their exercise
+  String notes;
 
   // Generated methods
   // ==============================================================================
@@ -27,6 +29,7 @@ class DatabaseExercise {
     this.unit,
     this.createDate,
     this.userID,
+    this.notes,
   });
 
   DatabaseExercise copyWith({
@@ -36,6 +39,7 @@ class DatabaseExercise {
     String unit,
     DateTime createDate,
     String userID,
+    String notes,
   }) {
     return DatabaseExercise(
       id: id ?? this.id,
@@ -44,6 +48,7 @@ class DatabaseExercise {
       unit: unit ?? this.unit,
       createDate: createDate ?? this.createDate,
       userID: userID ?? this.userID,
+      notes: notes ?? this.notes,
     );
   }
 
@@ -55,6 +60,7 @@ class DatabaseExercise {
       'unit': unit,
       'createDate': createDate?.millisecondsSinceEpoch,
       'userID': userID,
+      'notes': notes,
     };
   }
 
@@ -69,6 +75,7 @@ class DatabaseExercise {
       unit: map['unit'],
       createDate: DateTime.fromMillisecondsSinceEpoch(map['createDate']),
       userID: map['userID'],
+      notes: map['notes'],
     );
   }
 
@@ -79,7 +86,7 @@ class DatabaseExercise {
 
   @override
   String toString() {
-    return 'DatabaseExercise(id: $id, type: $type, sets: $sets, unit: $unit, createDate: $createDate, userID: $userID)';
+    return 'DatabaseExercise(id: $id, type: $type, sets: $sets, unit: $unit, createDate: $createDate, userID: $userID, notes: $notes)';
   }
 
   @override
@@ -92,7 +99,8 @@ class DatabaseExercise {
         listEquals(o.sets, sets) &&
         o.unit == unit &&
         o.createDate == createDate &&
-        o.userID == userID;
+        o.userID == userID &&
+        o.notes == notes;
   }
 
   @override
@@ -102,6 +110,7 @@ class DatabaseExercise {
         sets.hashCode ^
         unit.hashCode ^
         createDate.hashCode ^
-        userID.hashCode;
+        userID.hashCode ^
+        notes.hashCode;
   }
 }

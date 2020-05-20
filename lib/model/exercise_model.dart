@@ -18,6 +18,8 @@ class Exercise {
   DateTime createDate;
   // user is the person who performed the exercise
   User user;
+  // notes represents the optional notes a user may put on their exercise
+  String notes;
 
   // Custom methods
   // ==============================================================================
@@ -38,27 +40,30 @@ class Exercise {
   Exercise({
     this.id,
     this.type,
+    this.sets,
     this.unit,
     this.createDate,
     this.user,
-    this.sets,
+    this.notes,
   });
 
   Exercise copyWith({
     String id,
     String type,
+    List<ExerciseSet> sets,
     String unit,
     DateTime createDate,
     User user,
-    List<ExerciseSet> sets,
+    String notes,
   }) {
     return Exercise(
       id: id ?? this.id,
       type: type ?? this.type,
+      sets: sets ?? this.sets,
       unit: unit ?? this.unit,
       createDate: createDate ?? this.createDate,
       user: user ?? this.user,
-      sets: sets ?? this.sets,
+      notes: notes ?? this.notes,
     );
   }
 
@@ -66,10 +71,11 @@ class Exercise {
     return {
       'id': id,
       'type': type,
+      'sets': sets?.map((x) => x?.toMap())?.toList(),
       'unit': unit,
       'createDate': createDate?.millisecondsSinceEpoch,
       'user': user?.toMap(),
-      'sets': sets?.map((x) => x?.toMap())?.toList(),
+      'notes': notes,
     };
   }
 
@@ -79,11 +85,12 @@ class Exercise {
     return Exercise(
       id: map['id'],
       type: map['type'],
+      sets: List<ExerciseSet>.from(
+          map['sets']?.map((x) => ExerciseSet.fromMap(x))),
       unit: map['unit'],
       createDate: DateTime.fromMillisecondsSinceEpoch(map['createDate']),
       user: User.fromMap(map['user']),
-      sets: List<ExerciseSet>.from(
-          map['sets']?.map((x) => ExerciseSet.fromMap(x))),
+      notes: map['notes'],
     );
   }
 
@@ -93,7 +100,7 @@ class Exercise {
 
   @override
   String toString() {
-    return 'Exercise(id: $id, type: $type, unit: $unit, createDate: $createDate, user: $user, sets: $sets)';
+    return 'Exercise(id: $id, type: $type, sets: $sets, unit: $unit, createDate: $createDate, user: $user, notes: $notes)';
   }
 
   @override
@@ -103,19 +110,21 @@ class Exercise {
     return o is Exercise &&
         o.id == id &&
         o.type == type &&
+        listEquals(o.sets, sets) &&
         o.unit == unit &&
         o.createDate == createDate &&
         o.user == user &&
-        listEquals(o.sets, sets);
+        o.notes == notes;
   }
 
   @override
   int get hashCode {
     return id.hashCode ^
         type.hashCode ^
+        sets.hashCode ^
         unit.hashCode ^
         createDate.hashCode ^
         user.hashCode ^
-        sets.hashCode;
+        notes.hashCode;
   }
 }

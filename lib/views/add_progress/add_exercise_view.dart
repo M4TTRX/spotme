@@ -4,13 +4,9 @@ import 'package:home_workouts/model/exercise_model.dart';
 import 'package:home_workouts/model/exercise_set.dart';
 import 'package:home_workouts/service/service.dart';
 import 'package:home_workouts/views/shared/buttons/basic_button.dart';
-import 'package:home_workouts/views/shared/buttons/primary_button.dart';
 import 'package:home_workouts/views/shared/padding.dart';
 import 'package:home_workouts/views/shared/scroll_behavior.dart';
 import 'package:home_workouts/views/shared/text/headings.dart';
-import 'package:home_workouts/views/shared/text/title.dart';
-import 'package:home_workouts/views/shared/white_app_bar.dart';
-import 'package:home_workouts/views/shared/whitespace.dart';
 import 'package:uuid/uuid.dart';
 
 class AddExerciseView extends StatefulWidget {
@@ -33,11 +29,12 @@ class _AddExerciseViewState extends State<AddExerciseView> {
   // Can be use to implement default vallues in text fields
   Exercise exercise;
 
+  int selectedIndex;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: TitleText("Add Activity"),
         backgroundColor: Colors.white,
         elevation: 0,
         iconTheme: IconThemeData(
@@ -45,23 +42,26 @@ class _AddExerciseViewState extends State<AddExerciseView> {
         ),
       ),
       backgroundColor: Colors.white,
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () async {
-          if (_formKey.currentState.validate()) {
-            await _service.putExercise(exercise);
-            Navigator.pop(context);
-          } else {
-            HapticFeedback.heavyImpact();
-          }
-        },
-        label: Heading2("Add Exercise"),
-        icon: Icon(
-          Icons.add,
-          size: 32,
-          color: Colors.indigo,
+      floatingActionButton: Container(
+        height: 56,
+        child: FloatingActionButton.extended(
+          label: Heading1("Submit"),
+          onPressed: () async {
+            if (_formKey.currentState.validate()) {
+              await _service.putExercise(exercise);
+              Navigator.pop(context);
+            } else {
+              HapticFeedback.heavyImpact();
+            }
+          },
+          icon: Icon(
+            Icons.add,
+            size: 32,
+            color: Colors.indigo,
+          ),
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
         ),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
       ),
       body: _buildBody(),
     );
@@ -77,26 +77,125 @@ class _AddExerciseViewState extends State<AddExerciseView> {
           Form(
             key: _formKey,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 TextFormField(
                   initialValue: exercise.type ?? "",
                   validator: (val) => val.isEmpty ? "Invalid name" : null,
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontFamily: "Red Hat Text",
+                  ),
                   decoration: InputDecoration(
-                    labelText: "Name",
-                    fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                      borderSide: BorderSide(),
-                    ),
+                    hintText: "Exercise name",
+                    border: InputBorder.none,
                   ),
                   onChanged: (val) {
                     setState(() => exercise.type = val);
                   },
                 ),
+                SizedBox(
+                  height: 32,
+                ),
                 _displaySets(exercise),
-                BasicButton("Add Set", () {
-                  setState(() => exercise.sets.add(ExerciseSet()));
-                }),
+                SizedBox(
+                  height: 32,
+                ),
+                Row(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(right: 10, top: 4),
+                      child: Icon(
+                        Icons.event_available,
+                        size: 29,
+                        color: Colors.indigo,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 24.0 + 28.0),
+                      child: Container(
+                          key: Key(Uuid().v4()),
+                          width: 96,
+                          child: MaterialButton(
+                            padding: EdgeInsets.all(4),
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
+                            child: Row(
+                              children: <Widget>[
+                                Text(
+                                  "Now",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontFamily: "Red Hat Text",
+                                  ),
+                                ),
+                              ],
+                            ),
+                            onPressed: () {},
+                          )),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 14, top: 4),
+                      child: Icon(
+                        Icons.straighten,
+                        size: 29,
+                        color: Colors.indigo,
+                      ),
+                    ),
+                    Flexible(
+                      child: TextFormField(
+                        initialValue: exercise.unit ?? "",
+                        validator: (val) => val.isEmpty ? "Invalid name" : null,
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                        decoration: InputDecoration(
+                          hintText: "Unit",
+                          border: InputBorder.none,
+                        ),
+                        onChanged: (val) {
+                          setState(() => exercise.unit = val);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(right: 14, top: 9),
+                      child: Icon(
+                        Icons.subject,
+                        size: 29,
+                        color: Colors.indigo,
+                      ),
+                    ),
+                    Flexible(
+                      child: TextFormField(
+                        keyboardType: TextInputType.multiline,
+                        maxLines: 10,
+                        initialValue: exercise.unit ?? "",
+                        validator: (val) => val.isEmpty ? "Invalid name" : null,
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                        decoration: InputDecoration(
+                          hintText: "Notes",
+                          border: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                        ),
+                        onChanged: (val) {
+                          setState(() => exercise.notes = val);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           )
@@ -109,63 +208,103 @@ class _AddExerciseViewState extends State<AddExerciseView> {
     var sets = List<Widget>();
     if (exercise.sets != null) {
       for (int i = 0; i < exercise.sets.length; i++) {
-        sets.add(Row(children: [
+        sets.add(Row(mainAxisSize: MainAxisSize.max, children: [
           Container(
             key: Key(Uuid().v4()),
-            width: 128,
+            width: 96,
             child: TextFormField(
               keyboardType: TextInputType.number,
               initialValue: exercise.sets[i].amount == null
                   ? ""
-                  : exercise.sets[i].amount.toString(),
+                  : exercise.sets[i].amount.toStringAsFixed(1),
               validator: (val) => val.isEmpty ? "Invalid value" : null,
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
               decoration: InputDecoration(
-                labelText: "Amount",
-                fillColor: Colors.white,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                  borderSide: BorderSide(),
-                ),
+                hintText: "Amount",
+                hintStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),,
+                border: InputBorder.none,
               ),
               onChanged: (val) {
-                setState(() => exercise.sets[i].amount = double.parse(val));
+                exercise.sets[i].amount = double.parse(val);
               },
             ),
           ),
-          Icon(Icons.clear),
+          Padding(
+            padding: const EdgeInsets.only(right: 24),
+            child: Icon(
+              Icons.clear,
+              size: 28,
+            ),
+          ),
           Container(
-            width: 128,
+            width: 96,
             child: TextFormField(
               keyboardType: TextInputType.number,
               initialValue: exercise.sets[i].repetitions == null
                   ? ""
                   : exercise.sets[i].repetitions.toString(),
               validator: (val) => val.isEmpty ? "Invalid value" : null,
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
               decoration: InputDecoration(
-                labelText: "Reps",
-                fillColor: Colors.white,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                  borderSide: BorderSide(),
-                ),
+                hintText: "Sets",
+                border: InputBorder.none,
               ),
               onChanged: (val) {
-                setState(() => exercise.sets[i].repetitions = int.parse(val));
+                exercise.sets[i].repetitions = int.parse(val);
               },
             ),
           ),
-          WhiteSpace(),
           IconButton(
-            icon: Icon(Icons.remove_circle_outline),
+            icon: Icon(Icons.clear),
+            color: Color(0xFFEF4646),
+            iconSize: 22,
             onPressed: () {
               setState(() => exercise.sets.removeAt(i));
             },
           )
         ]));
       }
+      sets.add(
+        Container(
+            key: Key(Uuid().v4()),
+            width: 96,
+            child: MaterialButton(
+              padding: EdgeInsets.only(top: 8),
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              child: Row(
+                children: <Widget>[
+                  Text(
+                    "Add Set",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontFamily: "Red Hat Text",
+                    ),
+                  ),
+                ],
+              ),
+              onPressed: () {
+                setState(() => exercise.sets.add(ExerciseSet()));
+              },
+            )),
+      );
     }
-    return Column(
-      children: sets,
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(right: 14, top: 4),
+          child: Icon(
+            Icons.subdirectory_arrow_right,
+            size: 29,
+            color: Colors.indigo,
+          ),
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: sets,
+        ),
+      ],
     );
   }
 }

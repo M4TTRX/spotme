@@ -90,8 +90,9 @@ class AppService {
       type: exercise.type ?? "Unknown Exercise Type",
       sets: exercise.sets ?? [],
       unit: exercise.unit ?? "",
-      createDate: DateTime.now(),
+      createDate: exercise.createDate ?? DateTime.now(),
       userID: userID,
+      notes: exercise.notes ?? "",
     );
     await fireStoreDb.upsertExercise(databaseExercise);
   }
