@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
 import 'package:home_workouts/model/user_model.dart';
 import 'package:home_workouts/service/auth_service.dart';

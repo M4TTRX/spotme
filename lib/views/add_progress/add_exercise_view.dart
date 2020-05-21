@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:home_workouts/model/exercise_model.dart';
 import 'package:home_workouts/model/exercise_set.dart';
 import 'package:home_workouts/service/service.dart';
-import 'package:home_workouts/views/shared/buttons/basic_button.dart';
 import 'package:home_workouts/views/shared/padding.dart';
 import 'package:home_workouts/views/shared/scroll_behavior.dart';
 import 'package:home_workouts/views/shared/text/headings.dart';
@@ -221,7 +220,8 @@ class _AddExerciseViewState extends State<AddExerciseView> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
               decoration: InputDecoration(
                 hintText: "Amount",
-                hintStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),,
+                hintStyle:
+                    TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
                 border: InputBorder.none,
               ),
               onChanged: (val) {
