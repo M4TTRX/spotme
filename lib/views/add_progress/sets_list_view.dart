@@ -64,9 +64,9 @@ class _AddSetsViewState extends State<AddSetsView> {
                         ? ""
                         : sets[i].repetitions.toString(),
                     validator: (val) => val.isEmpty ? "Invalid value" : null,
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                    style: TextStyle(fontSize: 18),
                     decoration: InputDecoration(
-                      hintText: "Sets",
+                      hintText: "Reps",
                       border: InputBorder.none,
                     ),
                     onChanged: (val) {

@@ -214,67 +214,6 @@ class _AddExerciseViewState extends State<AddExerciseView> {
   }
 
   Widget _displaySets(Exercise exercise) {
-    var sets = List<Widget>();
-    if (exercise.sets != null) {
-      for (int i = 0; i < exercise.sets.length; i++) {
-        sets.add(Row(mainAxisSize: MainAxisSize.max, children: [
-          Container(
-            key: Key(Uuid().v4()),
-            width: 96,
-            child: TextFormField(
-              keyboardType: TextInputType.number,
-              initialValue: exercise.sets[i].amount == null
-                  ? ""
-                  : exercise.sets[i].amount.toStringAsFixed(1),
-              validator: (val) => val.isEmpty ? "Invalid value" : null,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-              decoration: InputDecoration(
-                hintText: "Amount",
-                hintStyle:
-                    TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
-                border: InputBorder.none,
-              ),
-              onChanged: (val) {
-                exercise.sets[i].amount = double.parse(val);
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 24),
-            child: Icon(
-              Icons.clear,
-              size: 28,
-            ),
-          ),
-          Container(
-            width: 96,
-            child: TextFormField(
-              keyboardType: TextInputType.number,
-              initialValue: exercise.sets[i].repetitions == null
-                  ? ""
-                  : exercise.sets[i].repetitions.toString(),
-              validator: (val) => val.isEmpty ? "Invalid value" : null,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-              decoration: InputDecoration(
-                hintText: "Sets",
-                border: InputBorder.none,
-              ),
-              onChanged: (val) {
-                exercise.sets[i].repetitions = int.parse(val);
-              },
-            ),
-          ),
-          IconButton(
-            icon: Icon(Icons.clear),
-            color: Color(0xFFEF4646),
-            iconSize: 22,
-            onPressed: () {
-              setState(() => exercise.sets.removeAt(i));
-            },
-          )
-        ]));
-      }
-    }
     return Row(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
