@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:home_workouts/model/exercise_model.dart';
 import 'package:home_workouts/model/exercise_set.dart';
 import 'package:home_workouts/service/service.dart';
+import 'package:home_workouts/views/add_progress/sets_list_view.dart';
 import 'package:home_workouts/views/shared/padding.dart';
 import 'package:home_workouts/views/shared/scroll_behavior.dart';
 import 'package:home_workouts/views/shared/text/headings.dart';
@@ -19,14 +20,14 @@ class AddExerciseView extends StatefulWidget {
 class _AddExerciseViewState extends State<AddExerciseView> {
   _AddExerciseViewState(this.exercise);
 
-  // Form Keys
+  // Can be use to implement default vallues in text fields
+  Exercise exercise;
+
+  // Form Key used to validate the form input
   final _formKey = GlobalKey<FormState>();
 
   // service will help us update the exercise in the cloud
   final AppService _service = AppService();
-
-  // Can be use to implement default vallues in text fields
-  Exercise exercise;
 
   int selectedIndex;
 
@@ -44,6 +45,7 @@ class _AddExerciseViewState extends State<AddExerciseView> {
       floatingActionButton: Container(
         height: 56,
         child: FloatingActionButton.extended(
+          autofocus: false,
           label: Heading1("Submit"),
           onPressed: () async {
             if (_formKey.currentState.validate()) {
@@ -62,6 +64,7 @@ class _AddExerciseViewState extends State<AddExerciseView> {
           foregroundColor: Colors.black,
         ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       body: _buildBody(),
     );
   }
@@ -130,7 +133,14 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                                 ),
                               ],
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              showDatePicker(
+                                      context: context,
+                                      initialDate: DateTime.now(),
+                                      firstDate: DateTime(0),
+                                      lastDate: DateTime.now())
+                                  .then((date) => exercise.createDate);
+                            },
                           )),
                     ),
                     Padding(
@@ -264,29 +274,6 @@ class _AddExerciseViewState extends State<AddExerciseView> {
           )
         ]));
       }
-      sets.add(
-        Container(
-            key: Key(Uuid().v4()),
-            width: 96,
-            child: MaterialButton(
-              padding: EdgeInsets.only(top: 8),
-              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              child: Row(
-                children: <Widget>[
-                  Text(
-                    "Add Set",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontFamily: "Red Hat Text",
-                    ),
-                  ),
-                ],
-              ),
-              onPressed: () {
-                setState(() => exercise.sets.add(ExerciseSet()));
-              },
-            )),
-      );
     }
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -300,10 +287,7 @@ class _AddExerciseViewState extends State<AddExerciseView> {
             color: Colors.indigo,
           ),
         ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: sets,
-        ),
+        AddSetsView(sets: exercise.sets),
       ],
     );
   }
