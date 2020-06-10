@@ -30,8 +30,24 @@ class _ActivityViewState extends State<ActivityView> {
   }
 
   Widget _buildActivityBody(List<Exercise> data) {
-    if (data == null) {
-      return Container();
+    if (data == null || data.length == 0) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            width: MediaQuery.of(context).size.width * 1,
+            child: Text(
+              "You have no activity! \n WTF bro! STOP SLACKING! START GRINDING!",
+              style: TextStyle(
+                fontSize: 28,
+                fontFamily: "Red Hat Text",
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ],
+      );
     }
     // Generate list of cards
     var activityViewBody = List<Widget>();
@@ -71,7 +87,7 @@ class _ActivityViewState extends State<ActivityView> {
                     color: Colors.grey[200],
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: SimpleText((exercise.amount).toInt().toString()),
+                      child: SimpleText(exercise.getDisplayAmount()),
                     ))
               ],
             )),

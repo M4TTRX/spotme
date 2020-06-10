@@ -1,9 +1,6 @@
-import 'package:home_workouts/model/challenges/challenge_model.dart';
-import 'package:home_workouts/model/challenges/challenge_progress_model.dart';
 import 'package:home_workouts/model/database/exercise_db_model.dart';
 import 'package:home_workouts/model/exercise_model.dart';
 import 'package:home_workouts/model/user_model.dart';
-import 'package:home_workouts/model/home_model.dart';
 import 'package:home_workouts/service/database/firestore_database_service.dart';
 import 'package:uuid/uuid.dart';
 
@@ -18,31 +15,6 @@ class AppService {
   final AuthService authService = AuthService();
   // Streams
   // ===============================================================
-  Stream<HomeViewData> get homeViewDataStream async* {
-    HomeViewData homeViewData = HomeViewData(challengesProgress: [
-      UserChallengeProgress(
-        exercises: [],
-        challenge: Challenge(exercise: Exercise(type: "Push Ups")),
-      )
-    ]);
-
-    // get the userID from stream
-    String userID = await _getUserID();
-
-    // fetch user data if possible
-    if (userID.length > 0) {
-      final FireStoreDatabaseService fireStoreDb =
-          FireStoreDatabaseService(userId: userID);
-
-      await for (User user in fireStoreDb.users.distinct()) {
-        print(user.username);
-        homeViewData.welcomeString = "Welcome " + user.username + "!";
-        yield homeViewData;
-      }
-    }
-
-    yield homeViewData;
-  }
 
   Stream<List<Exercise>> get exerciseDataStream async* {
     List<Exercise> exerciseDataStream = new List();
@@ -115,11 +87,12 @@ class AppService {
         FireStoreDatabaseService(userId: userID);
     DatabaseExercise databaseExercise = DatabaseExercise(
       id: Uuid().v4(),
-      type: exercise.type ?? "Unknown Exercise Type",
-      amount: exercise.amount ?? 0.0,
-      unit: exercise.unit ?? "",
-      createDate: DateTime.now(),
+      type: exercise.type.toUpperCase() ?? "UNKNOWN",
+      sets: exercise.sets ?? [],
+      unit: exercise.unit.toUpperCase() ?? "",
+      createDate: exercise.createDate ?? DateTime.now(),
       userID: userID,
+      notes: exercise.notes ?? "",
     );
     await fireStoreDb.upsertExercise(databaseExercise);
   }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:home_workouts/model/home_model.dart';
 import 'package:home_workouts/service/service.dart';
 import 'package:home_workouts/views/shared/padding.dart';
 import 'package:home_workouts/views/shared/scroll_behavior.dart';
@@ -17,15 +16,10 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<Object>(
-      stream: service.homeViewDataStream,
-      builder: (context, snapshot) {
-        return _buildHomeBody(snapshot.data);
-      },
-    );
+    return _buildHomeBody();
   }
 
-  Widget _buildHomeBody(HomeViewData data) {
+  Widget _buildHomeBody() {
     var homeViewBody = List<Widget>();
     homeViewBody.add(
       Padding(
