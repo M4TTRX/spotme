@@ -1,45 +1,54 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+
+import '../exercise_set.dart';
+
 class DatabaseExercise {
   // the unique id to identify that exercise
   String id;
   // type describes the type of the exercise
   String type;
-  // amount defines the quantity of the exercise, can be weight, distance, reps ect...
-  double amount;
+  // sets contains what the user did in that exercise
+  List<ExerciseSet> sets;
   // unit defines what was done, the amount is meaningless if there is no unit
   String unit;
   // create date is a timestamp at which the exercise was done
   DateTime createDate;
   // userID is the ID of the user who performed the exercise
   String userID;
+  // notes represents the optional notes a user may put on their exercise
+  String notes;
 
   // Generated methods
   // ==============================================================================
   DatabaseExercise({
     this.id,
     this.type,
-    this.amount,
+    this.sets,
     this.unit,
     this.createDate,
     this.userID,
+    this.notes,
   });
 
   DatabaseExercise copyWith({
     String id,
     String type,
-    double amount,
+    List<ExerciseSet> sets,
     String unit,
     DateTime createDate,
     String userID,
+    String notes,
   }) {
     return DatabaseExercise(
       id: id ?? this.id,
       type: type ?? this.type,
-      amount: amount ?? this.amount,
+      sets: sets ?? this.sets,
       unit: unit ?? this.unit,
       createDate: createDate ?? this.createDate,
       userID: userID ?? this.userID,
+      notes: notes ?? this.notes,
     );
   }
 
@@ -47,10 +56,11 @@ class DatabaseExercise {
     return {
       'id': id,
       'type': type,
-      'amount': amount,
+      'sets': sets?.map((x) => x?.toMap())?.toList(),
       'unit': unit,
-      'createDate': createDate.millisecondsSinceEpoch,
+      'createDate': createDate?.millisecondsSinceEpoch,
       'userID': userID,
+      'notes': notes,
     };
   }
 
@@ -60,10 +70,12 @@ class DatabaseExercise {
     return DatabaseExercise(
       id: map['id'],
       type: map['type'],
-      amount: map['amount'],
+      sets: List<ExerciseSet>.from(
+          map['sets']?.map((x) => ExerciseSet.fromMap(x))),
       unit: map['unit'],
       createDate: DateTime.fromMillisecondsSinceEpoch(map['createDate']),
       userID: map['userID'],
+      notes: map['notes'],
     );
   }
 
@@ -74,7 +86,7 @@ class DatabaseExercise {
 
   @override
   String toString() {
-    return 'DatabaseExercise(id: $id, type: $type, amount: $amount, unit: $unit, createDate: $createDate, userID: $userID)';
+    return 'DatabaseExercise(id: $id, type: $type, sets: $sets, unit: $unit, createDate: $createDate, userID: $userID, notes: $notes)';
   }
 
   @override
@@ -84,19 +96,21 @@ class DatabaseExercise {
     return o is DatabaseExercise &&
         o.id == id &&
         o.type == type &&
-        o.amount == amount &&
+        listEquals(o.sets, sets) &&
         o.unit == unit &&
         o.createDate == createDate &&
-        o.userID == userID;
+        o.userID == userID &&
+        o.notes == notes;
   }
 
   @override
   int get hashCode {
     return id.hashCode ^
         type.hashCode ^
-        amount.hashCode ^
+        sets.hashCode ^
         unit.hashCode ^
         createDate.hashCode ^
-        userID.hashCode;
+        userID.hashCode ^
+        notes.hashCode;
   }
 }

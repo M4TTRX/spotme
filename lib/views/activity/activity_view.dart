@@ -31,8 +31,24 @@ class _ActivityViewState extends State<ActivityView> {
   }
 
   Widget _buildActivityBody(List<Exercise> data) {
-    if (data == null) {
-      return Container();
+    if (data == null || data.length == 0) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            width: MediaQuery.of(context).size.width * 1,
+            child: Text(
+              "You have no activity! \n WTF bro! STOP SLACKING! START GRINDING!",
+              style: TextStyle(
+                fontSize: 28,
+                fontFamily: "Red Hat Text",
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ],
+      );
     }
     // Generate list of cards
     var activityViewBody = List<Widget>();
