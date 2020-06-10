@@ -10,6 +10,7 @@ import 'package:home_workouts/views/shared/text/headings.dart';
 import 'package:home_workouts/views/shared/text/title.dart';
 import 'package:home_workouts/views/shared/white_app_bar.dart';
 
+
 class AddExerciseView extends StatefulWidget {
   final Exercise exercise;
   AddExerciseView({this.exercise});
