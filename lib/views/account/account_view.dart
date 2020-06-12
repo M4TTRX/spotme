@@ -23,7 +23,6 @@ class _AccountViewState extends State<AccountView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: WhiteAppBar(),
       body: StreamBuilder<Object>(
         stream: service.userStream,
         builder: (context, snapshot) {

@@ -14,67 +14,11 @@ class MainNavigationView extends StatefulWidget {
 }
 
 class _MainNavigationViewState extends State<MainNavigationView> {
-  SelectedScreen _selectedScreen = SelectedScreen.HOME;
+  SelectedScreen _selectedScreen = SelectedScreen.ACTIVITY;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomAppBar(
-        child: Container(
-          height: 64,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              MaterialButton(
-                minWidth: 48,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(
-                      Icons.home,
-                      color: _selectedScreen == SelectedScreen.HOME
-                          ? Colors.indigo
-                          : Colors.black,
-                    ),
-                    Text("Home"),
-                  ],
-                ),
-                onPressed: () {
-                  setState(() {
-                    _selectedScreen = SelectedScreen.HOME;
-                  });
-                },
-              ),
-              SizedBox(
-                width: 64,
-              ),
-              MaterialButton(
-                minWidth: 48,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(
-                      Icons.history,
-                      color: _selectedScreen == SelectedScreen.ACTIVITY
-                          ? Colors.indigo
-                          : Colors.black,
-                    ),
-                    Text("Activity"),
-                  ],
-                ),
-                onPressed: () {
-                  setState(() {
-                    _selectedScreen = SelectedScreen.ACTIVITY;
-                  });
-                },
-              ),
-            ],
-          ),
-        ),
-        shape: CircularNotchedRectangle(),
-      ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.white,
         foregroundColor: Colors.indigo,
@@ -88,23 +32,10 @@ class _MainNavigationViewState extends State<MainNavigationView> {
           size: 32,
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       appBar: AppBar(
         title: _getTitle(),
         backgroundColor: Colors.white,
         elevation: 0.0,
-        actions: <Widget>[
-          FlatButton.icon(
-            icon: Icon(
-              Icons.account_circle,
-              size: 32,
-            ),
-            onPressed: () async {
-              await _openAccountView(context);
-            },
-            label: Text(""),
-          )
-        ],
       ),
       backgroundColor: Colors.white,
       body: _returnSelectedView(),
@@ -112,6 +43,9 @@ class _MainNavigationViewState extends State<MainNavigationView> {
   }
 
   Widget _returnSelectedView() {
+    return PageView(
+      children: <Widget>[ActivityView(), AccountView()],
+    );
     switch (_selectedScreen) {
       case SelectedScreen.HOME:
         {
@@ -169,7 +103,7 @@ class _MainNavigationViewState extends State<MainNavigationView> {
         break;
       default:
         {
-          _selectedScreen = SelectedScreen.HOME;
+          _selectedScreen = SelectedScreen.ACTIVITY;
           return TitleText("");
         }
         break;

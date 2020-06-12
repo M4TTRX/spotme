@@ -8,7 +8,6 @@ import 'package:home_workouts/views/shared/padding.dart';
 import 'package:home_workouts/views/shared/scroll_behavior.dart';
 import 'package:home_workouts/views/shared/text/headings.dart';
 import 'package:uuid/uuid.dart';
-import "string_extension.dart";
 
 class ExerciseView extends StatefulWidget {
   final Exercise exercise;
