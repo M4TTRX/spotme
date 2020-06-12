@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:home_workouts/helpers/date_time_helper.dart';
+import 'package:home_workouts/model/exercise_set.dart';
 
 import 'package:home_workouts/service/service.dart';
 import 'package:home_workouts/views/exercise/exercise_view.dart';
+import 'package:home_workouts/views/shared/loading_view.dart';
 
 import 'package:home_workouts/views/shared/scroll_behavior.dart';
 import 'package:home_workouts/views/shared/text/headings.dart';
@@ -70,32 +72,39 @@ class _ActivityViewState extends State<ActivityView> {
         ));
         currDay = exercise.createDate;
       }
-      activityViewBody.add(
-        InkWell(
-          onTap: _viewExercise(context, exercise),
-                  child: Padding(
-              padding: const EdgeInsets.only(bottom: 8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Body(
-                    exercise.type,
-                  ),
-                  WhiteSpace(),
-                  Card(
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(16)),
-                      ),
-                      color: Colors.grey[200],
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: SimpleText(exercise.getDisplayAmount()),
-                      ))
-                ],
-              )),
+      activityViewBody.add(Container(
+        padding: const EdgeInsets.only(bottom: 8.0),
+        child: InkWell(
+          onTap: () {
+            Navigator.of(this.context)
+                .push(MaterialPageRoute(builder: (context) {
+              return ExerciseView(
+                exercise: exercise,
+              );
+            }));
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Body(
+                exercise.type.toUpperCase(),
+              ),
+              WhiteSpace(),
+              Card(
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(16)),
+                ),
+                color: Colors.grey[200],
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: SimpleText(exercise.getDisplayAmount()),
+                ),
+              ),
+            ],
+          ),
         ),
-      );
+      ));
     }
 
     // Return in Listview
@@ -105,16 +114,6 @@ class _ActivityViewState extends State<ActivityView> {
         padding: containerPadding,
         children: activityViewBody,
       ),
-    );
-  }
-
-  
-  _viewExercise(BuildContext context, Exercise exercise) async {
-    setState(() {  
-     Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-      return ExerciseView(exercise: exercise,);
-    }));
-    }
     );
   }
 }

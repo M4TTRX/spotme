@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:home_workouts/helpers/date_time_helper.dart';
 import 'package:home_workouts/model/exercise_model.dart';
 import 'package:home_workouts/model/exercise_set.dart';
 import 'package:home_workouts/service/service.dart';
@@ -8,7 +9,6 @@ import 'package:home_workouts/views/shared/padding.dart';
 import 'package:home_workouts/views/shared/scroll_behavior.dart';
 import 'package:home_workouts/views/shared/text/headings.dart';
 import 'package:uuid/uuid.dart';
-
 
 class AddExerciseView extends StatefulWidget {
   final Exercise exercise;
@@ -107,7 +107,7 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                 Row(
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.only(right: 10, top: 4),
+                      padding: const EdgeInsets.only(right: 10, top: 0),
                       child: Icon(
                         Icons.event_available,
                         size: 29,
@@ -126,7 +126,9 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                             child: Row(
                               children: <Widget>[
                                 Text(
-                                  "Now",
+                                  exercise.createDate == null
+                                      ? "Today"
+                                      : toPrettyString(exercise.createDate),
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontFamily: "Red Hat Text",
@@ -140,7 +142,11 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                                       initialDate: DateTime.now(),
                                       firstDate: DateTime(0),
                                       lastDate: DateTime.now())
-                                  .then((date) => exercise.createDate);
+                                  .then((date) {
+                                exercise.createDate = date;
+                                setState(() {});
+                              });
+                              setState(() {});
                             },
                           )),
                     ),
@@ -155,7 +161,6 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                     Flexible(
                       child: TextFormField(
                         initialValue: exercise.unit ?? "",
-                        validator: (val) => val.isEmpty ? "Invalid name" : null,
                         style: TextStyle(
                           fontSize: 18,
                         ),
@@ -190,7 +195,6 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                         keyboardType: TextInputType.multiline,
                         maxLines: 10,
                         initialValue: exercise.unit ?? "",
-                        validator: (val) => val.isEmpty ? "Invalid name" : null,
                         style: TextStyle(
                           fontSize: 18,
                         ),

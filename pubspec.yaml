@@ -14,7 +14,7 @@ description: A new Flutter project.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.2.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -22,7 +22,7 @@ dependencies:
   path_provider: ^1.6.0
   # firebase packages
   firebase_auth: ^0.15.5+3
-  cloud_firestore: ^0.13.4+2
+  cloud_firestore: ^0.13.6
   # provides user updates to the app at all times
   provider: ^4.0.4
   # provides fancy percentage indicators

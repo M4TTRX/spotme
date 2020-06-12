@@ -28,9 +28,7 @@ class Exercise {
       return "0";
     }
     if (sets.length == 1) {
-      return sets[0].amount.toInt().toString() + this.unit == ""
-          ? ""
-          : " " + this.unit;
+      return sets.length.toString() + " set";
     }
     return sets.length.toString() + " sets";
   }

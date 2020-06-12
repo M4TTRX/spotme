@@ -8,6 +8,7 @@ import 'package:home_workouts/views/shared/padding.dart';
 import 'package:home_workouts/views/shared/scroll_behavior.dart';
 import 'package:home_workouts/views/shared/text/headings.dart';
 import 'package:uuid/uuid.dart';
+import "string_extension.dart";
 
 class ExerciseView extends StatefulWidget {
   final Exercise exercise;
@@ -81,7 +82,8 @@ class _ExerciseViewState extends State<ExerciseView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text( exercise.type.toUpperCase() ?? "",
+                Text(
+                  exercise.type.toUpperCase() ?? "",
                   style: TextStyle(
                     fontSize: 28,
                     fontFamily: "Red Hat Text",
@@ -134,66 +136,84 @@ class _ExerciseViewState extends State<ExerciseView> {
                             },
                           )),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 14, top: 4),
-                      child: Icon(
-                        Icons.straighten,
-                        size: 29,
-                        color: Colors.indigo,
-                      ),
-                    ),
-                    Flexible(
-                      child: Text( exercise.unit ?? "",
-                        style: TextStyle(
-                          fontSize: 18,
-                        ),
-                      ),
-                    ),
+                    _displayUnit(exercise),
                   ],
                 ),
                 SizedBox(
                   height: 8,
                 ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(right: 14, top: 9),
-                      child: Icon(
-                        Icons.subject,
-                        size: 29,
-                        color: Colors.indigo,
-                      ),
-                    ),
-                    Flexible(
-                      child: TextFormField(
-                        enabled: false,
-                        keyboardType: TextInputType.multiline,
-                        maxLines: 10,
-                        initialValue: exercise.unit ?? "",
-                        validator: (val) => val.isEmpty ? "Invalid name" : null,
-                        style: TextStyle(
-                          fontSize: 18,
-                        ),
-                        decoration: InputDecoration(
-                          hintText: "Notes",
-                          border: InputBorder.none,
-                          enabledBorder: InputBorder.none,
-                        ),
-                        onChanged: (val) {
-                          setState(() => exercise.notes = val);
-                        },
-                      ),
-                    ),
-                  ],
-                ),
+                _displayNotes(exercise),
               ],
             ),
           )
         ],
       ),
     );
+  }
+
+  Widget _displayUnit(Exercise exercise) {
+    return (exercise.unit?.isEmpty ?? true)
+        ? Container()
+        : Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(right: 14, top: 4),
+                child: Icon(
+                  Icons.straighten,
+                  size: 29,
+                  color: Colors.indigo,
+                ),
+              ),
+              Flexible(
+                child: Text(
+                  exercise.unit.toUpperCase() ?? "",
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+            ],
+          );
+  }
+
+  Widget _displayNotes(Exercise exercise) {
+    return (exercise.notes?.isEmpty ?? true)
+        ? Container()
+        : Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(right: 14, top: 9),
+                child: Icon(
+                  Icons.subject,
+                  size: 29,
+                  color: Colors.indigo,
+                ),
+              ),
+              Flexible(
+                child: TextFormField(
+                  enabled: false,
+                  keyboardType: TextInputType.multiline,
+                  maxLines: 10,
+                  initialValue: exercise.notes ?? "",
+                  validator: (val) => val.isEmpty ? "Invalid name" : null,
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
+                  decoration: InputDecoration(
+                    hintText: "Notes",
+                    border: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                  ),
+                  onChanged: (val) {
+                    setState(() => exercise.notes = val);
+                  },
+                ),
+              ),
+            ],
+          );
   }
 
   Widget _displaySets(Exercise exercise) {
@@ -209,7 +229,7 @@ class _ExerciseViewState extends State<ExerciseView> {
             color: Colors.indigo,
           ),
         ),
-       SetsView(sets: exercise.sets),
+        SetsView(sets: exercise.sets),
       ],
     );
   }

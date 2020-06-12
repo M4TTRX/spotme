@@ -19,7 +19,6 @@ class _SetsViewState extends State<SetsView> {
   Widget build(
     BuildContext context,
   ) {
-    var heights = List.generate(sets.length, (index) => _rowHeight);
     List<Widget> columnChildren = List.generate(
         sets.length,
         (i) => Row(
@@ -49,19 +48,6 @@ class _SetsViewState extends State<SetsView> {
                     style: TextStyle(fontSize: 18),
                   ),
                 ),
-                IconButton(
-                  icon: Icon(Icons.clear),
-                  color: Color(0xFFEF4646),
-                  iconSize: 22,
-                  onPressed: () async* {
-                    setState(() {
-                      heights[i] = 0;
-                    });
-                    await Future.delayed(const Duration(seconds: 1), () {});
-                    sets.removeAt(i);
-                    setState(() {});
-                  },
-                )
               ],
             ));
     return Column(
