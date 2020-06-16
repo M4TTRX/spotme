@@ -11,10 +11,12 @@ jobs:
     name: Build APK
     runs-on: ubuntu-latest
     steps:
+    - name: Clone Repo
+      uses: actions/checkout@v1
     - name: Decode google-services.json
       env:
         FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
-      run: echo $FIREBASE_CONFIG >> ${{ github.repository }}/android/app/google-services.json
+      run: echo $FIREBASE_CONFIG > ${{ github.repository }}/android/app/google-services.json
     - uses: actions/checkout@v1
     - uses: actions/setup-java@v1
       with:
