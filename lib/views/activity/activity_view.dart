@@ -107,6 +107,10 @@ class _ActivityViewState extends State<ActivityView> {
       ));
     }
 
+    activityViewBody.add(SizedBox(
+      height: 128,
+    ));
+
     // Return in Listview
     return ScrollConfiguration(
       behavior: BasicScrollBehaviour(),

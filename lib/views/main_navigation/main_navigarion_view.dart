@@ -43,9 +43,7 @@ class _MainNavigationViewState extends State<MainNavigationView> {
   }
 
   Widget _returnSelectedView() {
-    return PageView(
-      children: <Widget>[ActivityView(), AccountView()],
-    );
+    return ActivityView();
     switch (_selectedScreen) {
       case SelectedScreen.HOME:
         {

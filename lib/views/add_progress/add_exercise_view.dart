@@ -4,11 +4,12 @@ import 'package:home_workouts/helpers/date_time_helper.dart';
 import 'package:home_workouts/model/exercise_model.dart';
 import 'package:home_workouts/model/exercise_set.dart';
 import 'package:home_workouts/service/service.dart';
-import 'package:home_workouts/views/add_progress/sets_list_view.dart';
 import 'package:home_workouts/views/shared/padding.dart';
 import 'package:home_workouts/views/shared/scroll_behavior.dart';
 import 'package:home_workouts/views/shared/text/headings.dart';
 import 'package:uuid/uuid.dart';
+
+import 'add_sets_list_view.dart';
 
 class AddExerciseView extends StatefulWidget {
   final Exercise exercise;

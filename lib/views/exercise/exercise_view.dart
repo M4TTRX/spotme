@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:home_workouts/helpers/date_time_helper.dart';
 import 'package:home_workouts/model/exercise_model.dart';
 import 'package:home_workouts/model/exercise_set.dart';
 import 'package:home_workouts/service/service.dart';
@@ -42,29 +43,6 @@ class _ExerciseViewState extends State<ExerciseView> {
         ),
       ),
       backgroundColor: Colors.white,
-      floatingActionButton: Container(
-        height: 56,
-        child: FloatingActionButton.extended(
-          autofocus: false,
-          label: Heading1("Submit"),
-          onPressed: () async {
-            if (_formKey.currentState.validate()) {
-              await _service.putExercise(exercise);
-              Navigator.pop(context);
-            } else {
-              HapticFeedback.heavyImpact();
-            }
-          },
-          icon: Icon(
-            Icons.add,
-            size: 32,
-            color: Colors.indigo,
-          ),
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.black,
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       body: _buildBody(),
     );
   }
@@ -117,7 +95,7 @@ class _ExerciseViewState extends State<ExerciseView> {
                             child: Row(
                               children: <Widget>[
                                 Text(
-                                  "Now",
+                                  toPrettyString(exercise.createDate),
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontFamily: "Red Hat Text",
