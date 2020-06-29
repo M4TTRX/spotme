@@ -4,15 +4,20 @@ import 'package:uuid/uuid.dart';
 
 class AddSetsView extends StatefulWidget {
   final List<ExerciseSet> sets;
-  AddSetsView({this.sets});
+  final bool usesBodyweight;
+  AddSetsView({this.sets, this.usesBodyweight});
   @override
-  _AddSetsViewState createState() => _AddSetsViewState(sets ?? []);
+  _AddSetsViewState createState() =>
+      _AddSetsViewState(sets ?? [], usesBodyweight ?? false);
 }
 
 class _AddSetsViewState extends State<AddSetsView> {
-  _AddSetsViewState(this.sets);
+  _AddSetsViewState(this.sets, this.usesBodyweight);
 
   final List<ExerciseSet> sets;
+  final bool usesBodyweight;
+
+  final String _bodyWeightString = "Bodyweight";
 
   // Animated List Key used to update the state of the list
   final _animatedListKey = GlobalKey<AnimatedListState>();
@@ -32,9 +37,11 @@ class _AddSetsViewState extends State<AddSetsView> {
                   width: 96,
                   child: TextFormField(
                     keyboardType: TextInputType.number,
-                    initialValue: sets[i].amount == null
-                        ? ""
-                        : sets[i].amount.toStringAsFixed(1),
+                    initialValue: usesBodyweight
+                        ? _bodyWeightString
+                        : sets[i].amount == null
+                            ? ""
+                            : sets[i].amount.toStringAsFixed(1),
                     validator: (val) => val.isEmpty ? "Invalid value" : null,
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                     decoration: InputDecoration(

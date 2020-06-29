@@ -19,6 +19,8 @@ class DatabaseExercise {
   String userID;
   // notes represents the optional notes a user may put on their exercise
   String notes;
+  // usesBodyWeight says if the exercise is a bodyweight exercise
+  bool usesBodyWeight;
 
   // Generated methods
   // ==============================================================================
@@ -30,6 +32,7 @@ class DatabaseExercise {
     this.createDate,
     this.userID,
     this.notes,
+    this.usesBodyWeight,
   });
 
   DatabaseExercise copyWith({
@@ -40,6 +43,7 @@ class DatabaseExercise {
     DateTime createDate,
     String userID,
     String notes,
+    bool usesBodyWeight,
   }) {
     return DatabaseExercise(
       id: id ?? this.id,
@@ -49,6 +53,7 @@ class DatabaseExercise {
       createDate: createDate ?? this.createDate,
       userID: userID ?? this.userID,
       notes: notes ?? this.notes,
+      usesBodyWeight: usesBodyWeight ?? this.usesBodyWeight,
     );
   }
 
@@ -61,6 +66,7 @@ class DatabaseExercise {
       'createDate': createDate?.millisecondsSinceEpoch,
       'userID': userID,
       'notes': notes,
+      'usesBodyWeight': usesBodyWeight,
     };
   }
 
@@ -76,6 +82,7 @@ class DatabaseExercise {
       createDate: DateTime.fromMillisecondsSinceEpoch(map['createDate']),
       userID: map['userID'],
       notes: map['notes'],
+      usesBodyWeight: map['usesBodyWeight'],
     );
   }
 
@@ -86,7 +93,7 @@ class DatabaseExercise {
 
   @override
   String toString() {
-    return 'DatabaseExercise(id: $id, type: $type, sets: $sets, unit: $unit, createDate: $createDate, userID: $userID, notes: $notes)';
+    return 'DatabaseExercise(id: $id, type: $type, sets: $sets, unit: $unit, createDate: $createDate, userID: $userID, notes: $notes, usesBodyWeight: $usesBodyWeight)';
   }
 
   @override
@@ -100,7 +107,8 @@ class DatabaseExercise {
         o.unit == unit &&
         o.createDate == createDate &&
         o.userID == userID &&
-        o.notes == notes;
+        o.notes == notes &&
+        o.usesBodyWeight == usesBodyWeight;
   }
 
   @override
@@ -111,6 +119,7 @@ class DatabaseExercise {
         unit.hashCode ^
         createDate.hashCode ^
         userID.hashCode ^
-        notes.hashCode;
+        notes.hashCode ^
+        usesBodyWeight.hashCode;
   }
 }

@@ -20,6 +20,8 @@ class Exercise {
   User user;
   // notes represents the optional notes a user may put on their exercise
   String notes;
+  // usesBodyWeight says if the exercise is a bodyweight exercise
+  bool usesBodyWeight;
 
   // Custom methods
   // ==============================================================================
@@ -43,6 +45,7 @@ class Exercise {
     this.createDate,
     this.user,
     this.notes,
+    this.usesBodyWeight,
   });
 
   Exercise copyWith({
@@ -53,6 +56,7 @@ class Exercise {
     DateTime createDate,
     User user,
     String notes,
+    bool usesBodyWeight,
   }) {
     return Exercise(
       id: id ?? this.id,
@@ -62,6 +66,7 @@ class Exercise {
       createDate: createDate ?? this.createDate,
       user: user ?? this.user,
       notes: notes ?? this.notes,
+      usesBodyWeight: usesBodyWeight ?? this.usesBodyWeight,
     );
   }
 
@@ -74,6 +79,7 @@ class Exercise {
       'createDate': createDate?.millisecondsSinceEpoch,
       'user': user?.toMap(),
       'notes': notes,
+      'usesBodyWeight': usesBodyWeight,
     };
   }
 
@@ -89,6 +95,7 @@ class Exercise {
       createDate: DateTime.fromMillisecondsSinceEpoch(map['createDate']),
       user: User.fromMap(map['user']),
       notes: map['notes'],
+      usesBodyWeight: map['usesBodyWeight'],
     );
   }
 
@@ -98,7 +105,7 @@ class Exercise {
 
   @override
   String toString() {
-    return 'Exercise(id: $id, type: $type, sets: $sets, unit: $unit, createDate: $createDate, user: $user, notes: $notes)';
+    return 'Exercise(id: $id, type: $type, sets: $sets, unit: $unit, createDate: $createDate, user: $user, notes: $notes, usesBodyWeight: $usesBodyWeight)';
   }
 
   @override
@@ -112,7 +119,8 @@ class Exercise {
         o.unit == unit &&
         o.createDate == createDate &&
         o.user == user &&
-        o.notes == notes;
+        o.notes == notes &&
+        o.usesBodyWeight == usesBodyWeight;
   }
 
   @override
@@ -123,6 +131,7 @@ class Exercise {
         unit.hashCode ^
         createDate.hashCode ^
         user.hashCode ^
-        notes.hashCode;
+        notes.hashCode ^
+        usesBodyWeight.hashCode;
   }
 }

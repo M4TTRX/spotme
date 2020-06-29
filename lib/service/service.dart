@@ -93,6 +93,7 @@ class AppService {
       createDate: exercise.createDate ?? DateTime.now(),
       userID: userID,
       notes: exercise.notes ?? "",
+      usesBodyWeight: exercise.usesBodyWeight ?? false,
     );
     await fireStoreDb.upsertExercise(databaseExercise);
   }
