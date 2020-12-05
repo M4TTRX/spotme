@@ -1,8 +1,8 @@
-# fitly
+# spotme
 
 ## The concept
 
-fitly was created to help people who stay active, track their progress, adn share it with their friends. The app is best suited for people who do weight lifting but is made to work with any kind of exercise.
+spotme was created to help people who stay active, track their progress, adn share it with their friends. The app is best suited for people who do weight lifting but is made to work with any kind of exercise.
 
 ## Roadmap
 
