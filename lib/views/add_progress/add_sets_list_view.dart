@@ -32,6 +32,32 @@ class _AddSetsViewState extends State<AddSetsView> {
                   width: 96,
                   child: TextFormField(
                     keyboardType: TextInputType.number,
+                    initialValue: sets[i].repetitions == null
+                        ? ""
+                        : sets[i].repetitions.toString(),
+                    validator: (val) => val.isEmpty ? "Invalid value" : null,
+                    style: TextStyle(fontSize: 18),
+                    decoration: InputDecoration(
+                      hintText: "Repetitions",
+                      border: InputBorder.none,
+                    ),
+                    onChanged: (val) {
+                      sets[i].repetitions = int.parse(val);
+                    },
+                  ),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.only(right: 24),
+                  child: Icon(
+                    Icons.clear,
+                    size: 28,
+                  ),
+                ),
+                Container(
+                  width: 96,
+                  child: TextFormField(
+                    keyboardType: TextInputType.number,
                     initialValue: sets[i].amount == null
                         ? ""
                         : sets[i].amount.toStringAsFixed(1),
@@ -48,41 +74,19 @@ class _AddSetsViewState extends State<AddSetsView> {
                     },
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 24),
-                  child: Icon(
-                    Icons.clear,
-                    size: 28,
-                  ),
-                ),
-                Container(
-                  width: 96,
-                  child: TextFormField(
-                    keyboardType: TextInputType.number,
-                    initialValue: sets[i].repetitions == null
-                        ? ""
-                        : sets[i].repetitions.toString(),
-                    validator: (val) => val.isEmpty ? "Invalid value" : null,
-                    style: TextStyle(fontSize: 18),
-                    decoration: InputDecoration(
-                      hintText: "Reps",
-                      border: InputBorder.none,
-                    ),
-                    onChanged: (val) {
-                      sets[i].repetitions = int.parse(val);
-                    },
-                  ),
-                ),
-                IconButton(
-                  icon: Icon(Icons.clear),
-                  color: Color(0xFFEF4646),
-                  iconSize: 22,
-                  onPressed: () {
-                    setState(() {
-                      sets.removeAt(i);
-                    });
-                  },
-                )
+                // Display the remove set button if there is more than one set
+                sets.length == 1
+                    ? Container()
+                    : IconButton(
+                        icon: Icon(Icons.clear),
+                        color: Color(0xFFEF4646),
+                        iconSize: 22,
+                        onPressed: () {
+                          setState(() {
+                            sets.removeAt(i);
+                          });
+                        },
+                      )
               ],
             ));
 
@@ -109,7 +113,11 @@ class _AddSetsViewState extends State<AddSetsView> {
         ),
         onPressed: () {
           setState(() {
-            var tmpExercise = sets.length > 0 ? sets.last : ExerciseSet();
+            var tmpExercise = sets.length > 0
+                ? ExerciseSet(
+                    amount: sets.last.amount,
+                    repetitions: sets.last.repetitions)
+                : ExerciseSet();
             sets.add(tmpExercise);
           });
         },
