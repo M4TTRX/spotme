@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:home_workouts/model/database/exercise_db_model.dart';
 import 'package:home_workouts/model/exercise_model.dart';
-import 'package:home_workouts/model/user_model.dart';
+import 'package:home_workouts/model/account_model.dart';
 
 class FireStoreDatabaseService {
   final String userId;
@@ -18,19 +18,19 @@ class FireStoreDatabaseService {
 
   // Users Firestore collection
   final CollectionReference usersCollection =
-      Firestore.instance.collection(_USER_COLLECTION);
+      FirebaseFirestore.instance.collection(_USER_COLLECTION);
 
-  Future upsertUser(User user) async {
-    return await usersCollection.document(user.id).setData(user.toMap());
+  Future upsertUser(Account user) async {
+    return await usersCollection.doc(user.id).set(user.toMap());
   }
 
-  User _getUserFromSnapshot(QuerySnapshot snapshot) {
-    return snapshot.documents.map((doc) {
-      return User.fromMap(doc.data);
+  Account _getUserFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.docs.map((DocumentSnapshot documentSnapshot) {
+      return Account.fromMap(documentSnapshot.data());
     }).toList()[0];
   }
 
-  Stream<User> get users {
+  Stream<Account> get users {
     return usersCollection
         .where("id", isEqualTo: this.userId)
         .snapshots()
@@ -38,17 +38,15 @@ class FireStoreDatabaseService {
   }
 
   final CollectionReference exercisesCollection =
-      Firestore.instance.collection(_EXERCISES_COLLECTION);
+      FirebaseFirestore.instance.collection(_EXERCISES_COLLECTION);
 
   Future upsertExercise(DatabaseExercise exercise) async {
-    return await exercisesCollection
-        .document(exercise.id)
-        .setData(exercise.toMap());
+    return await exercisesCollection.doc(exercise.id).set(exercise.toMap());
   }
 
   List<Exercise> _getExercisesFromSnapshot(QuerySnapshot snapshot) {
-    return snapshot.documents.map((doc) {
-      return Exercise.fromMap(doc.data);
+    return snapshot.docs.map((DocumentSnapshot documentSnapshot) {
+      return Exercise.fromMap(documentSnapshot.data());
     }).toList();
   }
 
@@ -61,7 +59,7 @@ class FireStoreDatabaseService {
   }
 
   final CollectionReference challengesCollection =
-      Firestore.instance.collection(_CHALLENGES_COLLECTION);
+      FirebaseFirestore.instance.collection(_CHALLENGES_COLLECTION);
 
   FireStoreDatabaseService copyWith({
     String userId,

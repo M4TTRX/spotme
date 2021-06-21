@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:home_workouts/model/user_model.dart';
+import 'package:home_workouts/model/account_model.dart';
 import 'package:home_workouts/service/auth_service.dart';
 import 'package:home_workouts/service/service.dart';
 import 'package:home_workouts/views/shared/buttons/danger_button.dart';
@@ -32,7 +32,7 @@ class _AccountViewState extends State<AccountView> {
     );
   }
 
-  Widget _buildAccountViewBody(User user) {
+  Widget _buildAccountViewBody(Account user) {
     // Null check
     if (user == null) {
       return Container();

@@ -1,22 +1,22 @@
 import 'dart:convert';
 
-class User {
+class Account {
   String username;
   String email;
   String id;
 
-  User({
+  Account({
     this.username,
     this.email,
     this.id,
   });
 
-  User copyWith({
+  Account copyWith({
     String username,
     String email,
     String id,
   }) {
-    return User(
+    return Account(
       username: username ?? this.username,
       email: email ?? this.email,
       id: id ?? this.id,
@@ -31,10 +31,10 @@ class User {
     };
   }
 
-  static User fromMap(Map<String, dynamic> map) {
+  static Account fromMap(Map<String, dynamic> map) {
     if (map == null) return null;
 
-    return User(
+    return Account(
       username: map['username'],
       email: map['email'],
       id: map['id'],
@@ -43,16 +43,16 @@ class User {
 
   String toJson() => json.encode(toMap());
 
-  static User fromJson(String source) => fromMap(json.decode(source));
+  static Account fromJson(String source) => fromMap(json.decode(source));
 
   @override
-  String toString() => 'User(username: $username, email: $email, id: $id)';
+  String toString() => 'Account(username: $username, email: $email, id: $id)';
 
   @override
   bool operator ==(Object o) {
     if (identical(this, o)) return true;
 
-    return o is User &&
+    return o is Account &&
         o.username == username &&
         o.email == email &&
         o.id == id;

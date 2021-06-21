@@ -1,6 +1,6 @@
 import 'package:home_workouts/model/database/exercise_db_model.dart';
 import 'package:home_workouts/model/exercise_model.dart';
-import 'package:home_workouts/model/user_model.dart';
+import 'package:home_workouts/model/account_model.dart';
 import 'package:home_workouts/service/database/firestore_database_service.dart';
 import 'package:uuid/uuid.dart';
 
@@ -36,24 +36,24 @@ class AppService {
     yield exerciseDataStream;
   }
 
-  Stream<User> get userStream async* {
+  Stream<Account> get userStream async* {
     String userID = await _getUserID();
     if (userID.length > 0) {
       final FireStoreDatabaseService fireStoreDb =
           FireStoreDatabaseService(userId: userID);
 
-      await for (User user in fireStoreDb.users.distinct()) {
+      await for (Account user in fireStoreDb.users.distinct()) {
         yield user;
       }
     }
-    yield User();
+    yield Account();
   }
 
   // ========================================================================
 
   // gets the id of the account signed in
   Future<String> _getUserID() async {
-    await for (User user in authService.user.distinct()) {
+    await for (Account user in authService.user.distinct()) {
       print(user.id);
       return user.id;
     }
@@ -68,7 +68,7 @@ class AppService {
     if (authResult == null) {
       return null;
     }
-    User user = User(username: username, email: email, id: authResult.id);
+    Account user = Account(username: username, email: email, id: authResult.id);
     final FireStoreDatabaseService fireStoreDb =
         FireStoreDatabaseService(userId: authResult.id);
 
@@ -99,13 +99,13 @@ class AppService {
 
   // SharedPreference stuff (useless)
   // =============ab==================================================
-  static Future<User> getUser() async {
+  static Future<Account> getUser() async {
     var account = await SharedPreferencesService.getUser();
     return account;
   }
 
   static void setUser(String username) async {
-    var account = User(username: username);
+    var account = Account(username: username);
     await SharedPreferencesService.putUser(account);
   }
 }

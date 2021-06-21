@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
-import 'package:home_workouts/model/user_model.dart';
+import 'package:home_workouts/model/account_model.dart';
 
 import 'exercise_set.dart';
 
@@ -17,7 +17,7 @@ class Exercise {
   // create date is a timestamp at which the exercise was done
   DateTime createDate;
   // user is the person who performed the exercise
-  User user;
+  Account user;
   // notes represents the optional notes a user may put on their exercise
   String notes;
 
@@ -51,7 +51,7 @@ class Exercise {
     List<ExerciseSet> sets,
     String unit,
     DateTime createDate,
-    User user,
+    Account user,
     String notes,
   }) {
     return Exercise(
@@ -87,7 +87,7 @@ class Exercise {
           map['sets']?.map((x) => ExerciseSet.fromMap(x))),
       unit: map['unit'],
       createDate: DateTime.fromMillisecondsSinceEpoch(map['createDate']),
-      user: User.fromMap(map['user']),
+      user: Account.fromMap(map['user']),
       notes: map['notes'],
     );
   }
