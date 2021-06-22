@@ -3,7 +3,7 @@ import 'package:home_workouts/model/exercise_set.dart';
 import 'package:uuid/uuid.dart';
 
 class SetsView extends StatefulWidget {
-  final List<ExerciseSet> sets;
+  final List<ExerciseSet>? sets;
   SetsView({this.sets});
   @override
   _SetsViewState createState() => _SetsViewState(sets ?? []);
@@ -29,7 +29,7 @@ class _SetsViewState extends State<SetsView> {
                   width: 96,
                   child: Text( sets[i].amount == null
                         ? ""
-                        : sets[i].amount.toStringAsFixed(1),
+                        : sets[i].amount!.toStringAsFixed(1),
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                   ),
                 ),

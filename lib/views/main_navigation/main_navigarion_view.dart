@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:home_workouts/model/account_model.dart';
 import 'package:home_workouts/model/selected_screen_model.dart';
+import 'package:home_workouts/service/service.dart';
 import 'package:home_workouts/views/account/account_view.dart';
 import 'package:home_workouts/views/activity/activity_view.dart';
 import 'package:home_workouts/views/add_progress/add_exercise_view.dart';
 import 'package:home_workouts/views/home/home_view.dart';
 import 'package:home_workouts/views/shared/text/title.dart';
 import 'package:home_workouts/views/work_in_progress/wip_view.dart';
+import 'package:provider/provider.dart';
 
 class MainNavigationView extends StatefulWidget {
   @override
@@ -15,41 +18,41 @@ class MainNavigationView extends StatefulWidget {
 
 class _MainNavigationViewState extends State<MainNavigationView> {
   SelectedScreen _selectedScreen = SelectedScreen.ACTIVITY;
+  late AppService service;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.indigo,
-        onPressed: () async {
-          HapticFeedback.mediumImpact();
-          await _addExercise(context);
-          setState(() {});
-        },
-        child: Icon(
-          Icons.add,
-          size: 32,
+    return Consumer<Account>(
+        builder: (context, Account account, Widget? widget) {
+      this.service = AppService(account: account);
+      return Scaffold(
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.indigo,
+          onPressed: () async {
+            HapticFeedback.mediumImpact();
+            await _addExercise(context);
+            setState(() {});
+          },
+          child: Icon(
+            Icons.add,
+            size: 32,
+          ),
         ),
-      ),
-      appBar: AppBar(
-        title: _getTitle(),
+        appBar: AppBar(
+          title: _getTitle(),
+          backgroundColor: Colors.white,
+          elevation: 0.0,
+        ),
         backgroundColor: Colors.white,
-        elevation: 0.0,
-      ),
-      backgroundColor: Colors.white,
-      body: _returnSelectedView(),
-    );
+        body: _returnSelectedView(),
+      );
+    });
   }
 
   Widget _returnSelectedView() {
-    return ActivityView();
+    return ActivityView(service: service);
     switch (_selectedScreen) {
-      case SelectedScreen.HOME:
-        {
-          return HomeView();
-        }
-        break;
       case SelectedScreen.CHALLENGES:
         {
           return WorkInProgressView();
@@ -57,18 +60,15 @@ class _MainNavigationViewState extends State<MainNavigationView> {
         break;
       case SelectedScreen.ACTIVITY:
         {
-          return ActivityView();
-        }
-        break;
-      case SelectedScreen.ACCOUNT:
-        {
-          return AccountView();
+          return ActivityView(
+            service: service,
+          );
         }
         break;
       default:
         {
           _selectedScreen = SelectedScreen.HOME;
-          return HomeView();
+          return ActivityView(service: service);
         }
         break;
     }
@@ -110,13 +110,17 @@ class _MainNavigationViewState extends State<MainNavigationView> {
 
   _addExercise(BuildContext context) async {
     await Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-      return AddExerciseView();
+      return AddExerciseView(
+        service: service,
+      );
     }));
   }
 
   _openAccountView(BuildContext context) async {
     await Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-      return AccountView();
+      return AccountView(
+        service: service,
+      );
     }));
   }
 }

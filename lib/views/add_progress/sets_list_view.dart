@@ -3,7 +3,7 @@ import 'package:home_workouts/model/exercise_set.dart';
 import 'package:uuid/uuid.dart';
 
 class AddSetsView extends StatefulWidget {
-  final List<ExerciseSet> sets;
+  final List<ExerciseSet>? sets;
   AddSetsView({this.sets});
   @override
   _AddSetsViewState createState() => _AddSetsViewState(sets ?? []);
@@ -35,8 +35,8 @@ class _AddSetsViewState extends State<AddSetsView> {
                     keyboardType: TextInputType.number,
                     initialValue: sets[i].amount == null
                         ? ""
-                        : sets[i].amount.toStringAsFixed(1),
-                    validator: (val) => val.isEmpty ? "Invalid value" : null,
+                        : sets[i].amount!.toStringAsFixed(1),
+                    validator: (val) => val!.isEmpty ? "Invalid value" : null,
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                     decoration: InputDecoration(
                       hintText: "Amount",
@@ -63,7 +63,7 @@ class _AddSetsViewState extends State<AddSetsView> {
                     initialValue: sets[i].repetitions == null
                         ? ""
                         : sets[i].repetitions.toString(),
-                    validator: (val) => val.isEmpty ? "Invalid value" : null,
+                    validator: (val) => val!.isEmpty ? "Invalid value" : null,
                     style: TextStyle(fontSize: 18),
                     decoration: InputDecoration(
                       hintText: "Reps",

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:home_workouts/helpers/date_time_helper.dart';
+import 'package:home_workouts/model/account_model.dart';
 import 'package:home_workouts/model/exercise_set.dart';
 
 import 'package:home_workouts/service/service.dart';
@@ -15,24 +16,28 @@ import 'package:home_workouts/views/shared/padding.dart';
 import 'package:home_workouts/views/shared/whitespace.dart';
 
 class ActivityView extends StatefulWidget {
+  final AppService service;
+  ActivityView({required this.service});
+
   @override
-  _ActivityViewState createState() => _ActivityViewState();
+  _ActivityViewState createState() => _ActivityViewState(service);
 }
 
 class _ActivityViewState extends State<ActivityView> {
-  AppService service = AppService();
+  _ActivityViewState(this.service);
+  AppService service;
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<Object>(
       stream: service.exerciseDataStream,
       builder: (context, snapshot) {
-        return _buildActivityBody(snapshot.data);
+        return _buildActivityBody(snapshot.data as List<Exercise>?);
       },
     );
   }
 
-  Widget _buildActivityBody(List<Exercise> data) {
+  Widget _buildActivityBody(List<Exercise>? data) {
     if (data == null || data.length == 0) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -53,15 +58,15 @@ class _ActivityViewState extends State<ActivityView> {
       );
     }
     // Generate list of cards
-    var activityViewBody = List<Widget>();
-    DateTime currDay = DateTime(0, 0, 0, 0);
+    List<Widget> activityViewBody = [];
+    DateTime? currDay = DateTime(0, 0, 0, 0);
     for (var exercise in data) {
-      if (!isSameDay(currDay, exercise.createDate)) {
+      if (!isSameDay(currDay!, exercise.createDate!)) {
         activityViewBody.add(
           Padding(
             padding: const EdgeInsets.only(bottom: 1.0),
             child: Heading1(
-              toPrettyString(exercise.createDate),
+              toPrettyString(exercise.createDate!),
               color: Colors.indigo,
             ),
           ),
@@ -79,6 +84,7 @@ class _ActivityViewState extends State<ActivityView> {
             Navigator.of(this.context)
                 .push(MaterialPageRoute(builder: (context) {
               return ExerciseView(
+                service: service,
                 exercise: exercise,
               );
             }));
@@ -87,7 +93,7 @@ class _ActivityViewState extends State<ActivityView> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Body(
-                exercise.type.toUpperCase(),
+                exercise.type!.toUpperCase(),
               ),
               WhiteSpace(),
               Card(

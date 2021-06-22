@@ -11,26 +11,25 @@ import 'package:home_workouts/views/shared/text/headings.dart';
 import 'package:uuid/uuid.dart';
 
 class ExerciseView extends StatefulWidget {
-  final Exercise exercise;
-  ExerciseView({this.exercise});
+  final AppService service;
+  final Exercise? exercise;
+  ExerciseView({required this.service, required this.exercise});
 
   @override
-  _ExerciseViewState createState() => _ExerciseViewState(exercise);
+  _ExerciseViewState createState() => _ExerciseViewState(service, exercise);
 }
 
 class _ExerciseViewState extends State<ExerciseView> {
-  _ExerciseViewState(this.exercise);
+  _ExerciseViewState(this.service, this.exercise);
 
   // Can be use to implement default vallues in text fields
-  Exercise exercise;
+  Exercise? exercise;
+  final AppService service;
 
   // Form Key used to validate the form input
   final _formKey = GlobalKey<FormState>();
 
-  // service will help us update the exercise in the cloud
-  final AppService _service = AppService();
-
-  int selectedIndex;
+  int? selectedIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +59,7 @@ class _ExerciseViewState extends State<ExerciseView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  exercise.type.toUpperCase() ?? "",
+                  exercise!.type!.toUpperCase() ?? "",
                   style: TextStyle(
                     fontSize: 28,
                     fontFamily: "Red Hat Text",
@@ -69,7 +68,7 @@ class _ExerciseViewState extends State<ExerciseView> {
                 SizedBox(
                   height: 32,
                 ),
-                _displaySets(exercise),
+                _displaySets(exercise!),
                 SizedBox(
                   height: 32,
                 ),
@@ -95,7 +94,7 @@ class _ExerciseViewState extends State<ExerciseView> {
                             child: Row(
                               children: <Widget>[
                                 Text(
-                                  toPrettyString(exercise.createDate),
+                                  toPrettyString(exercise!.createDate!),
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontFamily: "Red Hat Text",
@@ -109,17 +108,17 @@ class _ExerciseViewState extends State<ExerciseView> {
                                       initialDate: DateTime.now(),
                                       firstDate: DateTime(0),
                                       lastDate: DateTime.now())
-                                  .then((date) => exercise.createDate);
+                                  .then((date) => exercise!.createDate);
                             },
                           )),
                     ),
-                    _displayUnit(exercise),
+                    _displayUnit(exercise!),
                   ],
                 ),
                 SizedBox(
                   height: 8,
                 ),
-                _displayNotes(exercise),
+                _displayNotes(exercise!),
               ],
             ),
           )
@@ -144,7 +143,7 @@ class _ExerciseViewState extends State<ExerciseView> {
               ),
               Flexible(
                 child: Text(
-                  exercise.unit.toUpperCase() ?? "",
+                  exercise.unit!.toUpperCase() ?? "",
                   style: TextStyle(
                     fontSize: 18,
                   ),
@@ -175,7 +174,7 @@ class _ExerciseViewState extends State<ExerciseView> {
                   keyboardType: TextInputType.multiline,
                   maxLines: 10,
                   initialValue: exercise.notes ?? "",
-                  validator: (val) => val.isEmpty ? "Invalid name" : null,
+                  validator: (val) => val!.isEmpty ? "Invalid name" : null,
                   style: TextStyle(
                     fontSize: 18,
                   ),

@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 class Account {
-  String username;
-  String email;
-  String id;
+  String? username;
+  String? email;
+  String? id;
 
   Account({
     this.username,
@@ -12,9 +12,9 @@ class Account {
   });
 
   Account copyWith({
-    String username,
-    String email,
-    String id,
+    String? username,
+    String? email,
+    String? id,
   }) {
     return Account(
       username: username ?? this.username,
@@ -31,7 +31,7 @@ class Account {
     };
   }
 
-  static Account fromMap(Map<String, dynamic> map) {
+  static Account? fromMap(Map<String, dynamic>? map) {
     if (map == null) return null;
 
     return Account(
@@ -43,7 +43,7 @@ class Account {
 
   String toJson() => json.encode(toMap());
 
-  static Account fromJson(String source) => fromMap(json.decode(source));
+  static Account? fromJson(String source) => fromMap(json.decode(source));
 
   @override
   String toString() => 'Account(username: $username, email: $email, id: $id)';

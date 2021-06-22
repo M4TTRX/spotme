@@ -11,33 +11,32 @@ import 'package:home_workouts/views/shared/white_app_bar.dart';
 import 'package:home_workouts/views/shared/whitespace.dart';
 
 class AccountView extends StatefulWidget {
+  final AppService service;
+  AccountView({required this.service});
+
   @override
-  _AccountViewState createState() => _AccountViewState();
+  _AccountViewState createState() => _AccountViewState(service);
 }
 
 final AuthService _authService = AuthService();
-AppService service = AppService();
 
 class _AccountViewState extends State<AccountView> {
+  _AccountViewState(this.service);
+  AppService service;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: StreamBuilder<Object>(
-        stream: service.userStream,
-        builder: (context, snapshot) {
-          return _buildAccountViewBody(snapshot.data);
-        },
-      ),
+      body: _buildAccountViewBody(service.account as Account?),
     );
   }
 
-  Widget _buildAccountViewBody(Account user) {
+  Widget _buildAccountViewBody(Account? user) {
     // Null check
     if (user == null) {
       return Container();
     }
-    var accountBodyView = List<Widget>();
+    List<Widget> accountBodyView = [];
     accountBodyView.add(Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: Row(

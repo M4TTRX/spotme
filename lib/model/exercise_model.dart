@@ -7,30 +7,30 @@ import 'package:home_workouts/model/account_model.dart';
 import 'exercise_set.dart';
 
 class Exercise {
-  String id;
+  String? id;
   // type describes the type of the exercise
-  String type;
+  String? type;
   // sets contains what the user did in that exercise
-  List<ExerciseSet> sets;
+  List<ExerciseSet>? sets;
   // unit defines what was done, the amount is meaningless if there is no unit
-  String unit;
+  String? unit;
   // create date is a timestamp at which the exercise was done
-  DateTime createDate;
+  DateTime? createDate;
   // user is the person who performed the exercise
-  Account user;
+  Account? user;
   // notes represents the optional notes a user may put on their exercise
-  String notes;
+  String? notes;
 
   // Custom methods
   // ==============================================================================
   String getDisplayAmount() {
-    if (sets == null || sets.length == 0) {
+    if (sets == null || sets!.length == 0) {
       return "0";
     }
-    if (sets.length == 1) {
-      return sets.length.toString() + " set";
+    if (sets!.length == 1) {
+      return sets!.length.toString() + " set";
     }
-    return sets.length.toString() + " sets";
+    return sets!.length.toString() + " sets";
   }
 
   // Generated methods
@@ -46,13 +46,13 @@ class Exercise {
   });
 
   Exercise copyWith({
-    String id,
-    String type,
-    List<ExerciseSet> sets,
-    String unit,
-    DateTime createDate,
-    Account user,
-    String notes,
+    String? id,
+    String? type,
+    List<ExerciseSet>? sets,
+    String? unit,
+    DateTime? createDate,
+    Account? user,
+    String? notes,
   }) {
     return Exercise(
       id: id ?? this.id,
@@ -69,7 +69,7 @@ class Exercise {
     return {
       'id': id,
       'type': type,
-      'sets': sets?.map((x) => x?.toMap())?.toList(),
+      'sets': sets?.map((x) => x.toMap()).toList(),
       'unit': unit,
       'createDate': createDate?.millisecondsSinceEpoch,
       'user': user?.toMap(),
@@ -77,7 +77,7 @@ class Exercise {
     };
   }
 
-  static Exercise fromMap(Map<String, dynamic> map) {
+  static Exercise? fromMap(Map<String, dynamic>? map) {
     if (map == null) return null;
 
     return Exercise(
@@ -94,7 +94,7 @@ class Exercise {
 
   String toJson() => json.encode(toMap());
 
-  static Exercise fromJson(String source) => fromMap(json.decode(source));
+  static Exercise? fromJson(String source) => fromMap(json.decode(source));
 
   @override
   String toString() {

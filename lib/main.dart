@@ -22,6 +22,7 @@ class App extends StatelessWidget {
               systemNavigationBarIconBrightness: Brightness.dark));
           return StreamProvider<Account>.value(
             value: AuthService().user,
+            initialData: Account(),
             child: MaterialApp(
               theme: ThemeData(
                 primarySwatch: Colors.indigo,

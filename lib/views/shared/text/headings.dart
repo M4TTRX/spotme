@@ -31,7 +31,7 @@ class Body extends Text {
 }
 
 class ButtonBodyText extends Text {
-  ButtonBodyText(String data, {Color color, double fontSize})
+  ButtonBodyText(String data, {Color? color, double? fontSize})
       : super(
           data,
           style: TextStyle(

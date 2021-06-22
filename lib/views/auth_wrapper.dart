@@ -7,8 +7,9 @@ import 'package:provider/provider.dart';
 class AuthWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<Account>(context);
-    if (user == null) {
+    final account = Provider.of<Account>(context);
+    if (account.id == null) {
+      // a null accountID implies that no user is logged in
       return Authenticate();
     } else {
       return MainNavigationView();

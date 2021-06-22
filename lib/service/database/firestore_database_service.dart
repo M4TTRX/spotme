@@ -7,7 +7,7 @@ import 'package:home_workouts/model/exercise_model.dart';
 import 'package:home_workouts/model/account_model.dart';
 
 class FireStoreDatabaseService {
-  final String userId;
+  final String? userId;
   FireStoreDatabaseService({
     this.userId,
   });
@@ -24,13 +24,13 @@ class FireStoreDatabaseService {
     return await usersCollection.doc(user.id).set(user.toMap());
   }
 
-  Account _getUserFromSnapshot(QuerySnapshot snapshot) {
+  Account? _getUserFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs.map((DocumentSnapshot documentSnapshot) {
-      return Account.fromMap(documentSnapshot.data());
+      return Account.fromMap(documentSnapshot.data() as Map<String, dynamic>?);
     }).toList()[0];
   }
 
-  Stream<Account> get users {
+  Stream<Account?> get users {
     return usersCollection
         .where("id", isEqualTo: this.userId)
         .snapshots()
@@ -44,13 +44,13 @@ class FireStoreDatabaseService {
     return await exercisesCollection.doc(exercise.id).set(exercise.toMap());
   }
 
-  List<Exercise> _getExercisesFromSnapshot(QuerySnapshot snapshot) {
+  List<Exercise?> _getExercisesFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs.map((DocumentSnapshot documentSnapshot) {
-      return Exercise.fromMap(documentSnapshot.data());
+      return Exercise.fromMap(documentSnapshot.data() as Map<String, dynamic>?);
     }).toList();
   }
 
-  Stream<List<Exercise>> get exercises {
+  Stream<List<Exercise?>> get exercises {
     return exercisesCollection
         .where("userID", isEqualTo: this.userId)
         .orderBy("createDate", descending: true)
@@ -62,7 +62,7 @@ class FireStoreDatabaseService {
       FirebaseFirestore.instance.collection(_CHALLENGES_COLLECTION);
 
   FireStoreDatabaseService copyWith({
-    String userId,
+    String? userId,
   }) {
     return FireStoreDatabaseService(
       userId: userId ?? this.userId,
@@ -75,7 +75,7 @@ class FireStoreDatabaseService {
     };
   }
 
-  static FireStoreDatabaseService fromMap(Map<String, dynamic> map) {
+  static FireStoreDatabaseService? fromMap(Map<String, dynamic>? map) {
     if (map == null) return null;
 
     return FireStoreDatabaseService(
@@ -85,7 +85,7 @@ class FireStoreDatabaseService {
 
   String toJson() => json.encode(toMap());
 
-  static FireStoreDatabaseService fromJson(String source) =>
+  static FireStoreDatabaseService? fromJson(String source) =>
       fromMap(json.decode(source));
 
   @override

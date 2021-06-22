@@ -12,26 +12,26 @@ import 'package:uuid/uuid.dart';
 import 'add_sets_list_view.dart';
 
 class AddExerciseView extends StatefulWidget {
-  final Exercise exercise;
-  AddExerciseView({this.exercise});
+  final Exercise? exercise;
+  final AppService service;
+  AddExerciseView({required this.service, this.exercise});
 
   @override
-  _AddExerciseViewState createState() => _AddExerciseViewState(exercise);
+  _AddExerciseViewState createState() =>
+      _AddExerciseViewState(service, exercise);
 }
 
 class _AddExerciseViewState extends State<AddExerciseView> {
-  _AddExerciseViewState(this.exercise);
+  _AddExerciseViewState(this.service, this.exercise);
+  final AppService service;
 
   // Can be use to implement default vallues in text fields
-  Exercise exercise;
+  Exercise? exercise;
 
   // Form Key used to validate the form input
   final _formKey = GlobalKey<FormState>();
 
-  // service will help us update the exercise in the cloud
-  final AppService _service = AppService();
-
-  int selectedIndex;
+  int? selectedIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -50,8 +50,8 @@ class _AddExerciseViewState extends State<AddExerciseView> {
           autofocus: false,
           label: Heading1("Submit"),
           onPressed: () async {
-            if (_formKey.currentState.validate()) {
-              await _service.putExercise(exercise);
+            if (_formKey.currentState!.validate()) {
+              await service.putExercise(exercise!);
               Navigator.pop(context);
             } else {
               HapticFeedback.heavyImpact();
@@ -84,8 +84,8 @@ class _AddExerciseViewState extends State<AddExerciseView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 TextFormField(
-                  initialValue: exercise.type ?? "",
-                  validator: (val) => val.isEmpty ? "Invalid name" : null,
+                  initialValue: exercise!.type ?? "",
+                  validator: (val) => val!.isEmpty ? "Invalid name" : null,
                   style: TextStyle(
                     fontSize: 28,
                     fontFamily: "Red Hat Text",
@@ -95,13 +95,13 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                     border: InputBorder.none,
                   ),
                   onChanged: (val) {
-                    setState(() => exercise.type = val);
+                    setState(() => exercise!.type = val);
                   },
                 ),
                 SizedBox(
                   height: 32,
                 ),
-                _displaySets(exercise),
+                _displaySets(exercise!),
                 SizedBox(
                   height: 32,
                 ),
@@ -127,9 +127,9 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                             child: Row(
                               children: <Widget>[
                                 Text(
-                                  exercise.createDate == null
+                                  exercise!.createDate == null
                                       ? "Today"
-                                      : toPrettyString(exercise.createDate),
+                                      : toPrettyString(exercise!.createDate!),
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontFamily: "Red Hat Text",
@@ -144,7 +144,7 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                                       firstDate: DateTime(0),
                                       lastDate: DateTime.now())
                                   .then((date) {
-                                exercise.createDate = date;
+                                exercise!.createDate = date;
                                 setState(() {});
                               });
                               setState(() {});
@@ -161,7 +161,7 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                     ),
                     Flexible(
                       child: TextFormField(
-                        initialValue: exercise.unit ?? "",
+                        initialValue: exercise!.unit ?? "",
                         style: TextStyle(
                           fontSize: 18,
                         ),
@@ -170,7 +170,7 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                           border: InputBorder.none,
                         ),
                         onChanged: (val) {
-                          setState(() => exercise.unit = val);
+                          setState(() => exercise!.unit = val);
                         },
                       ),
                     ),
@@ -195,7 +195,7 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                       child: TextFormField(
                         keyboardType: TextInputType.multiline,
                         maxLines: 10,
-                        initialValue: exercise.unit ?? "",
+                        initialValue: exercise!.unit ?? "",
                         style: TextStyle(
                           fontSize: 18,
                         ),
@@ -205,7 +205,7 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                           enabledBorder: InputBorder.none,
                         ),
                         onChanged: (val) {
-                          setState(() => exercise.notes = val);
+                          setState(() => exercise!.notes = val);
                         },
                       ),
                     ),

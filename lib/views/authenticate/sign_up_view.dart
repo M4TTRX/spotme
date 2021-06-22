@@ -7,12 +7,16 @@ import 'package:home_workouts/views/shared/padding.dart';
 import 'package:home_workouts/views/shared/scroll_behavior.dart';
 
 class SignUpView extends StatefulWidget {
+  AppService service;
+  SignUpView({required this.service});
+
   @override
-  _SignUpViewState createState() => _SignUpViewState();
+  _SignUpViewState createState() => _SignUpViewState(service);
 }
 
 class _SignUpViewState extends State<SignUpView> {
-  final AppService _service = AppService();
+  _SignUpViewState(this.service);
+  AppService service;
 
   // Form Keys
   final _formKey = GlobalKey<FormState>();
@@ -72,7 +76,7 @@ class _SignUpViewState extends State<SignUpView> {
                         setState(() => username = val);
                       },
                       validator: (val) =>
-                          val.isEmpty ? "Username required" : null,
+                          val!.isEmpty ? "Username required" : null,
                     ),
                     SizedBox(
                       height: 24,
@@ -90,7 +94,7 @@ class _SignUpViewState extends State<SignUpView> {
                       onChanged: (val) {
                         setState(() => email = val);
                       },
-                      validator: (val) => val.isEmpty &&
+                      validator: (val) => val!.isEmpty &&
                               RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                                   .hasMatch(email)
                           ? "Invalid email"
@@ -106,7 +110,7 @@ class _SignUpViewState extends State<SignUpView> {
                     TextFormField(
                       obscureText: true,
                       validator: (val) {
-                        if (val.length < 8) {
+                        if (val!.length < 8) {
                           return "Password mus be at least 8 characters long";
                         }
                         if (password != passwordValidate) {
@@ -154,8 +158,8 @@ class _SignUpViewState extends State<SignUpView> {
                       height: 24,
                     ),
                     PrimaryButton("Sign Up", () async {
-                      if (_formKey.currentState.validate()) {
-                        dynamic result = await _service.registerUser(
+                      if (_formKey.currentState!.validate()) {
+                        dynamic result = await service.registerUser(
                             username, email, password);
                         setState(() {});
                         if (result == null) {

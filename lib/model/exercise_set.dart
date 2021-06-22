@@ -2,17 +2,17 @@ import 'dart:convert';
 
 class ExerciseSet {
   // Amount describes the amount performed during the set
-  double amount;
+  double? amount;
   // Repetitions describes how many times the amont was done during the set
-  int repetitions;
+  int? repetitions;
   ExerciseSet({
     this.amount,
     this.repetitions,
   });
 
   ExerciseSet copyWith({
-    double amount,
-    int repetitions,
+    double? amount,
+    int? repetitions,
   }) {
     return ExerciseSet(
       amount: amount ?? this.amount,
@@ -27,7 +27,7 @@ class ExerciseSet {
     };
   }
 
-  static ExerciseSet fromMap(Map<String, dynamic> map) {
+  static ExerciseSet? fromMap(Map<String, dynamic>? map) {
     if (map == null) return null;
 
     return ExerciseSet(
@@ -38,7 +38,7 @@ class ExerciseSet {
 
   String toJson() => json.encode(toMap());
 
-  static ExerciseSet fromJson(String source) => fromMap(json.decode(source));
+  static ExerciseSet? fromJson(String source) => fromMap(json.decode(source));
 
   @override
   String toString() =>

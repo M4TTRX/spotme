@@ -6,19 +6,19 @@ import '../exercise_set.dart';
 
 class DatabaseExercise {
   // the unique id to identify that exercise
-  String id;
+  String? id;
   // type describes the type of the exercise
-  String type;
+  String? type;
   // sets contains what the user did in that exercise
-  List<ExerciseSet> sets;
+  List<ExerciseSet>? sets;
   // unit defines what was done, the amount is meaningless if there is no unit
-  String unit;
+  String? unit;
   // create date is a timestamp at which the exercise was done
-  DateTime createDate;
+  DateTime? createDate;
   // userID is the ID of the user who performed the exercise
-  String userID;
+  String? userID;
   // notes represents the optional notes a user may put on their exercise
-  String notes;
+  String? notes;
 
   // Generated methods
   // ==============================================================================
@@ -33,13 +33,13 @@ class DatabaseExercise {
   });
 
   DatabaseExercise copyWith({
-    String id,
-    String type,
-    List<ExerciseSet> sets,
-    String unit,
-    DateTime createDate,
-    String userID,
-    String notes,
+    String? id,
+    String? type,
+    List<ExerciseSet>? sets,
+    String? unit,
+    DateTime? createDate,
+    String? userID,
+    String? notes,
   }) {
     return DatabaseExercise(
       id: id ?? this.id,
@@ -56,7 +56,7 @@ class DatabaseExercise {
     return {
       'id': id,
       'type': type,
-      'sets': sets?.map((x) => x?.toMap())?.toList(),
+      'sets': sets?.map((x) => x.toMap()).toList(),
       'unit': unit,
       'createDate': createDate?.millisecondsSinceEpoch,
       'userID': userID,
@@ -64,7 +64,7 @@ class DatabaseExercise {
     };
   }
 
-  static DatabaseExercise fromMap(Map<String, dynamic> map) {
+  static DatabaseExercise? fromMap(Map<String, dynamic>? map) {
     if (map == null) return null;
 
     return DatabaseExercise(
@@ -81,7 +81,7 @@ class DatabaseExercise {
 
   String toJson() => json.encode(toMap());
 
-  static DatabaseExercise fromJson(String source) =>
+  static DatabaseExercise? fromJson(String source) =>
       fromMap(json.decode(source));
 
   @override
