@@ -26,15 +26,20 @@ class _MainNavigationViewState extends State<MainNavigationView> {
         builder: (context, Account account, Widget? widget) {
       this.service = AppService(account: account);
       return Scaffold(
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.indigo,
+        floatingActionButton: FloatingActionButton.extended(
           onPressed: () async {
             HapticFeedback.mediumImpact();
             await _addExercise(context);
             setState(() {});
           },
-          child: Icon(
+          elevation: 2,
+          focusElevation: 3,
+          highlightElevation: 4,
+          label: Text(
+            "Add Exercise",
+            style: Theme.of(context).textTheme.headline2,
+          ),
+          icon: Icon(
             Icons.add,
             size: 32,
           ),
@@ -91,7 +96,10 @@ class _MainNavigationViewState extends State<MainNavigationView> {
         break;
       case SelectedScreen.ACTIVITY:
         {
-          return TitleText("Activity");
+          return Text(
+            "Activity",
+            style: Theme.of(context).textTheme.headline6,
+          );
         }
         break;
       case SelectedScreen.ACCOUNT:

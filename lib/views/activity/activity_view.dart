@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:home_workouts/helpers/date_time_helper.dart';
-import 'package:home_workouts/model/account_model.dart';
-import 'package:home_workouts/model/exercise_set.dart';
 
 import 'package:home_workouts/service/service.dart';
 import 'package:home_workouts/views/exercise/exercise_view.dart';
-import 'package:home_workouts/views/shared/loading_view.dart';
 
 import 'package:home_workouts/views/shared/scroll_behavior.dart';
-import 'package:home_workouts/views/shared/text/headings.dart';
-import 'package:home_workouts/views/shared/text/simple_text.dart';
 
 import 'package:home_workouts/model/exercise_model.dart';
 import 'package:home_workouts/views/shared/padding.dart';
@@ -47,10 +43,6 @@ class _ActivityViewState extends State<ActivityView> {
             width: MediaQuery.of(context).size.width * 1,
             child: Text(
               "You have no activity! \n WTF bro! STOP SLACKING! START GRINDING!",
-              style: TextStyle(
-                fontSize: 28,
-                fontFamily: "Red Hat Text",
-              ),
               textAlign: TextAlign.center,
             ),
           ),
@@ -64,23 +56,19 @@ class _ActivityViewState extends State<ActivityView> {
       if (!isSameDay(currDay!, exercise.createDate!)) {
         activityViewBody.add(
           Padding(
-            padding: const EdgeInsets.only(bottom: 1.0),
-            child: Heading1(
+            padding: const EdgeInsets.only(top: 8, bottom: 8),
+            child: Text(
               toPrettyString(exercise.createDate!),
-              color: Colors.indigo,
+              style: Theme.of(context).textTheme.headline1,
             ),
           ),
         );
-        activityViewBody.add(Divider(
-          thickness: 2,
-          height: 16,
-        ));
         currDay = exercise.createDate;
       }
       activityViewBody.add(Container(
-        padding: const EdgeInsets.only(bottom: 8.0),
         child: InkWell(
           onTap: () {
+            HapticFeedback.mediumImpact();
             Navigator.of(this.context)
                 .push(MaterialPageRoute(builder: (context) {
               return ExerciseView(
@@ -89,22 +77,26 @@ class _ActivityViewState extends State<ActivityView> {
               );
             }));
           },
-          child: Row(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Body(
-                exercise.type!.toUpperCase(),
+              Divider(
+                thickness: 0.75,
+                height: 1,
               ),
-              WhiteSpace(),
-              Card(
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(16)),
+              Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Text(
+                  exercise.type!,
+                  style: Theme.of(context).textTheme.headline3,
                 ),
-                color: Colors.grey[200],
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: SimpleText(exercise.getDisplayAmount()),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: Text(
+                  exercise.getDisplayAmount(),
+                  style: Theme.of(context).textTheme.bodyText2,
                 ),
               ),
             ],
