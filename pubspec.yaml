@@ -14,7 +14,7 @@ description: A new Flutter project.
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -33,6 +33,8 @@ dependencies:
   # used to generate unique ids
   uuid: ^3.0.4
   intl: ^0.17.0
+  # used to acquire fonts
+  google_fonts: ^2.1.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
