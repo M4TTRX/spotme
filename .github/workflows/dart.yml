@@ -1,0 +1,33 @@
+name: Test, Build and Release apk
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    name: Build APK
+    runs-on: ubuntu-latest
+    steps:
+    - name: Clone Repo
+      uses: actions/checkout@v1
+    - name: Decode google-services.json
+      env:
+        FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
+      run: echo $FIREBASE_CONFIG > ${{ github.repository }}/android/app/google-services.json
+    - uses: actions/checkout@v1
+    - uses: actions/setup-java@v1
+      with:
+        java-version: '12.x'
+    - uses: subosito/flutter-action@v1
+      with:
+        channel: 'stable'
+    - run: flutter pub get
+    - run: flutter build apk --debug --split-per-abi
+    - name: Create a Release APK
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: "build/app/outputs/apk/debug/*.apk"
+        token: ${{ secrets.TOKEN }}
