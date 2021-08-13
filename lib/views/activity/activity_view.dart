@@ -9,7 +9,6 @@ import 'package:home_workouts/views/shared/scroll_behavior.dart';
 
 import 'package:home_workouts/model/exercise_model.dart';
 import 'package:home_workouts/views/shared/padding.dart';
-import 'package:home_workouts/views/shared/whitespace.dart';
 
 class ActivityView extends StatefulWidget {
   final AppService service;

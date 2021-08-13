@@ -7,6 +7,7 @@ import 'package:home_workouts/service/service.dart';
 import 'package:home_workouts/views/shared/padding.dart';
 import 'package:home_workouts/views/shared/scroll_behavior.dart';
 import 'package:home_workouts/views/shared/text/headings.dart';
+import 'package:home_workouts/views/shared/whitespace.dart';
 import 'package:uuid/uuid.dart';
 
 import 'add_sets_list_view.dart';
@@ -45,10 +46,12 @@ class _AddExerciseViewState extends State<AddExerciseView> {
       ),
       backgroundColor: Colors.white,
       floatingActionButton: Container(
-        height: 56,
         child: FloatingActionButton.extended(
           autofocus: false,
-          label: Heading1("Submit"),
+          label: Text(
+            "Submit",
+            style: Theme.of(context).textTheme.headline2,
+          ),
           onPressed: () async {
             if (_formKey.currentState!.validate()) {
               await service.putExercise(exercise!);
@@ -60,10 +63,7 @@ class _AddExerciseViewState extends State<AddExerciseView> {
           icon: Icon(
             Icons.add,
             size: 32,
-            color: Colors.indigo,
           ),
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.black,
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
@@ -83,23 +83,41 @@ class _AddExerciseViewState extends State<AddExerciseView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+                Text(
+                  "Add Exercise",
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+                Text(
+                  "Exercise Name",
+                  style: Theme.of(context).textTheme.headline1,
+                ),
                 TextFormField(
                   initialValue: exercise!.type ?? "",
                   validator: (val) => val!.isEmpty ? "Invalid name" : null,
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontFamily: "Red Hat Text",
-                  ),
-                  decoration: InputDecoration(
-                    hintText: "Exercise name",
-                    border: InputBorder.none,
-                  ),
+                  style: Theme.of(context).textTheme.headline4,
                   onChanged: (val) {
                     setState(() => exercise!.type = val);
                   },
                 ),
                 SizedBox(
                   height: 32,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Repetitions",
+                      style: Theme.of(context).textTheme.headline1,
+                    ),
+                    Container(
+                      width: 32,
+                    ),
+                    Text(
+                      "Weight",
+                      style: Theme.of(context).textTheme.headline1,
+                    ),
+                  ],
                 ),
                 _displaySets(exercise!),
                 SizedBox(
@@ -112,7 +130,6 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                       child: Icon(
                         Icons.event_available,
                         size: 29,
-                        color: Colors.indigo,
                       ),
                     ),
                     Padding(
@@ -156,7 +173,6 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                       child: Icon(
                         Icons.straighten,
                         size: 29,
-                        color: Colors.indigo,
                       ),
                     ),
                     Flexible(
@@ -188,7 +204,6 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                       child: Icon(
                         Icons.subject,
                         size: 29,
-                        color: Colors.indigo,
                       ),
                     ),
                     Flexible(
@@ -229,7 +244,6 @@ class _AddExerciseViewState extends State<AddExerciseView> {
           child: Icon(
             Icons.subdirectory_arrow_right,
             size: 29,
-            color: Colors.indigo,
           ),
         ),
         AddSetsView(sets: exercise.sets),

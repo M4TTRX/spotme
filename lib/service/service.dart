@@ -73,9 +73,9 @@ class AppService {
         FireStoreDatabaseService(userId: userID);
     DatabaseExercise databaseExercise = DatabaseExercise(
       id: Uuid().v4(),
-      type: exercise.type!.toUpperCase() ?? "UNKNOWN",
+      type: exercise.type?.toUpperCase() ?? "UNKNOWN",
       sets: exercise.sets ?? [],
-      unit: exercise.unit!.toUpperCase() ?? "",
+      unit: exercise.unit?.toUpperCase() ?? "",
       createDate: exercise.createDate ?? DateTime.now(),
       userID: userID,
       notes: exercise.notes ?? "",

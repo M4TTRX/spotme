@@ -36,11 +36,7 @@ class _AddSetsViewState extends State<AddSetsView> {
                         ? ""
                         : sets[i].repetitions.toString(),
                     validator: (val) => val!.isEmpty ? "Invalid value" : null,
-                    style: TextStyle(fontSize: 18),
-                    decoration: InputDecoration(
-                      hintText: "Repetitions",
-                      border: InputBorder.none,
-                    ),
+                    style: Theme.of(context).textTheme.headline4,
                     onChanged: (val) {
                       sets[i].repetitions = int.parse(val);
                     },
@@ -62,13 +58,7 @@ class _AddSetsViewState extends State<AddSetsView> {
                         ? ""
                         : sets[i].amount!.toStringAsFixed(1),
                     validator: (val) => val!.isEmpty ? "Invalid value" : null,
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                    decoration: InputDecoration(
-                      hintText: "Amount",
-                      hintStyle: TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.normal),
-                      border: InputBorder.none,
-                    ),
+                    style: Theme.of(context).textTheme.headline4,
                     onChanged: (val) {
                       sets[i].amount = double.parse(val);
                     },

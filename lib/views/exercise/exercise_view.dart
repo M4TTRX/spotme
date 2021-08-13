@@ -59,7 +59,7 @@ class _ExerciseViewState extends State<ExerciseView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  exercise!.type!.toUpperCase() ?? "",
+                  exercise!.type?.toUpperCase() ?? "",
                   style: TextStyle(
                     fontSize: 28,
                     fontFamily: "Red Hat Text",
@@ -143,7 +143,7 @@ class _ExerciseViewState extends State<ExerciseView> {
               ),
               Flexible(
                 child: Text(
-                  exercise.unit!.toUpperCase() ?? "",
+                  exercise.unit?.toUpperCase() ?? "",
                   style: TextStyle(
                     fontSize: 18,
                   ),
