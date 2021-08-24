@@ -9,15 +9,17 @@ const int _primaryColorTextVal = 0xFF1F816F;
 const int _darkColourVal = 0xFF2A373C;
 const int _darkGreyVal = 0xFF444444;
 const int _highlightColorVal = 0x33FFFFFF;
+const int _lightGrayBackground = 0xFFE3E3E3;
 
 // Colors
 const Color _primaryColor = Color(_primaryColorTextVal);
+const _lightGrayBackgroundColor = Color(_lightGrayBackground);
 // Text colors
 const _textColor = Color(_darkColourVal);
 const _lighterText = Color(_darkGreyVal);
 const _primaryColoredText = Color(_darkColourVal);
 
-final THEME = ThemeData(
+final ThemeData THEME = ThemeData(
   // Light vs dark mode
   brightness: Brightness.light,
 
@@ -34,6 +36,7 @@ final THEME = ThemeData(
         fontWeight: FontWeight.w500,
         color: _textColor,
       )),
+
   // Define Text theme
   textTheme: TextTheme(
     headline6: GoogleFonts.poppins(
@@ -99,4 +102,9 @@ final THEME = ThemeData(
       color: _textColor,
     )),
   ),
+  textButtonTheme: TextButtonThemeData(
+      style: ButtonStyle(
+          backgroundColor:
+              MaterialStateProperty.all<Color>(_lightGrayBackgroundColor))),
+  // Define Button Themes
 );

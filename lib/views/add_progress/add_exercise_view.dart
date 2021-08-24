@@ -111,7 +111,7 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                       style: Theme.of(context).textTheme.headline1,
                     ),
                     Container(
-                      width: 32,
+                      width: 48,
                     ),
                     Text(
                       "Weight",
@@ -139,8 +139,6 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                           width: 96,
                           child: MaterialButton(
                             padding: EdgeInsets.all(4),
-                            materialTapTargetSize:
-                                MaterialTapTargetSize.shrinkWrap,
                             child: Row(
                               children: <Widget>[
                                 Text(
@@ -235,19 +233,6 @@ class _AddExerciseViewState extends State<AddExerciseView> {
   }
 
   Widget _displaySets(Exercise exercise) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(right: 14, top: 4),
-          child: Icon(
-            Icons.subdirectory_arrow_right,
-            size: 29,
-          ),
-        ),
-        AddSetsView(sets: exercise.sets),
-      ],
-    );
+    return AddSetsView(sets: exercise.sets);
   }
 }

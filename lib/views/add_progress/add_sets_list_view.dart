@@ -27,9 +27,11 @@ class _AddSetsViewState extends State<AddSetsView> {
         (i) => Row(
               key: Key(Uuid().v4()),
               mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
-                  width: 96,
+                  width: 130,
                   child: TextFormField(
                     keyboardType: TextInputType.number,
                     initialValue: sets[i].repetitions == null
@@ -43,12 +45,8 @@ class _AddSetsViewState extends State<AddSetsView> {
                   ),
                 ),
 
-                Padding(
-                  padding: const EdgeInsets.only(right: 24),
-                  child: Icon(
-                    Icons.clear,
-                    size: 28,
-                  ),
+                Container(
+                  width: 48,
                 ),
                 Container(
                   width: 96,
@@ -81,36 +79,34 @@ class _AddSetsViewState extends State<AddSetsView> {
             ));
 
     columnChildren.add(Container(
-      width: 96,
-      child: MaterialButton(
-        padding: EdgeInsets.only(
-          top: 4,
-          bottom: 4,
-        ),
-        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 24),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              "Add set",
-              style: TextStyle(
-                fontSize: 18,
-                fontFamily: "Red Hat Text",
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            TextButton.icon(
+              icon: Icon(Icons.add),
+              label: Text(
+                "Add set",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontFamily: "Red Hat Text",
+                ),
               ),
+              onPressed: () {
+                setState(() {
+                  var tmpExercise = sets.length > 0
+                      ? ExerciseSet(
+                          amount: sets.last.amount,
+                          repetitions: sets.last.repetitions)
+                      : ExerciseSet();
+                  sets.add(tmpExercise);
+                });
+              },
             ),
           ],
         ),
-        onPressed: () {
-          setState(() {
-            var tmpExercise = sets.length > 0
-                ? ExerciseSet(
-                    amount: sets.last.amount,
-                    repetitions: sets.last.repetitions)
-                : ExerciseSet();
-            sets.add(tmpExercise);
-          });
-        },
       ),
     ));
     return Column(
