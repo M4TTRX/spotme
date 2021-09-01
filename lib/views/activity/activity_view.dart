@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:home_workouts/helpers/date_time_helper.dart';
+import 'package:home_workouts/helpers/string_helper.dart';
 
 import 'package:home_workouts/service/service.dart';
+import 'package:home_workouts/theme/theme_Data.dart';
 import 'package:home_workouts/views/exercise/exercise_view.dart';
 
 import 'package:home_workouts/views/shared/scroll_behavior.dart';
 
 import 'package:home_workouts/model/exercise_model.dart';
 import 'package:home_workouts/views/shared/padding.dart';
+import 'package:intl/intl.dart';
 
 class ActivityView extends StatefulWidget {
   final AppService service;
@@ -52,18 +55,30 @@ class _ActivityViewState extends State<ActivityView> {
     List<Widget> activityViewBody = [];
     DateTime? currDay = DateTime(0, 0, 0, 0);
     for (var exercise in data) {
+      // Creating the Day section of the list
       if (!isSameDay(currDay!, exercise.createDate!)) {
         activityViewBody.add(
-          Padding(
-            padding: const EdgeInsets.only(top: 8, bottom: 8),
-            child: Text(
-              toPrettyString(exercise.createDate!),
-              style: Theme.of(context).textTheme.headline1,
-            ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: 24,
+              ),
+              Text(
+                toPrettyString(exercise.createDate!),
+                style: Theme.of(context).textTheme.headline1,
+              ),
+              Divider(
+                thickness: 2,
+                height: 1,
+                color: primaryColor,
+              ),
+            ],
           ),
         );
         currDay = exercise.createDate;
       }
+      // List an Exercise
       activityViewBody.add(Container(
         child: InkWell(
           onTap: () {
@@ -80,23 +95,20 @@ class _ActivityViewState extends State<ActivityView> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Divider(
-                thickness: 0.75,
-                height: 1,
+              Container(
+                height: 16,
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: Text(
-                  exercise.type!,
-                  style: Theme.of(context).textTheme.headline3,
-                ),
+              Text(
+                DateFormat('HH:mm').format(exercise.createDate!).toString(),
+                style: Theme.of(context).textTheme.subtitle1,
               ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
-                child: Text(
-                  exercise.getDisplayAmount(),
-                  style: Theme.of(context).textTheme.bodyText2,
-                ),
+              Text(
+                toCapitalized(exercise.type),
+                style: Theme.of(context).textTheme.headline2,
+              ),
+              Text(
+                exercise.getDisplayAmount(),
+                style: Theme.of(context).textTheme.bodyText2,
               ),
             ],
           ),
@@ -109,12 +121,34 @@ class _ActivityViewState extends State<ActivityView> {
     ));
 
     // Return in Listview
-    return ScrollConfiguration(
-      behavior: BasicScrollBehaviour(),
-      child: ListView(
-        padding: containerPadding,
-        children: activityViewBody,
-      ),
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          collapsedHeight: 128,
+          expandedHeight: 156,
+          floating: false,
+          pinned: false,
+          backgroundColor: Colors.white,
+          flexibleSpace: FlexibleSpaceBar(
+            centerTitle: false,
+            titlePadding: EdgeInsets.only(top: 48, bottom: 16, left: 24),
+            title: Text(
+              "Activity",
+              style: Theme.of(context).textTheme.headline6,
+            ),
+          ),
+        ),
+        SliverList(
+          delegate: SliverChildListDelegate([
+            Padding(
+              padding: containerPadding,
+              child: Column(
+                children: activityViewBody,
+              ),
+            )
+          ]),
+        ),
+      ],
     );
   }
 }

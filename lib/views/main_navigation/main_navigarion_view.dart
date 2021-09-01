@@ -44,11 +44,6 @@ class _MainNavigationViewState extends State<MainNavigationView> {
             size: 32,
           ),
         ),
-        appBar: AppBar(
-          title: _getTitle(),
-          backgroundColor: Colors.white,
-          elevation: 0.0,
-        ),
         backgroundColor: Colors.white,
         body: _returnSelectedView(),
       );

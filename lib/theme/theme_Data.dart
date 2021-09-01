@@ -4,16 +4,19 @@ import 'package:google_fonts/google_fonts.dart';
 // Color values
 // Primary Color
 const int _primaryColorVal = 0xFF35D7B9;
-// Rest
-const int _primaryColorTextVal = 0xFF1F816F;
 const int _darkColourVal = 0xFF2A373C;
+const int _lightGrayBackground = 0xFFECECEC;
+const int _veryLightGrayBackground = 0xFFF3F3F3;
+// Rest
 const int _darkGreyVal = 0xFF444444;
 const int _highlightColorVal = 0x33FFFFFF;
-const int _lightGrayBackground = 0xFFE3E3E3;
 
 // Colors
-const Color _primaryColor = Color(_primaryColorTextVal);
+const Color primaryColor = Color(_primaryColorVal);
 const _lightGrayBackgroundColor = Color(_lightGrayBackground);
+const _veryLightGrayBackgroundColor = Color(_veryLightGrayBackground);
+const darkColour = Color(_darkColourVal);
+
 // Text colors
 const _textColor = Color(_darkColourVal);
 const _lighterText = Color(_darkGreyVal);
@@ -24,49 +27,33 @@ final ThemeData THEME = ThemeData(
   brightness: Brightness.light,
 
   // Define Colours
-  primaryColor: _primaryColor,
+  primaryColor: primaryColor,
   accentColor: Color(_primaryColorVal),
-  splashColor: Color(_highlightColorVal),
-  highlightColor: Color(_highlightColorVal),
+  splashColor: Color(_veryLightGrayBackground),
+  highlightColor: Color(_veryLightGrayBackground),
 
-  inputDecorationTheme: InputDecorationTheme(
-      focusColor: _primaryColor,
-      hintStyle: TextStyle(
-        fontSize: 18,
-        fontWeight: FontWeight.w500,
-        color: _textColor,
-      )),
-
-  // Define Text theme
+  // headline6 Title theme
   textTheme: TextTheme(
     headline6: GoogleFonts.poppins(
         textStyle: TextStyle(
       fontSize: 48,
-      fontWeight: FontWeight.w600,
+      fontWeight: FontWeight.w700,
       color: _textColor,
     )),
 
     // headline1 (Menu Header) is used to represent large headlines like a date
     headline1: GoogleFonts.poppins(
         textStyle: TextStyle(
-      fontSize: 24,
-      fontWeight: FontWeight.w500,
-      color: _primaryColoredText,
-    )),
-
-    // headline2 is used for the Floating Action Button
-    headline2: GoogleFonts.poppins(
-        textStyle: TextStyle(
-      fontSize: 22,
+      fontSize: 26,
       fontWeight: FontWeight.w600,
-      color: _textColor,
+      color: _primaryColoredText,
     )),
 
     // headline3 (Exercise Menu) is used to exercises usually
     //to display title of exercises
-    headline3: GoogleFonts.poppins(
+    headline2: GoogleFonts.poppins(
         textStyle: TextStyle(
-      fontSize: 18,
+      fontSize: 20,
       fontWeight: FontWeight.w600,
       color: _textColor,
     )),
@@ -82,6 +69,14 @@ final ThemeData THEME = ThemeData(
     // bodyText2 used for smaller info
     bodyText2: GoogleFonts.openSans(
         textStyle: TextStyle(
+      fontSize: 14,
+      fontWeight: FontWeight.w400,
+      color: _textColor,
+    )),
+
+    // subtitle1 used for the smallest info
+    subtitle1: GoogleFonts.openSans(
+        textStyle: TextStyle(
       fontSize: 12,
       fontWeight: FontWeight.w400,
       color: _lighterText,
@@ -90,20 +85,41 @@ final ThemeData THEME = ThemeData(
     // This style is used for most buttons
     button: GoogleFonts.poppins(
         textStyle: TextStyle(
-      fontSize: 18,
+      fontSize: 20,
       fontWeight: FontWeight.w500,
       color: _textColor,
     )),
+  ),
 
-    subtitle1: GoogleFonts.openSans(
-        textStyle: TextStyle(
-      fontSize: 24,
+  inputDecorationTheme: InputDecorationTheme(
+    labelStyle: GoogleFonts.openSans(
+      fontSize: 26,
       fontWeight: FontWeight.w400,
       color: _textColor,
-    )),
+    ),
+    contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+    filled: true,
+    fillColor: _veryLightGrayBackgroundColor,
+    focusColor: primaryColor,
+    enabledBorder: OutlineInputBorder(
+        gapPadding: 0,
+        borderRadius: BorderRadius.circular(8),
+        borderSide: BorderSide(style: BorderStyle.none)),
+    border: OutlineInputBorder(
+        gapPadding: 0,
+        borderRadius: BorderRadius.circular(8),
+        borderSide: BorderSide(style: BorderStyle.none)),
+    focusedBorder: OutlineInputBorder(
+        gapPadding: 0,
+        borderRadius: BorderRadius.circular(8),
+        borderSide: BorderSide(width: 2.0, color: primaryColor)),
   ),
+
   textButtonTheme: TextButtonThemeData(
       style: ButtonStyle(
+          padding: MaterialStateProperty.all<EdgeInsets>(
+              EdgeInsets.symmetric(vertical: 4, horizontal: 16)),
+          foregroundColor: MaterialStateProperty.all<Color>(darkColour),
           backgroundColor:
               MaterialStateProperty.all<Color>(_lightGrayBackgroundColor))),
   // Define Button Themes
