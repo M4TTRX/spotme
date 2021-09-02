@@ -7,6 +7,12 @@ const int _primaryColorVal = 0xFF35D7B9;
 const int _darkColourVal = 0xFF2A373C;
 const int _lightGrayBackground = 0xFFECECEC;
 const int _veryLightGrayBackground = 0xFFF3F3F3;
+
+// Colour Palette Valuers
+const int _redColorVal = 0xFFFD584E;
+const int _redLightColorVal = 0xFFFFC1BD;
+const int _redDarkColorVal = 0xFF7B120B;
+
 // Rest
 const int _darkGreyVal = 0xFF444444;
 const int _highlightColorVal = 0x33FFFFFF;
@@ -16,6 +22,11 @@ const Color primaryColor = Color(_primaryColorVal);
 const _lightGrayBackgroundColor = Color(_lightGrayBackground);
 const _veryLightGrayBackgroundColor = Color(_veryLightGrayBackground);
 const darkColour = Color(_darkColourVal);
+
+// Color Palette
+const redColor = Color(_redColorVal);
+const redLightColor = Color(_redLightColorVal);
+const redDarkColor = Color(_redDarkColorVal);
 
 // Text colors
 const _textColor = Color(_darkColourVal);

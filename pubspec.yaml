@@ -38,6 +38,7 @@ dependencies:
 
   # used for re-orderable list
   reorderables: ^0.4.1
+  implicitly_animated_reorderable_list: ^0.4.1
 
 dev_dependencies:
   flutter_test:

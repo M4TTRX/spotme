@@ -64,7 +64,7 @@ class _ActivityViewState extends State<ActivityView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                height: WHITESPACE_MEDIUM,
+                height: MEDIUM,
               ),
               Text(
                 toPrettyString(exercise.createDate!),
@@ -98,7 +98,7 @@ class _ActivityViewState extends State<ActivityView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
-                height: WHITESPACE_SMALL,
+                height: SMALL,
               ),
               Text(
                 getTimeString(exercise.createDate),
@@ -125,30 +125,6 @@ class _ActivityViewState extends State<ActivityView> {
     // Return in Listview
     return CustomScrollView(
       slivers: [
-        // CupertinoSliverNavigationBar(
-        //   stretch: true,
-        //   backgroundColor: Colors.white,
-        //   border: null,
-        //   largeTitle: Text(
-        //     "Activity",
-        //     style: Theme.of(context).textTheme.headline6,
-        //   ),
-        // ),
-        // SliverAppBar(
-        //   collapsedHeight: 128,
-        //   expandedHeight: 156,
-        //   floating: false,
-        //   pinned: false,
-        //   flexibleSpace: FlexibleSpaceBar(
-        //     centerTitle: false,
-        //     stretchModes: [StretchMode.fadeTitle],
-        //     // titlePadding: EdgeInsets.only(top: 48, bottom: 16, left: 24),
-        //     title: Text(
-        //       "Activity",
-        //       style: Theme.of(context).textTheme.headline6,
-        //     ),
-        //   ),
-        // ),
         SliverList(
           delegate: SliverChildListDelegate([
             Padding(

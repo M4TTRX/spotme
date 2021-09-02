@@ -108,12 +108,15 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                     validator: (val) => val!.isEmpty ? "Invalid name" : null,
                     textCapitalization: TextCapitalization.sentences,
                     style: Theme.of(context).textTheme.bodyText2,
+                    decoration: InputDecoration(
+                      hintText: "Exercise Name",
+                    ),
                     onChanged: (val) {
                       setState(() => exercise!.type = val);
                     },
                   ),
                   SizedBox(
-                    height: WHITESPACE_LARGE,
+                    height: LARGE,
                   ),
                   Text(
                     "Repetitions & Weight",
@@ -123,6 +126,9 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                     thickness: DIVIDER_THICKNESS,
                     height: DIVIDER_THICKNESS,
                     color: primaryColor,
+                  ),
+                  Container(
+                    height: SMALL,
                   ),
                 ]),
           )
@@ -158,8 +164,7 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(
-                            right: WHITESPACE_LARGE + 28.0),
+                        padding: const EdgeInsets.only(right: LARGE + 28.0),
                         child: Container(
                             key: Key(Uuid().v4()),
                             width: 96,
@@ -217,39 +222,32 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                     ],
                   ),
                   Container(
-                    height: WHITESPACE_SMALL,
+                    height: SMALL,
                   ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(right: 14, top: 9),
-                        child: Icon(
-                          Icons.subject,
-                          size: 29,
-                        ),
-                      ),
-                      Flexible(
-                        child: TextFormField(
-                          keyboardType: TextInputType.multiline,
-                          maxLines: 10,
-                          initialValue: exercise!.unit ?? "",
-                          style: TextStyle(
-                            fontSize: 18,
-                          ),
-                          decoration: InputDecoration(
-                            hintText: "Notes",
-                            border: InputBorder.none,
-                            enabledBorder: InputBorder.none,
-                          ),
-                          onChanged: (val) {
-                            setState(() => exercise!.notes = val);
-                          },
-                        ),
-                      ),
-                    ],
+                  Text(
+                    "Notes",
+                    style: Theme.of(context).textTheme.headline2,
                   ),
+                  Container(
+                    height: 8,
+                  ),
+                  TextFormField(
+                    keyboardType: TextInputType.multiline,
+                    maxLines: 5,
+                    initialValue: exercise!.unit ?? "",
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
+                    decoration: InputDecoration(
+                      hintText: "Notes",
+                    ),
+                    onChanged: (val) {
+                      setState(() => exercise!.notes = val);
+                    },
+                  ),
+                  Container(
+                    height: LARGEST,
+                  )
                 ],
               ),
             ),
