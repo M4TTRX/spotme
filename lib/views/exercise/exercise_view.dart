@@ -1,13 +1,15 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:home_workouts/helpers/date_time_helper.dart';
+import 'package:home_workouts/helpers/string_helper.dart';
 import 'package:home_workouts/model/exercise_model.dart';
 import 'package:home_workouts/model/exercise_set.dart';
 import 'package:home_workouts/service/service.dart';
-import 'package:home_workouts/views/exercise/sets_list_view.dart';
+import 'package:home_workouts/theme/layout_values.dart';
+import 'package:home_workouts/theme/theme_Data.dart';
 import 'package:home_workouts/views/shared/padding.dart';
 import 'package:home_workouts/views/shared/scroll_behavior.dart';
-import 'package:home_workouts/views/shared/text/headings.dart';
 import 'package:uuid/uuid.dart';
 
 class ExerciseView extends StatefulWidget {
@@ -48,164 +50,106 @@ class _ExerciseViewState extends State<ExerciseView> {
 
   Widget _buildBody() {
     exercise = exercise ?? Exercise(type: "", unit: "", sets: [ExerciseSet()]);
-    return ScrollConfiguration(
-      behavior: BasicScrollBehaviour(),
-      child: ListView(
-        padding: containerPadding,
-        children: <Widget>[
-          Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  exercise!.type?.toUpperCase() ?? "",
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontFamily: "Red Hat Text",
-                  ),
-                ),
-                SizedBox(
-                  height: 32,
-                ),
-                _displaySets(exercise!),
-                SizedBox(
-                  height: 32,
-                ),
-                Row(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(right: 10, top: 4),
-                      child: Icon(
-                        Icons.event_available,
-                        size: 29,
-                        color: Colors.indigo,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 24.0 + 28.0),
-                      child: Container(
-                          key: Key(Uuid().v4()),
-                          width: 96,
-                          child: MaterialButton(
-                            padding: EdgeInsets.all(4),
-                            materialTapTargetSize:
-                                MaterialTapTargetSize.shrinkWrap,
-                            child: Row(
-                              children: <Widget>[
-                                Text(
-                                  toPrettyString(exercise!.createDate!),
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontFamily: "Red Hat Text",
-                                  ),
-                                ),
-                              ],
-                            ),
-                            onPressed: () {
-                              showDatePicker(
-                                      context: context,
-                                      initialDate: DateTime.now(),
-                                      firstDate: DateTime(0),
-                                      lastDate: DateTime.now())
-                                  .then((date) => exercise!.createDate);
-                            },
-                          )),
-                    ),
-                    _displayUnit(exercise!),
-                  ],
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-                _displayNotes(exercise!),
-              ],
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget _displayUnit(Exercise exercise) {
-    return (exercise.unit?.isEmpty ?? true)
-        ? Container()
-        : Row(
-            mainAxisSize: MainAxisSize.min,
+    return ListView(
+      padding: containerPadding,
+      children: <Widget>[
+        Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(right: 14, top: 4),
-                child: Icon(
-                  Icons.straighten,
-                  size: 29,
-                  color: Colors.indigo,
-                ),
+              Text(
+                getDayAndTimeString(exercise!.createDate),
+                style: Theme.of(context).textTheme.bodyText2,
               ),
-              Flexible(
-                child: Text(
-                  exercise.unit?.toUpperCase() ?? "",
-                  style: TextStyle(
-                    fontSize: 18,
-                  ),
-                ),
+              Text(
+                toCapitalized(exercise!.type),
+                style: Theme.of(context).textTheme.headline6,
               ),
+              SizedBox(
+                height: WHITESPACE_LARGE,
+              ),
+              Text(
+                "Details",
+                style: Theme.of(context).textTheme.headline1,
+              ),
+              Divider(
+                thickness: DIVIDER_THICKNESS,
+                height: DIVIDER_THICKNESS,
+                color: primaryColor,
+              ),
+              Container(
+                height: WHITESPACE_SMALL,
+              ),
+              _displaySets(exercise),
+              _displayNotes(exercise!),
             ],
-          );
+          ),
+        )
+      ],
+    );
   }
 
   Widget _displayNotes(Exercise exercise) {
     return (exercise.notes?.isEmpty ?? true)
         ? Container()
-        : Row(
+        : Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(right: 14, top: 9),
-                child: Icon(
-                  Icons.subject,
-                  size: 29,
-                  color: Colors.indigo,
-                ),
+            children: [
+              Container(
+                height: WHITESPACE_SMALL,
               ),
-              Flexible(
-                child: TextFormField(
-                  enabled: false,
-                  keyboardType: TextInputType.multiline,
-                  maxLines: 10,
-                  initialValue: exercise.notes ?? "",
-                  validator: (val) => val!.isEmpty ? "Invalid name" : null,
-                  style: TextStyle(
-                    fontSize: 18,
-                  ),
-                  decoration: InputDecoration(
-                    hintText: "Notes",
-                    border: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                  ),
-                  onChanged: (val) {
-                    setState(() => exercise.notes = val);
-                  },
-                ),
+              Text(
+                "Notes",
+                style: Theme.of(context).textTheme.headline2,
+              ),
+              Text(
+                exercise.notes ?? "",
+                style: Theme.of(context).textTheme.bodyText2,
               ),
             ],
           );
   }
 
-  Widget _displaySets(Exercise exercise) {
-    return Row(
+  bool areThereWeights(List<ExerciseSet>? sets) {
+    // Check if Exercise is null
+    if (sets == null) {
+      return false;
+    }
+    for (var set in sets) {
+      if (set.amount != null || set.amount! > 0) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  Widget _displaySets(Exercise? exercise) {
+    if (exercise == null ||
+        exercise.sets == null ||
+        exercise.sets!.length == 0) {
+      return Container();
+    }
+    var sets = exercise.sets!;
+    return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(right: 14, top: 4),
-          child: Icon(
-            Icons.subdirectory_arrow_right,
-            size: 29,
-            color: Colors.indigo,
-          ),
+        Text(
+          areThereWeights(sets) ? "Repetitions & Weights" : "Repetitions",
+          style: Theme.of(context).textTheme.headline2,
         ),
-        SetsView(sets: exercise.sets),
+        ...List.generate(
+            sets.length,
+            (i) => Text(sets[i].repetitions.toString() +
+                // Display the amount if it exists
+                (sets[i].amount == null || sets[i].amount == 0
+                    ? ""
+                    : (" x " + sets[i].amount.toString())) +
+                // Display the unit if there is one
+                (exercise.unit == null
+                    ? ""
+                    : (" " + toCapitalized(exercise.unit)))))
       ],
     );
   }

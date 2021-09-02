@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:home_workouts/helpers/date_time_helper.dart';
 import 'package:home_workouts/helpers/string_helper.dart';
 
 import 'package:home_workouts/service/service.dart';
+import 'package:home_workouts/theme/layout_values.dart';
 import 'package:home_workouts/theme/theme_Data.dart';
 import 'package:home_workouts/views/exercise/exercise_view.dart';
 
@@ -62,15 +64,15 @@ class _ActivityViewState extends State<ActivityView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                height: 24,
+                height: WHITESPACE_MEDIUM,
               ),
               Text(
                 toPrettyString(exercise.createDate!),
                 style: Theme.of(context).textTheme.headline1,
               ),
               Divider(
-                thickness: 2,
-                height: 1,
+                thickness: DIVIDER_THICKNESS,
+                height: DIVIDER_THICKNESS,
                 color: primaryColor,
               ),
             ],
@@ -96,10 +98,10 @@ class _ActivityViewState extends State<ActivityView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
-                height: 16,
+                height: WHITESPACE_SMALL,
               ),
               Text(
-                DateFormat('HH:mm').format(exercise.createDate!).toString(),
+                getTimeString(exercise.createDate),
                 style: Theme.of(context).textTheme.subtitle1,
               ),
               Text(
@@ -123,23 +125,42 @@ class _ActivityViewState extends State<ActivityView> {
     // Return in Listview
     return CustomScrollView(
       slivers: [
-        SliverAppBar(
-          collapsedHeight: 128,
-          expandedHeight: 156,
-          floating: false,
-          pinned: false,
-          backgroundColor: Colors.white,
-          flexibleSpace: FlexibleSpaceBar(
-            centerTitle: false,
-            titlePadding: EdgeInsets.only(top: 48, bottom: 16, left: 24),
-            title: Text(
-              "Activity",
-              style: Theme.of(context).textTheme.headline6,
-            ),
-          ),
-        ),
+        // CupertinoSliverNavigationBar(
+        //   stretch: true,
+        //   backgroundColor: Colors.white,
+        //   border: null,
+        //   largeTitle: Text(
+        //     "Activity",
+        //     style: Theme.of(context).textTheme.headline6,
+        //   ),
+        // ),
+        // SliverAppBar(
+        //   collapsedHeight: 128,
+        //   expandedHeight: 156,
+        //   floating: false,
+        //   pinned: false,
+        //   flexibleSpace: FlexibleSpaceBar(
+        //     centerTitle: false,
+        //     stretchModes: [StretchMode.fadeTitle],
+        //     // titlePadding: EdgeInsets.only(top: 48, bottom: 16, left: 24),
+        //     title: Text(
+        //       "Activity",
+        //       style: Theme.of(context).textTheme.headline6,
+        //     ),
+        //   ),
+        // ),
         SliverList(
           delegate: SliverChildListDelegate([
+            Padding(
+              padding: containerPadding,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 96),
+                child: Text(
+                  "Activity",
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+              ),
+            ),
             Padding(
               padding: containerPadding,
               child: Column(

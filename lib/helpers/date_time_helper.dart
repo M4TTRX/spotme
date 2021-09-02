@@ -7,8 +7,11 @@ bool isSameDay(DateTime firstDateTime, DateTime secondDateTime) {
 }
 
 // toPrettyString will format a date time to a nicely readable string
-String toPrettyString(DateTime dateTime) {
+String toPrettyString(DateTime? dateTime) {
   // Return today if it was done today
+  if (dateTime == null) {
+    return "";
+  }
   if (isSameDay(DateTime.now(), dateTime)) {
     return "Today";
   }
@@ -21,4 +24,15 @@ String toPrettyString(DateTime dateTime) {
     return DateFormat('MMMM dd').format(dateTime);
   }
   return DateFormat('MMMM dd yyyy').format(dateTime);
+}
+
+String getTimeString(DateTime? dateTime) {
+  if (dateTime == null) {
+    return "";
+  }
+  return DateFormat('HH:mm').format(dateTime).toString();
+}
+
+String getDayAndTimeString(DateTime? dateTime) {
+  return toPrettyString(dateTime) + " at " + getTimeString(dateTime);
 }

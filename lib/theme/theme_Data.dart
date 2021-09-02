@@ -19,8 +19,8 @@ const darkColour = Color(_darkColourVal);
 
 // Text colors
 const _textColor = Color(_darkColourVal);
-const _lighterText = Color(_darkGreyVal);
 const _primaryColoredText = Color(_darkColourVal);
+const _secondaryColoredText = Color(0xFF3E5259);
 
 final ThemeData THEME = ThemeData(
   // Light vs dark mode
@@ -71,7 +71,7 @@ final ThemeData THEME = ThemeData(
         textStyle: TextStyle(
       fontSize: 14,
       fontWeight: FontWeight.w400,
-      color: _textColor,
+      color: _secondaryColoredText,
     )),
 
     // subtitle1 used for the smallest info
@@ -79,7 +79,7 @@ final ThemeData THEME = ThemeData(
         textStyle: TextStyle(
       fontSize: 12,
       fontWeight: FontWeight.w400,
-      color: _lighterText,
+      color: _secondaryColoredText,
     )),
 
     // This style is used for most buttons

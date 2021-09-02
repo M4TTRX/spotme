@@ -55,7 +55,15 @@ class _AddSetsViewState extends State<AddSetsView> {
                                   iconSize: 32,
                                   splashRadius: 36,
                                   onPressed: () {
-                                    HapticFeedback.selectionClick();
+                                    setState(() {
+                                      HapticFeedback.selectionClick();
+                                      // lower sets repetitions if possible
+                                      sets[i].repetitions =
+                                          sets[i].repetitions == null ||
+                                                  sets[i].repetitions == 0
+                                              ? 0
+                                              : sets[i].repetitions! - 1;
+                                    });
                                   },
                                   icon: Icon(Icons.remove_circle_outline),
                                 ),
@@ -69,7 +77,7 @@ class _AddSetsViewState extends State<AddSetsView> {
                                   textAlign: TextAlign.center,
                                   keyboardType: TextInputType.number,
                                   initialValue: sets[i].repetitions == null
-                                      ? ""
+                                      ? "0"
                                       : sets[i].repetitions.toString(),
                                   validator: (val) =>
                                       val!.isEmpty ? "Invalid value" : null,
@@ -87,6 +95,10 @@ class _AddSetsViewState extends State<AddSetsView> {
                                 child: IconButton(
                                   onPressed: () {
                                     HapticFeedback.selectionClick();
+                                    setState(() {
+                                      sets[i].repetitions =
+                                          (sets[i].repetitions ?? 0) + 1;
+                                    });
                                   },
                                   padding: EdgeInsets.zero,
                                   iconSize: 32,

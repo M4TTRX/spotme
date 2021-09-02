@@ -1,12 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:home_workouts/helpers/date_time_helper.dart';
 import 'package:home_workouts/model/exercise_model.dart';
 import 'package:home_workouts/model/exercise_set.dart';
 import 'package:home_workouts/service/service.dart';
+import 'package:home_workouts/theme/layout_values.dart';
 import 'package:home_workouts/theme/theme_Data.dart';
 import 'package:home_workouts/views/shared/padding.dart';
-import 'package:reorderables/reorderables.dart';
 import 'package:uuid/uuid.dart';
 
 import 'add_sets_list_view.dart';
@@ -35,38 +36,34 @@ class _AddExerciseViewState extends State<AddExerciseView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
+    return ScrollConfiguration(
+      behavior: CupertinoScrollBehavior(),
+      child: Scaffold(
         backgroundColor: Colors.white,
-        elevation: 0,
-        iconTheme: IconThemeData(
-          color: Colors.black, //change your color here
-        ),
-      ),
-      backgroundColor: Colors.white,
-      floatingActionButton: Container(
-        child: FloatingActionButton.extended(
-          autofocus: false,
-          label: Text(
-            "Submit",
-            style: Theme.of(context).textTheme.headline2,
-          ),
-          onPressed: () async {
-            if (_formKey.currentState!.validate()) {
-              await service.putExercise(exercise!);
-              Navigator.pop(context);
-            } else {
-              HapticFeedback.heavyImpact();
-            }
-          },
-          icon: Icon(
-            Icons.add,
-            size: 32,
+        floatingActionButton: Container(
+          child: FloatingActionButton.extended(
+            autofocus: false,
+            label: Text(
+              "Submit",
+              style: Theme.of(context).textTheme.headline2,
+            ),
+            onPressed: () async {
+              if (_formKey.currentState!.validate()) {
+                await service.putExercise(exercise!);
+                Navigator.pop(context);
+              } else {
+                HapticFeedback.heavyImpact();
+              }
+            },
+            icon: Icon(
+              Icons.add,
+              size: 32,
+            ),
           ),
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+        body: _buildBody(),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      body: _buildBody(),
     );
   }
 
@@ -77,6 +74,9 @@ class _AddExerciseViewState extends State<AddExerciseView> {
     return Form(
       key: _formKey,
       child: CustomScrollView(controller: _scrollController, slivers: [
+        SliverAppBar(
+          backgroundColor: Colors.transparent,
+        ),
         SliverList(
             delegate: SliverChildListDelegate([
           Padding(
@@ -96,8 +96,8 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                     style: Theme.of(context).textTheme.headline1,
                   ),
                   Divider(
-                    thickness: 2,
-                    height: 1,
+                    thickness: DIVIDER_THICKNESS,
+                    height: DIVIDER_THICKNESS,
                     color: primaryColor,
                   ),
                   Container(
@@ -113,15 +113,15 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                     },
                   ),
                   SizedBox(
-                    height: 24,
+                    height: WHITESPACE_LARGE,
                   ),
                   Text(
                     "Repetitions & Weight",
                     style: Theme.of(context).textTheme.headline1,
                   ),
                   Divider(
-                    thickness: 2,
-                    height: 1,
+                    thickness: DIVIDER_THICKNESS,
+                    height: DIVIDER_THICKNESS,
                     color: primaryColor,
                   ),
                 ]),
@@ -141,7 +141,7 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                     style: Theme.of(context).textTheme.headline1,
                   ),
                   Divider(
-                    thickness: 2,
+                    thickness: DIVIDER_THICKNESS,
                     height: 1,
                     color: primaryColor,
                   ),
@@ -158,7 +158,8 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(right: 24.0 + 28.0),
+                        padding: const EdgeInsets.only(
+                            right: WHITESPACE_LARGE + 28.0),
                         child: Container(
                             key: Key(Uuid().v4()),
                             width: 96,
@@ -215,8 +216,8 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: 8,
+                  Container(
+                    height: WHITESPACE_SMALL,
                   ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:home_workouts/model/account_model.dart';
@@ -25,27 +26,30 @@ class _MainNavigationViewState extends State<MainNavigationView> {
     return Consumer<Account>(
         builder: (context, Account account, Widget? widget) {
       this.service = AppService(account: account);
-      return Scaffold(
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () async {
-            HapticFeedback.mediumImpact();
-            await _addExercise(context);
-            setState(() {});
-          },
-          elevation: 2,
-          focusElevation: 3,
-          highlightElevation: 4,
-          label: Text(
-            "Add Exercise",
-            style: Theme.of(context).textTheme.headline2,
+      return ScrollConfiguration(
+        behavior: CupertinoScrollBehavior(),
+        child: Scaffold(
+          floatingActionButton: FloatingActionButton.extended(
+            onPressed: () async {
+              HapticFeedback.mediumImpact();
+              await _addExercise(context);
+              setState(() {});
+            },
+            elevation: 2,
+            focusElevation: 3,
+            highlightElevation: 4,
+            label: Text(
+              "Add Exercise",
+              style: Theme.of(context).textTheme.headline2,
+            ),
+            icon: Icon(
+              Icons.add,
+              size: 32,
+            ),
           ),
-          icon: Icon(
-            Icons.add,
-            size: 32,
-          ),
+          backgroundColor: Colors.white,
+          body: _returnSelectedView(),
         ),
-        backgroundColor: Colors.white,
-        body: _returnSelectedView(),
       );
     });
   }
