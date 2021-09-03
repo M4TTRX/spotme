@@ -24,6 +24,7 @@ class App extends StatelessWidget {
               statusBarColor: Colors.white,
               systemNavigationBarColor: Colors.white,
               systemNavigationBarIconBrightness: Brightness.dark));
+          if (snapshot == null) {}
           return StreamProvider<Account>.value(
             value: AuthService().user,
             initialData: Account(),

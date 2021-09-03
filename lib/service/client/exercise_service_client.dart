@@ -9,17 +9,18 @@ class ExerciseServiceClient {
 
   Future<List<Exercise>> getRecommendedExercises(Account account) async {
     var url = Uri.https(_exerciseServiceURL, '/recommended-exercises',
-        {'token ': 'secret-query-token'});
+        {'token': 'secret-query-token'});
 
     // Await the http get response, then decode the json-formatted response.
     var response = await http.get(url, headers: {
-      "x_token": "fake-super-secret-token",
+      "x-token": "fake-super-secret-token",
       "accept": "application/json"
     });
-    if (response.statusCode == 204 || response.statusCode == 204) {
-      var jsonResponse = convert.jsonDecode(response.body);
-
-      return [];
+    if (response.statusCode == 200 || response.statusCode == 204) {
+      List<dynamic> jsonResponse = convert.jsonDecode(response.body);
+      List<Exercise> exercises =
+          jsonResponse.map((e) => Exercise.fromMap(e) ?? Exercise()).toList();
+      return exercises;
     } else {
       print('Request failed with status: ${response.statusCode}.');
       return [];

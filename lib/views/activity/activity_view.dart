@@ -57,7 +57,7 @@ class _ActivityViewState extends State<ActivityView> {
     DateTime? currDay = DateTime(0, 0, 0, 0);
     for (var exercise in data) {
       // Creating the Day section of the list
-      if (!isSameDay(currDay!, exercise.createDate!)) {
+      if (!isSameDay(currDay, exercise.createDate)) {
         activityViewBody.add(
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,7 +66,7 @@ class _ActivityViewState extends State<ActivityView> {
                 height: MEDIUM,
               ),
               Text(
-                toPrettyString(exercise.createDate!),
+                toPrettyString(exercise.createDate),
                 style: Theme.of(context).textTheme.headline1,
               ),
               Divider(

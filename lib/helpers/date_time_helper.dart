@@ -1,6 +1,9 @@
 import 'package:intl/intl.dart';
 
-bool isSameDay(DateTime firstDateTime, DateTime secondDateTime) {
+bool isSameDay(DateTime? firstDateTime, DateTime? secondDateTime) {
+  if (firstDateTime == null || secondDateTime == null) {
+    return false;
+  }
   return (firstDateTime.year == secondDateTime.year &&
       firstDateTime.month == secondDateTime.month &&
       firstDateTime.day == secondDateTime.day);
