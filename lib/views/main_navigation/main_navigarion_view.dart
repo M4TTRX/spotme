@@ -25,7 +25,7 @@ class _MainNavigationViewState extends State<MainNavigationView> {
   Widget build(BuildContext context) {
     return Consumer<Account>(
         builder: (context, Account account, Widget? widget) {
-      this.service = AppService(account: account);
+      this.service = AppService(account);
       return ScrollConfiguration(
         behavior: CupertinoScrollBehavior(),
         child: Scaffold(

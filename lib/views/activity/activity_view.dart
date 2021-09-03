@@ -146,7 +146,13 @@ class _ActivityViewState extends State<ActivityView> {
                 ),
               ),
             ),
-            _getRecommendedExercises(),
+            StreamBuilder<Object>(
+              stream: service.recommendedExercisesDataStream,
+              builder: (context, snapshot) {
+                return _getRecommendedExercises(
+                    snapshot.data as List<Exercise>?);
+              },
+            ),
             Padding(
               padding: containerPadding,
               child: Column(
@@ -159,54 +165,10 @@ class _ActivityViewState extends State<ActivityView> {
     );
   }
 
-  Widget _getRecommendedExercises() {
-    var exercises = [
-      Exercise(
-        type: "Push Ups",
-        createDate: DateTime.now(),
-        sets: [
-          ExerciseSet(repetitions: 20),
-          ExerciseSet(repetitions: 20),
-          ExerciseSet(repetitions: 20)
-        ],
-      ),
-      Exercise(
-        type: "Diamond Push Ups",
-        createDate: DateTime.now(),
-        sets: [
-          ExerciseSet(repetitions: 20),
-          ExerciseSet(repetitions: 20),
-          ExerciseSet(repetitions: 20)
-        ],
-      ),
-      Exercise(
-        type: "Diamond Push Ups",
-        createDate: DateTime.now(),
-        sets: [
-          ExerciseSet(repetitions: 20),
-          ExerciseSet(repetitions: 20),
-          ExerciseSet(repetitions: 20)
-        ],
-      ),
-      Exercise(
-        type: "Diamond Push Ups",
-        createDate: DateTime.now(),
-        sets: [
-          ExerciseSet(repetitions: 20),
-          ExerciseSet(repetitions: 20),
-          ExerciseSet(repetitions: 20)
-        ],
-      ),
-      Exercise(
-        type: "Diamond Push Ups",
-        createDate: DateTime.now(),
-        sets: [
-          ExerciseSet(repetitions: 20),
-          ExerciseSet(repetitions: 20),
-          ExerciseSet(repetitions: 20)
-        ],
-      ),
-    ];
+  Widget _getRecommendedExercises(List<Exercise>? exercises) {
+    if (exercises == null) {
+      return Container();
+    }
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Container(

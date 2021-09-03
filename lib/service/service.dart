@@ -1,21 +1,35 @@
 import 'package:home_workouts/model/database/exercise_db_model.dart';
 import 'package:home_workouts/model/exercise_model.dart';
-import 'package:home_workouts/model/account_model.dart';
+import 'package:home_workouts/model/exercise_set.dart';
+import 'package:home_workouts/service/client/exercise_service_client.dart';
 import 'package:home_workouts/service/database/firestore_database_service.dart';
 import 'package:uuid/uuid.dart';
+import 'package:home_workouts/model/account_model.dart';
 
 import 'auth_service.dart';
 import 'database/shared_preferences_service.dart';
+import 'exercise_service.dart';
 
 class AppService {
-  AppService({required this.account});
+  late Account account;
+  final AuthService authService = AuthService();
+  final ExerciseService exerciseService = ExerciseService();
+  late FireStoreDatabaseService fireStoreDb;
+
+  AppService(Account account) {
+    this.account = account;
+    String userID = account.id!;
+    if (userID.length > 0) {
+      this.fireStoreDb = FireStoreDatabaseService(userId: userID);
+    }
+    ;
+  }
 
   // Sub Services and Databases
   // ===============================================================
 
   // authService manages all the authentification stuff and all
-  final AuthService authService = AuthService();
-  Account account;
+
   // Streams
   // ===============================================================
 
@@ -26,9 +40,6 @@ class AppService {
     String userID = this.account.id!;
 
     if (userID.length > 0) {
-      final FireStoreDatabaseService fireStoreDb =
-          FireStoreDatabaseService(userId: userID);
-
       await for (List<Exercise?> exercises
           in fireStoreDb.exercises.distinct()) {
         print(exercises);
@@ -44,6 +55,16 @@ class AppService {
       print("bad");
     }
     yield exerciseDataStream;
+  }
+
+  Stream<List<Exercise?>> get recommendedExercisesDataStream async* {
+    List<Exercise> exercises = [];
+
+    // get the userID from stream
+    String userID = this.account.id!;
+    exercises =
+        await this.exerciseService.getFeedRecommendedExercises(this.account);
+    yield exercises;
   }
 
   // Methods
@@ -84,7 +105,7 @@ class AppService {
   }
 
   // SharedPreference stuff (useless)
-  // =============ab==================================================
+  // ===============================================================
   static Future<Account?> getUser() async {
     var account = await SharedPreferencesService.getUser();
     return account;

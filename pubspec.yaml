@@ -26,8 +26,6 @@ dependencies:
   cloud_firestore: ^2.2.2
   # provides user updates to the app at all times
   provider: ^5.0.0
-  # provides fancy percentage indicators
-  percent_indicator: ^3.0.1
   # provides fancy spinning animations
   flutter_spinkit: ^5.0.0
   # used to generate unique ids
@@ -38,7 +36,9 @@ dependencies:
 
   # used for re-orderable list
   reorderables: ^0.4.1
-  implicitly_animated_reorderable_list: ^0.4.1
+
+  # Used to make http calls to our backend
+  http: ^0.13.3
 
 dev_dependencies:
   flutter_test:

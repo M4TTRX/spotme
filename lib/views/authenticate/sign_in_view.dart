@@ -131,8 +131,7 @@ class _SignInViewState extends State<SignInView> {
                                 await Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(builder: (context) {
                                   // TODO migrate functions to the authservice
-                                  AppService service =
-                                      AppService(account: Account());
+                                  AppService service = AppService(Account());
                                   return SignUpView(
                                     service: service,
                                   );
