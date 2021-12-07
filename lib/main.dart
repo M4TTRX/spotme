@@ -8,6 +8,7 @@ import 'package:home_workouts/model/account_model.dart';
 import 'package:home_workouts/service/auth_service.dart';
 import 'package:home_workouts/theme/theme_Data.dart';
 import 'package:home_workouts/views/auth_wrapper.dart';
+import 'package:home_workouts/views/work_in_progress/wip_view.dart';
 import 'package:provider/provider.dart';
 
 void main() => runApp(App());
@@ -24,20 +25,18 @@ class App extends StatelessWidget {
               statusBarColor: Colors.white,
               systemNavigationBarColor: Colors.white,
               systemNavigationBarIconBrightness: Brightness.dark));
-          if (snapshot == null) {}
-          return StreamProvider<Account>.value(
-            value: AuthService().user,
-            initialData: Account(),
-            child: MaterialApp(
-              theme: THEME,
-              localizationsDelegates: <LocalizationsDelegate<dynamic>>[
-                DefaultMaterialLocalizations.delegate,
-                DefaultWidgetsLocalizations.delegate,
-                DefaultCupertinoLocalizations.delegate,
-              ],
-              home: AuthWrapper(),
-            ),
-          );
+          if (snapshot.connectionState == ConnectionState.done) {
+            return StreamProvider<Account>.value(
+              value: AuthService().user,
+              initialData: Account(),
+              child: MaterialApp(
+                theme: THEME,
+   
+                home: AuthWrapper(),
+              ),
+            );
+          }
+          return WorkInProgressView();
         });
   }
 }

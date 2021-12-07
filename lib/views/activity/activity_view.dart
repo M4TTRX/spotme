@@ -28,12 +28,7 @@ class _ActivityViewState extends State<ActivityView> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<Object>(
-      stream: service.exerciseDataStream,
-      builder: (context, snapshot) {
-        return _buildActivityBody(snapshot.data as List<Exercise>?);
-      },
-    );
+    return buildActivity();
   }
 
   Widget _buildActivityBody(List<Exercise>? data) {
@@ -45,7 +40,7 @@ class _ActivityViewState extends State<ActivityView> {
           Container(
             width: MediaQuery.of(context).size.width * 1,
             child: Text(
-              "You have no activity! \n WTF bro! STOP SLACKING! START GRINDING!",
+              "You have no activity!",
               textAlign: TextAlign.center,
             ),
           ),
@@ -120,7 +115,15 @@ class _ActivityViewState extends State<ActivityView> {
     activityViewBody.add(SizedBox(
       height: 128,
     ));
+    return Padding(
+      padding: containerPadding,
+      child: Column(
+        children: activityViewBody,
+      ),
+    );
+  }
 
+  Widget buildActivity() {
     // Return in Listview
     return CustomScrollView(
       slivers: [
@@ -147,17 +150,18 @@ class _ActivityViewState extends State<ActivityView> {
               ),
             ),
             StreamBuilder<Object>(
-              stream: service.recommendedExercisesDataStream,
+              stream: service.recommendedExercisesDataStream.distinct(),
+              initialData: <Exercise>[],
               builder: (context, snapshot) {
                 return _getRecommendedExercises(
                     snapshot.data as List<Exercise>?);
               },
             ),
-            Padding(
-              padding: containerPadding,
-              child: Column(
-                children: activityViewBody,
-              ),
+                StreamBuilder<Object>(
+              stream: service.exerciseDataStream,
+              builder: (context, snapshot) {
+                return _buildActivityBody(snapshot.data as List<Exercise>?);
+              },
             )
           ]),
         ),

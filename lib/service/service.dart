@@ -52,7 +52,7 @@ class AppService {
         yield exerciseDataStream;
       }
     } else {
-      print("bad");
+      print("Error loading exercises");
     }
     yield exerciseDataStream;
   }
@@ -64,6 +64,7 @@ class AppService {
     String userID = this.account.id!;
     exercises =
         await this.exerciseService.getFeedRecommendedExercises(this.account);
+    
     yield exercises;
   }
 

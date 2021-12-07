@@ -40,8 +40,9 @@ class _AddExerciseViewState extends State<AddExerciseView> {
       behavior: CupertinoScrollBehavior(),
       child: Scaffold(
         backgroundColor: Colors.white,
-        floatingActionButton: Container(
-          child: FloatingActionButton.extended(
+        floatingActionButton: MediaQuery.of(context).viewInsets.bottom == 0.0
+            ? FloatingActionButton.extended(
+                backgroundColor: Colors.white,
             autofocus: false,
             label: Text(
               "Submit",
@@ -58,9 +59,11 @@ class _AddExerciseViewState extends State<AddExerciseView> {
             icon: Icon(
               Icons.add,
               size: 32,
+              color: Theme.of(context).primaryColor,
             ),
-          ),
-        ),
+          )
+            : null,
+        
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         body: _buildBody(),
       ),
