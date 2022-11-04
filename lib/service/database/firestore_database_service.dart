@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:home_workouts/model/database/exercise_db_model.dart';
-import 'package:home_workouts/model/exercise_model.dart';
-import 'package:home_workouts/model/account_model.dart';
+import 'package:spotme/model/database/exercise_db_model.dart';
+import 'package:spotme/model/exercise_model.dart';
+import 'package:spotme/model/account_model.dart';
 
 class FireStoreDatabaseService {
   final String? userId;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:home_workouts/views/shared/text/headings.dart';
+import 'package:spotme/views/shared/text/headings.dart';
 
 class SecondaryButton extends Card {
   SecondaryButton(String text, Function onTap)

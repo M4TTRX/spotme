@@ -2,11 +2,11 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:home_workouts/model/exercise_set.dart';
-import 'package:home_workouts/theme/layout_values.dart';
-import 'package:home_workouts/theme/theme_Data.dart';
-import 'package:home_workouts/views/shared/padding.dart';
-import 'package:home_workouts/views/shared/whitespace.dart';
+import 'package:spotme/model/exercise_set.dart';
+import 'package:spotme/theme/layout_values.dart';
+import 'package:spotme/theme/theme_Data.dart';
+import 'package:spotme/views/shared/padding.dart';
+import 'package:spotme/views/shared/whitespace.dart';
 import 'package:reorderables/reorderables.dart';
 import 'package:uuid/uuid.dart';
 

@@ -1,7 +1,7 @@
-import 'package:home_workouts/model/database/exercise_db_model.dart';
-import 'package:home_workouts/model/exercise_model.dart';
-import 'package:home_workouts/model/account_model.dart';
-import 'package:home_workouts/service/database/firestore_database_service.dart';
+import 'package:spotme/model/database/exercise_db_model.dart';
+import 'package:spotme/model/exercise_model.dart';
+import 'package:spotme/model/account_model.dart';
+import 'package:spotme/service/database/firestore_database_service.dart';
 import 'package:uuid/uuid.dart';
 
 import 'auth_service.dart';

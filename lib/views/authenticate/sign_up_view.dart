@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:home_workouts/service/service.dart';
-import 'package:home_workouts/views/authenticate/sign_in_view.dart';
-import 'package:home_workouts/views/shared/buttons/primary_button.dart';
-import 'package:home_workouts/views/shared/buttons/secondary_button.dart';
-import 'package:home_workouts/views/shared/padding.dart';
-import 'package:home_workouts/views/shared/scroll_behavior.dart';
+import 'package:spotme/service/service.dart';
+import 'package:spotme/views/authenticate/sign_in_view.dart';
+import 'package:spotme/views/shared/buttons/primary_button.dart';
+import 'package:spotme/views/shared/buttons/secondary_button.dart';
+import 'package:spotme/views/shared/padding.dart';
+import 'package:spotme/views/shared/scroll_behavior.dart';
 
 class SignUpView extends StatefulWidget {
   AppService service;

@@ -1,15 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:home_workouts/model/account_model.dart';
-import 'package:home_workouts/model/selected_screen_model.dart';
-import 'package:home_workouts/service/service.dart';
-import 'package:home_workouts/views/account/account_view.dart';
-import 'package:home_workouts/views/activity/activity_view.dart';
-import 'package:home_workouts/views/add_progress/add_exercise_view.dart';
-import 'package:home_workouts/views/home/home_view.dart';
-import 'package:home_workouts/views/shared/text/title.dart';
-import 'package:home_workouts/views/work_in_progress/wip_view.dart';
+import 'package:spotme/model/account_model.dart';
+import 'package:spotme/model/selected_screen_model.dart';
+import 'package:spotme/service/service.dart';
+import 'package:spotme/views/account/account_view.dart';
+import 'package:spotme/views/activity/activity_view.dart';
+import 'package:spotme/views/add_progress/add_exercise_view.dart';
+import 'package:spotme/views/home/home_view.dart';
+import 'package:spotme/views/shared/text/title.dart';
+import 'package:spotme/views/work_in_progress/wip_view.dart';
 import 'package:provider/provider.dart';
 
 class MainNavigationView extends StatefulWidget {

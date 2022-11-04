@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
-import 'package:home_workouts/model/account_model.dart';
+import 'package:spotme/model/account_model.dart';
 
 import 'exercise_set.dart';
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:home_workouts/model/exercise_set.dart';
+import 'package:spotme/model/exercise_set.dart';
 import 'package:uuid/uuid.dart';
 
 class AddSetsView extends StatefulWidget {

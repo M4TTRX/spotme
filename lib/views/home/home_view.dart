@@ -1,9 +1,9 @@
 // import 'package:flutter/material.dart';
-// import 'package:home_workouts/service/service.dart';
-// import 'package:home_workouts/views/shared/padding.dart';
-// import 'package:home_workouts/views/shared/scroll_behavior.dart';
-// import 'package:home_workouts/views/shared/text/headings.dart';
-// import 'package:home_workouts/views/work_in_progress/wip_view.dart';
+// import 'package:spotme/service/service.dart';
+// import 'package:spotme/views/shared/padding.dart';
+// import 'package:spotme/views/shared/scroll_behavior.dart';
+// import 'package:spotme/views/shared/text/headings.dart';
+// import 'package:spotme/views/work_in_progress/wip_view.dart';
 
 // class HomeView extends StatefulWidget {
 //   HomeView({Key? key}) : super(key: key);

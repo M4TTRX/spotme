@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:home_workouts/theme/layout_values.dart';
+import 'package:spotme/theme/layout_values.dart';
 
 // Color values
 // Primary Color
@@ -8,7 +8,7 @@ const int _primaryColorVal = 0xFF35D7B9;
 const int _darkColourVal = 0xFF2A373C;
 const int _lightGrayBackground = 0xFFECECEC;
 const int _veryLightGrayBackground = 0xFFF3F3F3;
-const int _shadowColouVal = 0x552A373C;
+const int _shadowColourVal = 0x552A373C;
 
 // Colour Palette Valuers
 const int _redColorVal = 0xFFFD584E;
@@ -24,7 +24,7 @@ const Color primaryColor = Color(_primaryColorVal);
 const _lightGrayBackgroundColor = Color(_lightGrayBackground);
 const _veryLightGrayBackgroundColor = Color(_veryLightGrayBackground);
 const darkColour = Color(_darkColourVal);
-const shadowColour = Color(_shadowColouVal);
+const shadowColour = Color(_shadowColourVal);
 // Color Palette
 const redColor = Color(_redColorVal);
 const redLightColor = Color(_redLightColorVal);

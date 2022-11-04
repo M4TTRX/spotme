@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:home_workouts/helpers/date_time_helper.dart';
-import 'package:home_workouts/model/exercise_model.dart';
-import 'package:home_workouts/model/exercise_set.dart';
-import 'package:home_workouts/service/service.dart';
-import 'package:home_workouts/theme/layout_values.dart';
-import 'package:home_workouts/theme/theme_Data.dart';
-import 'package:home_workouts/views/shared/padding.dart';
+import 'package:spotme/helpers/date_time_helper.dart';
+import 'package:spotme/model/exercise_model.dart';
+import 'package:spotme/model/exercise_set.dart';
+import 'package:spotme/service/service.dart';
+import 'package:spotme/theme/layout_values.dart';
+import 'package:spotme/theme/theme_Data.dart';
+import 'package:spotme/views/shared/padding.dart';
 import 'package:uuid/uuid.dart';
 
 import 'add_sets_list_view.dart';

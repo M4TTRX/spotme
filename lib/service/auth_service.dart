@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:home_workouts/model/account_model.dart';
+import 'package:spotme/model/account_model.dart';
 
 class AuthService {
   FirebaseAuth _auth = FirebaseAuth.instance;
@@ -21,7 +20,6 @@ class AuthService {
         yield _accountFromFirebaseUser(firebaseUser);
       }
     }
-    ;
   }
 
   Future? _handleError(dynamic e) {

@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:home_workouts/model/account_model.dart';
-import 'package:home_workouts/service/auth_service.dart';
-import 'package:home_workouts/service/service.dart';
-import 'package:home_workouts/views/shared/buttons/danger_button.dart';
-import 'package:home_workouts/views/shared/padding.dart';
-import 'package:home_workouts/views/shared/text/headings.dart';
-import 'package:home_workouts/views/shared/text/title.dart';
-import 'package:home_workouts/views/shared/white_app_bar.dart';
-import 'package:home_workouts/views/shared/whitespace.dart';
+import 'package:spotme/model/account_model.dart';
+import 'package:spotme/service/auth_service.dart';
+import 'package:spotme/service/service.dart';
+import 'package:spotme/views/shared/buttons/danger_button.dart';
+import 'package:spotme/views/shared/padding.dart';
+import 'package:spotme/views/shared/text/headings.dart';
+import 'package:spotme/views/shared/text/title.dart';
+import 'package:spotme/views/shared/white_app_bar.dart';
+import 'package:spotme/views/shared/whitespace.dart';
 
 class AccountView extends StatefulWidget {
   final AppService service;

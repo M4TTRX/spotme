@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:home_workouts/model/account_model.dart';
+import 'package:spotme/model/account_model.dart';
 
 class SharedPreferencesService {
   static final _accountPreferenceKey = "account";

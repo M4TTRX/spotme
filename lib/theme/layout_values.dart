@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:home_workouts/theme/theme_Data.dart';
+import 'package:spotme/theme/theme_Data.dart';
 
 const double DIVIDER_THICKNESS = 3;
 
