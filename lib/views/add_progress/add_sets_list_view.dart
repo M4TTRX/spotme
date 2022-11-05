@@ -62,14 +62,14 @@ class _AddSetsViewState extends State<AddSetsView> {
           },
           background: Container(
             padding: containerPadding,
-            color: redLightColor,
+            color: Theme.of(context).colorScheme.errorContainer,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Icon(
                   Icons.delete_sweep_outlined,
-                  color: redDarkColor,
+                  color: Theme.of(context).colorScheme.onErrorContainer,
                 ),
               ],
             ),
@@ -113,7 +113,10 @@ class _AddSetsViewState extends State<AddSetsView> {
                                             : sets[i].repetitions! - 1;
                                   });
                                 },
-                                icon: Icon(Icons.remove_circle_outline),
+                                icon: Icon(
+                                  Icons.remove_circle_outline,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
                               ),
                             ),
                             Container(
@@ -151,7 +154,10 @@ class _AddSetsViewState extends State<AddSetsView> {
                                 padding: EdgeInsets.zero,
                                 iconSize: 32,
                                 splashRadius: 36,
-                                icon: Icon(Icons.add_circle_outline),
+                                icon: Icon(
+                                  Icons.add_circle_outline,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
                               ),
                             ),
                           ],

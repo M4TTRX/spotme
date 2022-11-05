@@ -16,6 +16,9 @@ import 'package:spotme/views/shared/padding.dart';
 
 class ActivityView extends StatefulWidget {
   final AppService service;
+
+  static const routeName = '/exercise';
+
   ActivityView({required this.service});
 
   @override

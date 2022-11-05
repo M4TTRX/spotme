@@ -15,6 +15,9 @@ import 'package:uuid/uuid.dart';
 class ExerciseView extends StatefulWidget {
   final AppService service;
   final Exercise? exercise;
+
+  static const routeName = '/exercise';
+
   ExerciseView({required this.service, required this.exercise});
 
   @override

@@ -54,6 +54,7 @@ class _AddSetsViewState extends State<AddSetsView> {
                   child: Icon(
                     Icons.clear,
                     size: 28,
+                    color: Theme.of(context).colorScheme.onError,
                   ),
                 ),
                 Container(
@@ -76,7 +77,7 @@ class _AddSetsViewState extends State<AddSetsView> {
                 ),
                 IconButton(
                   icon: Icon(Icons.clear),
-                  color: Color(0xFFEF4646),
+                  color: Theme.of(context).colorScheme.onError,
                   iconSize: 22,
                   onPressed: () async* {
                     setState(() {

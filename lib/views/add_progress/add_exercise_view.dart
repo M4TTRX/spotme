@@ -15,6 +15,9 @@ import 'add_sets_list_view.dart';
 class AddExerciseView extends StatefulWidget {
   final Exercise? exercise;
   final AppService service;
+
+  static const routeName = '/add_exercise';
+
   AddExerciseView({required this.service, this.exercise});
 
   @override
@@ -39,28 +42,28 @@ class _AddExerciseViewState extends State<AddExerciseView> {
     return ScrollConfiguration(
       behavior: CupertinoScrollBehavior(),
       child: Scaffold(
-        backgroundColor: Colors.white,
-        floatingActionButton: Container(
-          child: FloatingActionButton.extended(
-            autofocus: false,
-            label: Text(
-              "Submit",
-              style: Theme.of(context).textTheme.headline2,
-            ),
-            onPressed: () async {
-              if (_formKey.currentState!.validate()) {
-                await service.putExercise(exercise!);
-                Navigator.pop(context);
-              } else {
-                HapticFeedback.heavyImpact();
-              }
-            },
-            icon: Icon(
-              Icons.add,
-              size: 32,
-            ),
-          ),
+        appBar: AppBar(
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(
+                  right: SIDE_PADDING_VALUE, bottom: SIDE_PADDING_VALUE),
+              child: TextButton(
+                onPressed: () async {
+                  if (_formKey.currentState!.validate()) {
+                    await service.putExercise(exercise!);
+                    Navigator.pop(context);
+                  } else {
+                    HapticFeedback.heavyImpact();
+                  }
+                },
+                child: Text(
+                  "Submit",
+                ),
+              ),
+            )
+          ],
         ),
+        backgroundColor: Colors.white,
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         body: _buildBody(),
       ),
@@ -74,9 +77,6 @@ class _AddExerciseViewState extends State<AddExerciseView> {
     return Form(
       key: _formKey,
       child: CustomScrollView(controller: _scrollController, slivers: [
-        SliverAppBar(
-          backgroundColor: Colors.transparent,
-        ),
         SliverList(
             delegate: SliverChildListDelegate([
           Padding(
@@ -161,6 +161,7 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                         child: Icon(
                           Icons.event_available,
                           size: 29,
+                          color: Theme.of(context).colorScheme.primary,
                         ),
                       ),
                       Padding(
@@ -202,6 +203,7 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                         child: Icon(
                           Icons.straighten,
                           size: 29,
+                          color: Theme.of(context).colorScheme.primary,
                         ),
                       ),
                       Flexible(
