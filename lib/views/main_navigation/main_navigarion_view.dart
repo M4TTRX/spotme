@@ -20,6 +20,7 @@ class MainNavigationView extends StatefulWidget {
 class _MainNavigationViewState extends State<MainNavigationView> {
   SelectedScreen _selectedScreen = SelectedScreen.ACTIVITY;
   late AppService service;
+  int _selectedScreenIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -29,24 +30,23 @@ class _MainNavigationViewState extends State<MainNavigationView> {
       return ScrollConfiguration(
         behavior: CupertinoScrollBehavior(),
         child: Scaffold(
-          floatingActionButton: FloatingActionButton.extended(
-            onPressed: () async {
-              HapticFeedback.mediumImpact();
-              await _addExercise(context);
-              setState(() {});
-            },
-            elevation: 2,
-            focusElevation: 3,
-            highlightElevation: 4,
-            label: Text(
-              "Add Exercise",
-              style: Theme.of(context).textTheme.headline2,
-            ),
-            icon: Icon(
-              Icons.add,
-              size: 32,
-            ),
+          bottomNavigationBar: NavigationBar(
+            onDestinationSelected: _updateSelectedView,
+            selectedIndex: _selectedScreenIndex,
+            destinations: [
+              NavigationDestination(
+                label: "Activity",
+                icon: Icon(Icons.assignment_outlined),
+                selectedIcon: Icon(Icons.assignment),
+              ),
+              NavigationDestination(
+                label: "Account",
+                icon: Icon(Icons.account_circle_outlined),
+                selectedIcon: Icon(Icons.account_circle),
+              ),
+            ],
           ),
+          floatingActionButton: _getFloatingActionButton(),
           backgroundColor: Colors.white,
           body: _returnSelectedView(),
         ),
@@ -54,27 +54,35 @@ class _MainNavigationViewState extends State<MainNavigationView> {
     });
   }
 
-  Widget _returnSelectedView() {
-    return ActivityView(service: service);
-    switch (_selectedScreen) {
-      case SelectedScreen.CHALLENGES:
-        {
-          return WorkInProgressView();
-        }
+  void _updateSelectedView(int newViewIndex) {
+    this._selectedScreenIndex = newViewIndex;
+    switch (newViewIndex) {
+      case 1:
+        _selectedScreen = SelectedScreen.ACCOUNT;
         break;
+      default:
+        _selectedScreen = SelectedScreen.ACTIVITY;
+    }
+    setState(() {});
+  }
+
+  Widget _returnSelectedView() {
+    switch (_selectedScreen) {
+      case SelectedScreen.ACCOUNT:
+        {
+          return AccountView(service: service);
+        }
       case SelectedScreen.ACTIVITY:
         {
           return ActivityView(
             service: service,
           );
         }
-        break;
       default:
         {
-          _selectedScreen = SelectedScreen.HOME;
+          _selectedScreen = SelectedScreen.ACTIVITY;
           return ActivityView(service: service);
         }
-        break;
     }
   }
 
@@ -87,12 +95,10 @@ class _MainNavigationViewState extends State<MainNavigationView> {
             child: TitleText("Home"),
           );
         }
-        break;
       case SelectedScreen.CHALLENGES:
         {
           return TitleText("Challenges");
         }
-        break;
       case SelectedScreen.ACTIVITY:
         {
           return Text(
@@ -100,18 +106,15 @@ class _MainNavigationViewState extends State<MainNavigationView> {
             style: Theme.of(context).textTheme.headline6,
           );
         }
-        break;
       case SelectedScreen.ACCOUNT:
         {
           return TitleText("Account");
         }
-        break;
       default:
         {
           _selectedScreen = SelectedScreen.ACTIVITY;
           return TitleText("");
         }
-        break;
     }
   }
 
@@ -129,5 +132,31 @@ class _MainNavigationViewState extends State<MainNavigationView> {
         service: service,
       );
     }));
+  }
+
+  _getFloatingActionButton() {
+    switch (_selectedScreen) {
+      case SelectedScreen.ACTIVITY:
+        return FloatingActionButton.extended(
+          onPressed: () async {
+            HapticFeedback.mediumImpact();
+            await _addExercise(context);
+            setState(() {});
+          },
+          elevation: 2,
+          focusElevation: 3,
+          highlightElevation: 4,
+          label: Text(
+            "Add Exercise",
+            style: Theme.of(context).textTheme.headline2,
+          ),
+          icon: Icon(
+            Icons.add,
+            size: 32,
+          ),
+        );
+      default:
+        return null;
+    }
   }
 }

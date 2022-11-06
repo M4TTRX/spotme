@@ -16,6 +16,9 @@ import 'package:spotme/views/shared/padding.dart';
 
 class ActivityView extends StatefulWidget {
   final AppService service;
+
+  static const routeName = '/exercise';
+
   ActivityView({required this.service});
 
   @override
@@ -63,16 +66,16 @@ class _ActivityViewState extends State<ActivityView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                height: MEDIUM,
+                height: LayoutValues.MEDIUM,
               ),
               Text(
                 toPrettyString(exercise.createDate!),
                 style: Theme.of(context).textTheme.headline1,
               ),
               Divider(
-                thickness: DIVIDER_THICKNESS,
-                height: DIVIDER_THICKNESS,
-                color: primaryColor,
+                thickness: LayoutValues.DIVIDER_THICKNESS,
+                height: LayoutValues.DIVIDER_THICKNESS,
+                color: Theme.of(context).colorScheme.primaryContainer,
               ),
             ],
           ),
@@ -97,7 +100,7 @@ class _ActivityViewState extends State<ActivityView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
-                height: SMALL,
+                height: LayoutValues.SMALL,
               ),
               Text(
                 getTimeString(exercise.createDate),
@@ -129,7 +132,8 @@ class _ActivityViewState extends State<ActivityView> {
             Padding(
               padding: containerPadding,
               child: Padding(
-                padding: const EdgeInsets.only(top: 96, bottom: LARGE),
+                padding:
+                    const EdgeInsets.only(top: 96, bottom: LayoutValues.LARGE),
                 child: Text(
                   "Activity",
                   style: Theme.of(context).textTheme.headline6,
@@ -139,7 +143,7 @@ class _ActivityViewState extends State<ActivityView> {
             Padding(
               padding: containerPadding,
               child: Padding(
-                padding: const EdgeInsets.only(bottom: MEDIUM),
+                padding: const EdgeInsets.only(bottom: LayoutValues.MEDIUM),
                 child: Text(
                   "Recommended Exercises",
                   style: Theme.of(context).textTheme.headline2,
@@ -210,23 +214,24 @@ class _ActivityViewState extends State<ActivityView> {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: LARGE, vertical: SMALLER),
+        margin: EdgeInsets.symmetric(
+            horizontal: LayoutValues.LARGE, vertical: LayoutValues.SMALLER),
         child: Row(
           children: List<Widget>.generate(
             exercises.length,
             (i) => Container(
               margin: EdgeInsets.only(
-                right: MEDIUM,
+                right: LayoutValues.MEDIUM,
               ),
-              height: CARD_HEIGHT,
-              width: CARD_WIDTH,
+              height: LayoutValues.CARD_HEIGHT,
+              width: LayoutValues.CARD_WIDTH,
               decoration: new BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(MEDIUM),
-                boxShadow: [CARD_SHADOW],
+                borderRadius: BorderRadius.circular(LayoutValues.MEDIUM),
+                boxShadow: [LayoutValues.CARD_SHADOW],
               ),
               child: InkWell(
-                borderRadius: BorderRadius.circular(MEDIUM),
+                borderRadius: BorderRadius.circular(LayoutValues.MEDIUM),
                 onTap: () async {
                   await Navigator.of(context)
                       .push(MaterialPageRoute(builder: (context) {
@@ -237,7 +242,7 @@ class _ActivityViewState extends State<ActivityView> {
                   }));
                 },
                 child: Padding(
-                  padding: CARD_PADDING,
+                  padding: LayoutValues.CARD_PADDING,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,

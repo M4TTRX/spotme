@@ -62,14 +62,14 @@ class _AddSetsViewState extends State<AddSetsView> {
           },
           background: Container(
             padding: containerPadding,
-            color: redLightColor,
+            color: Theme.of(context).colorScheme.errorContainer,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Icon(
                   Icons.delete_sweep_outlined,
-                  color: redDarkColor,
+                  color: Theme.of(context).colorScheme.onErrorContainer,
                 ),
               ],
             ),
@@ -87,7 +87,7 @@ class _AddSetsViewState extends State<AddSetsView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          height: SMALL / 2,
+                          height: LayoutValues.SMALL / 2,
                         ),
                         Text(
                           "Repetitions",
@@ -96,12 +96,12 @@ class _AddSetsViewState extends State<AddSetsView> {
                         Row(
                           children: [
                             Container(
-                              width: LARGER,
+                              width: LayoutValues.LARGER,
                               child: IconButton(
                                 padding: EdgeInsets.zero,
                                 alignment: Alignment.centerLeft,
-                                iconSize: LARGER,
-                                splashRadius: LARGE + 2,
+                                iconSize: LayoutValues.LARGER,
+                                splashRadius: LayoutValues.LARGE + 2,
                                 onPressed: () {
                                   setState(() {
                                     HapticFeedback.selectionClick();
@@ -113,14 +113,17 @@ class _AddSetsViewState extends State<AddSetsView> {
                                             : sets[i].repetitions! - 1;
                                   });
                                 },
-                                icon: Icon(Icons.remove_circle_outline),
+                                icon: Icon(
+                                  Icons.remove_circle_outline,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
                               ),
                             ),
                             Container(
-                              width: SMALL,
+                              width: LayoutValues.SMALL,
                             ),
                             Container(
-                              width: LARGEST,
+                              width: LayoutValues.LARGEST,
                               child: TextFormField(
                                 textAlign: TextAlign.center,
                                 keyboardType: TextInputType.number,
@@ -151,7 +154,10 @@ class _AddSetsViewState extends State<AddSetsView> {
                                 padding: EdgeInsets.zero,
                                 iconSize: 32,
                                 splashRadius: 36,
-                                icon: Icon(Icons.add_circle_outline),
+                                icon: Icon(
+                                  Icons.add_circle_outline,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
                               ),
                             ),
                           ],
@@ -192,10 +198,10 @@ class _AddSetsViewState extends State<AddSetsView> {
                   ],
                 ),
                 Container(
-                  height: SMALL,
+                  height: LayoutValues.SMALL,
                 ),
                 Container(
-                  height: SMALL / 2,
+                  height: LayoutValues.SMALL / 2,
                 ),
               ],
             ),

@@ -58,7 +58,13 @@ class App extends StatelessWidget {
       value: AuthService().user,
       initialData: Account(),
       child: MaterialApp(
-        theme: THEME,
+        
+        theme: lightTheme,
+        darkTheme: darkTheme,
+
+        // used to restore the naviagator when killing the app
+        restorationScopeId: 'app',
+
         localizationsDelegates: <LocalizationsDelegate<dynamic>>[
           DefaultMaterialLocalizations.delegate,
           DefaultWidgetsLocalizations.delegate,
