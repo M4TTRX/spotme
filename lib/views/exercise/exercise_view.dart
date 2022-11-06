@@ -70,19 +70,19 @@ class _ExerciseViewState extends State<ExerciseView> {
                 style: Theme.of(context).textTheme.headline6,
               ),
               SizedBox(
-                height: LARGE,
+                height: LayoutValues.LARGE,
               ),
               Text(
                 "Details",
                 style: Theme.of(context).textTheme.headline1,
               ),
               Divider(
-                thickness: DIVIDER_THICKNESS,
-                height: DIVIDER_THICKNESS,
+                thickness: LayoutValues.DIVIDER_THICKNESS,
+                height: LayoutValues.DIVIDER_THICKNESS,
                 color: primaryColor,
               ),
               Container(
-                height: SMALL,
+                height: LayoutValues.SMALL,
               ),
               _displaySets(exercise),
               _displayNotes(exercise!),
@@ -100,7 +100,7 @@ class _ExerciseViewState extends State<ExerciseView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                height: SMALL,
+                height: LayoutValues.SMALL,
               ),
               Text(
                 "Notes",

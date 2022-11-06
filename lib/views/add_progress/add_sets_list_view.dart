@@ -87,7 +87,7 @@ class _AddSetsViewState extends State<AddSetsView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          height: SMALL / 2,
+                          height: LayoutValues.SMALL / 2,
                         ),
                         Text(
                           "Repetitions",
@@ -96,12 +96,12 @@ class _AddSetsViewState extends State<AddSetsView> {
                         Row(
                           children: [
                             Container(
-                              width: LARGER,
+                              width: LayoutValues.LARGER,
                               child: IconButton(
                                 padding: EdgeInsets.zero,
                                 alignment: Alignment.centerLeft,
-                                iconSize: LARGER,
-                                splashRadius: LARGE + 2,
+                                iconSize: LayoutValues.LARGER,
+                                splashRadius: LayoutValues.LARGE + 2,
                                 onPressed: () {
                                   setState(() {
                                     HapticFeedback.selectionClick();
@@ -120,10 +120,10 @@ class _AddSetsViewState extends State<AddSetsView> {
                               ),
                             ),
                             Container(
-                              width: SMALL,
+                              width: LayoutValues.SMALL,
                             ),
                             Container(
-                              width: LARGEST,
+                              width: LayoutValues.LARGEST,
                               child: TextFormField(
                                 textAlign: TextAlign.center,
                                 keyboardType: TextInputType.number,
@@ -198,10 +198,10 @@ class _AddSetsViewState extends State<AddSetsView> {
                   ],
                 ),
                 Container(
-                  height: SMALL,
+                  height: LayoutValues.SMALL,
                 ),
                 Container(
-                  height: SMALL / 2,
+                  height: LayoutValues.SMALL / 2,
                 ),
               ],
             ),

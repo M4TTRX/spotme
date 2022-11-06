@@ -96,8 +96,8 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                     style: Theme.of(context).textTheme.headline1,
                   ),
                   Divider(
-                    thickness: DIVIDER_THICKNESS,
-                    height: DIVIDER_THICKNESS,
+                    thickness: LayoutValues.DIVIDER_THICKNESS,
+                    height: LayoutValues.DIVIDER_THICKNESS,
                     color: primaryColor,
                   ),
                   Container(
@@ -116,19 +116,19 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                     },
                   ),
                   SizedBox(
-                    height: LARGE,
+                    height: LayoutValues.LARGE,
                   ),
                   Text(
                     "Repetitions & Weight",
                     style: Theme.of(context).textTheme.headline1,
                   ),
                   Divider(
-                    thickness: DIVIDER_THICKNESS,
-                    height: DIVIDER_THICKNESS,
+                    thickness: LayoutValues.DIVIDER_THICKNESS,
+                    height: LayoutValues.DIVIDER_THICKNESS,
                     color: primaryColor,
                   ),
                   Container(
-                    height: SMALL,
+                    height: LayoutValues.SMALL,
                   ),
                 ]),
           )
@@ -147,7 +147,7 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                     style: Theme.of(context).textTheme.headline1,
                   ),
                   Divider(
-                    thickness: DIVIDER_THICKNESS,
+                    thickness: LayoutValues.DIVIDER_THICKNESS,
                     height: 1,
                     color: primaryColor,
                   ),
@@ -165,7 +165,8 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(right: LARGE + 28.0),
+                        padding: const EdgeInsets.only(
+                            right: LayoutValues.LARGE + 28.0),
                         child: Container(
                             key: Key(Uuid().v4()),
                             width: 96,
@@ -224,7 +225,7 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                     ],
                   ),
                   Container(
-                    height: SMALL,
+                    height: LayoutValues.SMALL,
                   ),
                   Text(
                     "Notes",
@@ -248,7 +249,7 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                     },
                   ),
                   Container(
-                    height: LARGEST,
+                    height: LayoutValues.LARGEST,
                   )
                 ],
               ),
