@@ -4,11 +4,14 @@ import 'package:spotme/model/account_model.dart';
 import 'package:spotme/service/auth_service.dart';
 import 'package:spotme/service/service.dart';
 import 'package:spotme/views/shared/buttons/danger_button.dart';
+import 'package:spotme/views/shared/list_item.dart';
 import 'package:spotme/views/shared/padding.dart';
 import 'package:spotme/views/shared/text/headings.dart';
 import 'package:spotme/views/shared/text/title.dart';
 import 'package:spotme/views/shared/white_app_bar.dart';
 import 'package:spotme/views/shared/whitespace.dart';
+
+import '../../theme/layout_values.dart';
 
 class AccountView extends StatefulWidget {
   final AppService service;
@@ -26,7 +29,6 @@ class _AccountViewState extends State<AccountView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: _buildAccountViewBody(service.account as Account?),
     );
   }
@@ -37,74 +39,43 @@ class _AccountViewState extends State<AccountView> {
       return Container();
     }
     List<Widget> accountBodyView = [];
+
     accountBodyView.add(Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      padding: const EdgeInsets.only(top: 96, bottom: LayoutValues.LARGE),
       child: Row(
         children: <Widget>[
+          Text(
+            "Profile",
+            style: Theme.of(context).textTheme.headline6,
+          ),
           Padding(
             padding: const EdgeInsets.only(right: 16),
             child: Icon(
               Icons.account_circle,
               size: 64,
             ),
-          ),
-          TitleText(user.username ?? "")
+          )
         ],
       ),
+    ));
+    accountBodyView.add(ListItem(
+      title: "Default weight unit",
+      details: "Pre loaded unit when adding exercises",
     ));
     accountBodyView.add(
-      Divider(
-        height: 32,
-      ),
-    );
-
-    // Change username section
-    accountBodyView.add(InkWell(
-      enableFeedback: true,
-      child: Row(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: Icon(Icons.alternate_email, size: 32),
-          ),
-          Body("Change username")
-        ],
-      ),
-    ));
-    accountBodyView.add(Divider(
-      height: 32,
-    ));
-
-    // Modify password section
-    accountBodyView.add(InkWell(
-      enableFeedback: true,
-      child: Row(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: Icon(Icons.lock_outline, size: 32),
-          ),
-          Body("Change Password")
-        ],
-      ),
-    ));
-    accountBodyView.add(Divider(
-      height: 32,
-    ));
-    accountBodyView.add(WhiteSpace());
-    accountBodyView.add(
-      DangerButton(
-        'Logout',
-        () async {
+      InkWell(
+        child: ListItem(
+          title: "Log out",
+          details: "Log off the account and delete on device data",
+        ),
+        onTap: () async {
           await _authService.signOut();
         },
       ),
     );
-    return Container(
+    return ListView(
       padding: containerPadding,
-      child: Column(
-        children: accountBodyView,
-      ),
+      children: accountBodyView,
     );
   }
 }
