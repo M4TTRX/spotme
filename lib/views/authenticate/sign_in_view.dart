@@ -10,6 +10,9 @@ import 'package:spotme/views/shared/loading_view.dart';
 import 'package:spotme/views/shared/padding.dart';
 import 'package:spotme/views/shared/scroll_behavior.dart';
 
+import '../../theme/layout_values.dart';
+import '../shared/buttons/buttonStyles.dart';
+
 class SignInView extends StatefulWidget {
   @override
   _SignInViewState createState() => _SignInViewState();
@@ -39,69 +42,108 @@ class _SignInViewState extends State<SignInView> {
         : _loading
             ? Loading()
             : Scaffold(
-                backgroundColor: Colors.white,
-                appBar: AppBar(
-                  backgroundColor: Colors.white,
-                  elevation: 0.0,
-                  title: Text(
-                    'Sign in bro',
-                    style: TextStyle(color: Colors.black),
-                  ),
-                ),
                 body: ScrollConfiguration(
                   behavior: BasicScrollBehaviour(),
                   child: ListView(
+                  reverse: true,
                     padding: containerPadding,
                     children: <Widget>[
                       Form(
                         key: _formKey,
                         child: Column(
                           children: <Widget>[
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Your email",
+                                style: Theme.of(context).textTheme.headline2,
+                              ),
                             SizedBox(
-                              height: 24,
+                                height: LayoutValues.SMALL,
                             ),
                             TextFormField(
                               keyboardType: TextInputType.emailAddress,
                               validator: (val) =>
                                   val!.isEmpty ? "Invalid email" : null,
+                                style: Theme.of(context).textTheme.bodyText2,
                               decoration: new InputDecoration(
-                                labelText: "Email address",
-                                fillColor: Colors.white,
-                                border: new OutlineInputBorder(
-                                  borderRadius: new BorderRadius.circular(8.0),
-                                  borderSide: new BorderSide(),
+                                  hintText: "Email address",
                                 ),
-                                //fillColor: Colors.green
-                              ),
                               onChanged: (val) {
                                 setState(() => email = val);
                               },
                             ),
                             SizedBox(
-                              height: 24,
-                            ),
+                                height: LayoutValues.MEDIUM,
+                              ),
+                              Text(
+                                "Your password",
+                                style: Theme.of(context).textTheme.headline2,
+                              ),
+                              SizedBox(
+                                height: LayoutValues.SMALL,
+                              ),
                             TextFormField(
                               obscureText: true,
                               validator: (val) => val!.isEmpty
                                   ? "Please put in your password"
                                   : null,
+                                style: Theme.of(context).textTheme.bodyText2,
                               decoration: new InputDecoration(
-                                labelText: "Password",
-                                fillColor: Colors.white,
+                                  hintText: "Password",
                                 border: new OutlineInputBorder(
                                   borderRadius: new BorderRadius.circular(8.0),
                                   borderSide: new BorderSide(),
-                                ),
-                                //fillColor: Colors.green
+                                  ),
                               ),
                               onChanged: (val) {
                                 setState(() => password = val);
                               },
                             ),
-                            SizedBox(
-                              height: 24,
-                            ),
-                            PrimaryButton("Sign In", () async {
+                            ],
+                          ),
+                          SizedBox(
+                            height: LayoutValues.MEDIUM,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              TextButton(
+                                child: Text("Register"),
+                                onPressed: () async {
+                                  await Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(builder: (context) {
+                                    // TODO migrate functions to the authservice
+                                    AppService service =
+                                        AppService(account: Account());
+                                    return SignUpView(
+                                      service: service,
+                                    );
+                                  }));
+                                },
+                                style: greyFlatButton(context),
+                              ),
+                              SizedBox(
+                                width: LayoutValues.SMALL,
+                              ),
+                              ElevatedButton(
+                                child: Text("Log In"),
+                                style: ButtonStyle(
+                                  minimumSize: MaterialStateProperty.all<Size>(
+                                      Size(128, 48)),
+                                  foregroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Theme.of(context)
+                                              .colorScheme
+                                              .onPrimaryContainer),
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Theme.of(context)
+                                              .colorScheme
+                                              .primaryContainer),
+                                ),
+                                onPressed: () async {
                               if (_formKey.currentState!.validate()) {
                                 setState(() {
                                   _loading = true;
@@ -116,32 +158,17 @@ class _SignInViewState extends State<SignInView> {
                                   } else {
                                     _signedIn = true;
                                   }
-                                });
-
-                                print(email);
-                                print(password);
+                                    });
                               }
-                            }),
-                            SizedBox(
-                              height: 8,
-                            ),
-                            SecondaryButton(
-                              "Sign Up",
-                              () async {
-                                await Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(builder: (context) {
-                                  // TODO migrate functions to the authservice
-                                  AppService service =
-                                      AppService(account: Account());
-                                  return SignUpView(
-                                    service: service,
-                                  );
-                                }));
-                              },
-                            ),
+                                },
+                              ),
+                            ],
+                          ),
                             Text(
                               error,
-                              style: TextStyle(color: Colors.red, fontSize: 18),
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.error,
+                                fontSize: 18),
                             )
                           ],
                         ),

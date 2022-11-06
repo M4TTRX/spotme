@@ -121,7 +121,7 @@ ThemeData themeBuilder(ColorScheme colorScheme) => ThemeData(
         // headline1 (Menu Header) is used to represent large headlines like a date
         headline1: GoogleFonts.poppins(
             textStyle: TextStyle(
-          fontSize: 26,
+          fontSize: 20,
           fontWeight: FontWeight.w600,
           color: colorScheme.onBackground,
         )),
@@ -130,7 +130,7 @@ ThemeData themeBuilder(ColorScheme colorScheme) => ThemeData(
         //to display title of exercises
         headline2: GoogleFonts.poppins(
             textStyle: TextStyle(
-          fontSize: 20,
+          fontSize: 15,
           fontWeight: FontWeight.w600,
           color: colorScheme.onBackground,
         )),
@@ -162,7 +162,7 @@ ThemeData themeBuilder(ColorScheme colorScheme) => ThemeData(
         // This style is used for most buttons
         button: GoogleFonts.poppins(
             textStyle: TextStyle(
-          fontSize: 20,
+          fontSize: 18,
           fontWeight: FontWeight.w500,
           color: colorScheme.onBackground,
         )),
@@ -194,12 +194,24 @@ ThemeData themeBuilder(ColorScheme colorScheme) => ThemeData(
       // Define Button Themes
       textButtonTheme: TextButtonThemeData(
           style: ButtonStyle(
+        minimumSize: MaterialStateProperty.all<Size>(Size(64, 48)),
         padding: MaterialStateProperty.all<EdgeInsets>(
             EdgeInsets.symmetric(vertical: 4, horizontal: 16)),
         foregroundColor:
-            MaterialStateProperty.all<Color>(colorScheme.onSecondaryContainer),
+            MaterialStateProperty.all<Color>(colorScheme.onPrimaryContainer),
         backgroundColor:
-            MaterialStateProperty.all<Color>(colorScheme.secondaryContainer),
+            MaterialStateProperty.all<Color>(colorScheme.primaryContainer),
+      )),
+
+      elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+        minimumSize: MaterialStateProperty.all<Size>(Size(64, 48)),
+        padding: MaterialStateProperty.all<EdgeInsets>(
+            EdgeInsets.symmetric(vertical: 4, horizontal: 16)),
+        foregroundColor:
+            MaterialStateProperty.all<Color>(colorScheme.onPrimaryContainer),
+        backgroundColor:
+            MaterialStateProperty.all<Color>(colorScheme.primaryContainer),
       )),
 
       // Define Card Theme
@@ -207,7 +219,7 @@ ThemeData themeBuilder(ColorScheme colorScheme) => ThemeData(
         elevation:
             0, // Wrap cards in container and use the custom CARD_SHADOW instead
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(MEDIUM),
+          borderRadius: BorderRadius.circular(LayoutValues.MEDIUM),
         ),
       ),
     );

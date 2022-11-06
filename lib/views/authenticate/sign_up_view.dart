@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:spotme/service/service.dart';
+import 'package:spotme/theme/layout_values.dart';
 import 'package:spotme/views/authenticate/sign_in_view.dart';
 import 'package:spotme/views/shared/buttons/primary_button.dart';
 import 'package:spotme/views/shared/buttons/secondary_button.dart';
 import 'package:spotme/views/shared/padding.dart';
 import 'package:spotme/views/shared/scroll_behavior.dart';
+
+import '../shared/buttons/buttonStyles.dart';
 
 class SignUpView extends StatefulWidget {
   AppService service;
@@ -42,33 +45,35 @@ class _SignUpViewState extends State<SignUpView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0.0,
-          title: Text(
-            'Sign up bro',
-            style: TextStyle(color: Colors.black),
-          ),
-        ),
         body: ScrollConfiguration(
-          behavior: BasicScrollBehaviour(),
-          child: ListView(
-            padding: containerPadding,
-            children: <Widget>[
-              Form(
-                key: _formKey,
-                child: Column(
-                  children: <Widget>[
+      behavior: BasicScrollBehaviour(),
+      child: ListView(
+        reverse: true,
+        padding: containerPadding,
+        children: <Widget>[
+          Form(
+            key: _formKey,
+            child: Column(
+              children: <Widget>[
+                SizedBox(
+                  height: LayoutValues.LARGE,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Username",
+                      style: Theme.of(context).textTheme.headline2,
+                    ),
                     SizedBox(
-                      height: 24,
+                      height: LayoutValues.SMALL,
                     ),
                     TextFormField(
                       decoration: new InputDecoration(
-                        labelText: "Username",
-                        fillColor: Colors.white,
+                        hintText: "Username",
                         border: new OutlineInputBorder(
-                          borderRadius: new BorderRadius.circular(8.0),
+                          borderRadius:
+                              new BorderRadius.circular(LayoutValues.SMALL),
                           borderSide: new BorderSide(),
                         ),
                       ),
@@ -78,16 +83,22 @@ class _SignUpViewState extends State<SignUpView> {
                       validator: (val) =>
                           val!.isEmpty ? "Username required" : null,
                     ),
-                    SizedBox(
-                      height: 24,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: LayoutValues.SMALL),
+                      child: Text(
+                        "Email",
+                        style: Theme.of(context).textTheme.headline2,
+                      ),
                     ),
+           
                     TextFormField(
                       keyboardType: TextInputType.emailAddress,
                       decoration: new InputDecoration(
-                        labelText: "Email address",
-                        fillColor: Colors.white,
+                        hintText: "Email address",
                         border: new OutlineInputBorder(
-                          borderRadius: new BorderRadius.circular(8.0),
+                          borderRadius:
+                              new BorderRadius.circular(LayoutValues.SMALL),
                           borderSide: new BorderSide(),
                         ),
                       ),
@@ -102,10 +113,15 @@ class _SignUpViewState extends State<SignUpView> {
                     ),
                     Text(
                       error,
-                      style: TextStyle(color: Colors.red, fontSize: 18),
+                      style:
+                          TextStyle(color: Theme.of(context).colorScheme.error),
+                    ),
+                    Text(
+                      "Password",
+                      style: Theme.of(context).textTheme.headline2,
                     ),
                     SizedBox(
-                      height: 24,
+                      height: LayoutValues.SMALL,
                     ),
                     TextFormField(
                       obscureText: true,
@@ -119,10 +135,10 @@ class _SignUpViewState extends State<SignUpView> {
                         return null;
                       },
                       decoration: new InputDecoration(
-                        labelText: "Password",
-                        fillColor: Colors.white,
+                        hintText: "Password",
                         border: new OutlineInputBorder(
-                          borderRadius: new BorderRadius.circular(8.0),
+                          borderRadius:
+                              new BorderRadius.circular(LayoutValues.SMALL),
                           borderSide: new BorderSide(),
                         ),
                       ),
@@ -131,7 +147,7 @@ class _SignUpViewState extends State<SignUpView> {
                       },
                     ),
                     SizedBox(
-                      height: 24,
+                      height: LayoutValues.MEDIUM,
                     ),
                     TextFormField(
                       obscureText: true,
@@ -142,10 +158,10 @@ class _SignUpViewState extends State<SignUpView> {
                         return null;
                       },
                       decoration: new InputDecoration(
-                        labelText: "Please Re-Enter password correctly",
-                        fillColor: Colors.white,
+                        hintText: "Please Re-Enter password correctly",
                         border: new OutlineInputBorder(
-                          borderRadius: new BorderRadius.circular(8.0),
+                          borderRadius:
+                              new BorderRadius.circular(LayoutValues.SMALL),
                           borderSide: new BorderSide(),
                         ),
                         //fillColor: Colors.green
@@ -155,36 +171,58 @@ class _SignUpViewState extends State<SignUpView> {
                       },
                     ),
                     SizedBox(
-                      height: 24,
+                      height: LayoutValues.LARGE,
                     ),
-                    PrimaryButton("Sign Up", () async {
-                      if (_formKey.currentState!.validate()) {
-                        dynamic result = await service.registerUser(
-                            username, email, password);
-                        setState(() {});
-                        if (result == null) {
-                          setState(() {
-                            error =
-                                "Your email is probably invalid or already used";
-                          });
-                        }
-                        print(email);
-                        print(password);
-                        _goToSignIn();
-                      }
-                    }),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    SecondaryButton(
-                      "Sign In",
-                      _goToSignIn,
-                    )
                   ],
                 ),
-              ),
-            ],
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      child: Text("Login"),
+                      onPressed: _goToSignIn,
+                      style: greyFlatButton(context),
+                    ),
+                    SizedBox(
+                      width: LayoutValues.SMALL,
+                    ),
+                    ElevatedButton(
+                      child: Text("Register"),
+                      style: ButtonStyle(
+                        minimumSize:
+                            MaterialStateProperty.all<Size>(Size(128, 48)),
+                        foregroundColor: MaterialStateProperty.all<Color>(
+                            Theme.of(context).colorScheme.onPrimaryContainer),
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            Theme.of(context).colorScheme.primaryContainer),
+                      ),
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          dynamic result = await service.registerUser(
+                              username, email, password);
+                          setState(() {});
+                          if (result == null) {
+                            setState(() {
+                              error =
+                                  "Your email is probably invalid or already used";
+                            });
+                          }
+                          print(email);
+                          print(password);
+                          _goToSignIn();
+                        }
+                      },
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: LayoutValues.LARGE,
+                ),
+              ],
+            ),
           ),
-        ));
+        ],
+      ),
+    ));
   }
 }
