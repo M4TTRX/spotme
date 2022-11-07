@@ -14,6 +14,8 @@ import 'package:spotme/views/exercise/exercise_view.dart';
 import 'package:spotme/model/exercise_model.dart';
 import 'package:spotme/views/shared/padding.dart';
 
+import '../shared/list_header.dart';
+
 class ActivityView extends StatefulWidget {
   final AppService service;
 
@@ -68,15 +70,7 @@ class _ActivityViewState extends State<ActivityView> {
               Container(
                 height: LayoutValues.MEDIUM,
               ),
-              Text(
-                toPrettyString(exercise.createDate!),
-                style: Theme.of(context).textTheme.headline1,
-              ),
-              Divider(
-                thickness: LayoutValues.DIVIDER_THICKNESS,
-                height: LayoutValues.DIVIDER_THICKNESS,
-                color: Theme.of(context).colorScheme.primaryContainer,
-              ),
+              ListHeader(text: toPrettyString(exercise.createDate!)),
             ],
           ),
         );

@@ -18,7 +18,8 @@ class AuthService {
     await for (User? firebaseUser in _auth.authStateChanges()) {
       if (firebaseUser != null) {
         yield _accountFromFirebaseUser(firebaseUser);
-      }
+      } else
+        yield new Account(id: null);
     }
   }
 
@@ -70,7 +71,9 @@ class AuthService {
   // signOut signs out the user from their account
   Future? signOut() async {
     try {
-      return await _auth.signOut();
+      var response = await _auth.signOut();
+      print("signed off successfully!");
+      return response;
     } catch (e) {
       return _handleError(e);
     }

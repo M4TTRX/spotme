@@ -12,6 +12,8 @@ import 'package:spotme/views/shared/white_app_bar.dart';
 import 'package:spotme/views/shared/whitespace.dart';
 
 import '../../theme/layout_values.dart';
+import '../auth_wrapper.dart';
+import '../shared/list_header.dart';
 
 class AccountView extends StatefulWidget {
   final AppService service;
@@ -43,6 +45,7 @@ class _AccountViewState extends State<AccountView> {
     accountBodyView.add(Padding(
       padding: const EdgeInsets.only(top: 96, bottom: LayoutValues.LARGE),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Text(
             "Profile",
@@ -58,10 +61,12 @@ class _AccountViewState extends State<AccountView> {
         ],
       ),
     ));
+    accountBodyView.add(ListHeader(text: "User Preferences"));
     accountBodyView.add(ListItem(
       title: "Default weight unit",
       details: "Pre loaded unit when adding exercises",
     ));
+    accountBodyView.add(ListHeader(text: "Account Management"));
     accountBodyView.add(
       InkWell(
         child: ListItem(
@@ -70,6 +75,10 @@ class _AccountViewState extends State<AccountView> {
         ),
         onTap: () async {
           await _authService.signOut();
+          Navigator.pushAndRemoveUntil(context,
+              MaterialPageRoute(builder: (context) {
+            return AuthWrapper();
+          }), (route) => true);
         },
       ),
     );
