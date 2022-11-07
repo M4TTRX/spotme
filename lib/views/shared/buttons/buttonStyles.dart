@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
-greyFlatButton(context) => ButtonStyle(
+class ButtonStyles {
+  static greyButton(context) => ButtonStyle(
       foregroundColor: MaterialStateProperty.all<Color>(
           Theme.of(context).colorScheme.onSurface),
       backgroundColor: MaterialStateProperty.all<Color>(
           Theme.of(context).colorScheme.surface),
     );
+}

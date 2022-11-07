@@ -10,6 +10,8 @@ import 'package:spotme/views/shared/whitespace.dart';
 import 'package:reorderables/reorderables.dart';
 import 'package:uuid/uuid.dart';
 
+import '../shared/buttons/buttonStyles.dart';
+
 const _dismissThreshold = 0.4; // must swipe at least 40% to dismiss
 
 double pixelTraversedThreshold = 0.0;
@@ -222,6 +224,7 @@ class _AddSetsViewState extends State<AddSetsView> {
                 child: Text(
                   "Add set",
                 ),
+                style: ButtonStyles.greyButton(context),
                 onPressed: () {
                   setState(() {
                     HapticFeedback.lightImpact();

@@ -209,7 +209,9 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                       ),
                       Flexible(
                         child: TextFormField(
-                          initialValue: exercise!.unit ?? "",
+                          initialValue: exercise!.unit?.isEmpty ?? true
+                              ? "kg"
+                              : exercise!.unit,
                           style: TextStyle(
                             fontSize: 18,
                           ),

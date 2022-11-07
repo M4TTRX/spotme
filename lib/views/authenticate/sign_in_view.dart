@@ -122,7 +122,7 @@ class _SignInViewState extends State<SignInView> {
                                     );
                                   }));
                                 },
-                                style: greyFlatButton(context),
+                                style: ButtonStyles.greyButton(context),
                               ),
                               SizedBox(
                                 width: LayoutValues.SMALL,

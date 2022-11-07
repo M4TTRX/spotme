@@ -181,7 +181,7 @@ class _SignUpViewState extends State<SignUpView> {
                     TextButton(
                       child: Text("Login"),
                       onPressed: _goToSignIn,
-                      style: greyFlatButton(context),
+                      style: ButtonStyles.greyButton(context),
                     ),
                     SizedBox(
                       width: LayoutValues.SMALL,
