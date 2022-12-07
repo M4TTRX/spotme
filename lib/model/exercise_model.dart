@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 
 import 'package:spotme/model/account_model.dart';
+import 'package:spotme/model/workout_model.dart';
 
 import 'exercise_set.dart';
 
@@ -20,6 +21,8 @@ class Exercise {
   Account? user;
   // notes represents the optional notes a user may put on their exercise
   String? notes;
+  // workout associated to this exercise
+  Workout? workout;
 
   // Custom methods
   // ==============================================================================
@@ -43,6 +46,7 @@ class Exercise {
     this.createDate,
     this.user,
     this.notes,
+    this.workout,
   });
 
   Exercise copyWith({
@@ -53,6 +57,7 @@ class Exercise {
     DateTime? createDate,
     Account? user,
     String? notes,
+    Workout? workout,
   }) {
     return Exercise(
       id: id ?? this.id,
@@ -62,6 +67,7 @@ class Exercise {
       createDate: createDate ?? this.createDate,
       user: user ?? this.user,
       notes: notes ?? this.notes,
+      workout: workout ?? this.workout,
     );
   }
 
@@ -74,6 +80,7 @@ class Exercise {
       'createDate': createDate?.millisecondsSinceEpoch,
       'user': user?.toMap(),
       'notes': notes,
+      'workout': workout?.toMap(),
     };
   }
 
@@ -89,6 +96,7 @@ class Exercise {
       createDate: DateTime.fromMillisecondsSinceEpoch(map['createDate']),
       user: Account.fromMap(map['user']),
       notes: map['notes'],
+      workout: Workout.fromMap(map['workout']),
     );
   }
 
@@ -98,7 +106,7 @@ class Exercise {
 
   @override
   String toString() {
-    return 'Exercise(id: $id, type: $type, sets: $sets, unit: $unit, createDate: $createDate, user: $user, notes: $notes)';
+    return 'Exercise(id: $id, type: $type, sets: $sets, unit: $unit, createDate: $createDate, user: $user, notes: $notes, workout: $workout)';
   }
 
   @override
@@ -112,6 +120,7 @@ class Exercise {
         o.unit == unit &&
         o.createDate == createDate &&
         o.user == user &&
+        o.workout == workout &&
         o.notes == notes;
   }
 
@@ -123,6 +132,7 @@ class Exercise {
         unit.hashCode ^
         createDate.hashCode ^
         user.hashCode ^
+        workout.hashCode ^
         notes.hashCode;
   }
 }
