@@ -21,7 +21,7 @@ const int _highlightColorVal = 0x33FFFFFF;
 
 // Colors
 const Color primaryColor = Color(_primaryColorVal);
-const _lightGrayBackgroundColor = Color(_lightGrayBackground);
+const lightGrayBackgroundColor = Color(_lightGrayBackground);
 const _veryLightGrayBackgroundColor = Color(_veryLightGrayBackground);
 const darkColour = Color(_darkColourVal);
 const shadowColour = Color(_shadowColourVal);
@@ -131,6 +131,14 @@ ThemeData themeBuilder(ColorScheme colorScheme) => ThemeData(
         headline2: GoogleFonts.poppins(
             textStyle: TextStyle(
           fontSize: 15,
+          fontWeight: FontWeight.w600,
+          color: colorScheme.onBackground,
+        )),
+
+        // headline3
+        // used for modal titles
+        headline3: GoogleFonts.poppins(
+            textStyle: TextStyle(
           fontWeight: FontWeight.w600,
           color: colorScheme.onBackground,
         )),

@@ -65,7 +65,7 @@ class _WorkoutListState extends State<WorkoutList> {
             setState(() {});
           });
     }).toList();
-    showCupertinoModalBottomSheet(
+    showBarModalBottomSheet(
       context: context,
       builder: ((context) => Material(
             type: MaterialType.transparency,
