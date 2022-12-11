@@ -46,14 +46,12 @@ class App extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    // return FutureBuilder(
-    //     future: Firebase.initializeApp(),
-    //     builder: (context, snapshot) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         statusBarBrightness: Brightness.light,
-        statusBarColor: Colors.white,
-        systemNavigationBarColor: Colors.white,
-        systemNavigationBarIconBrightness: Brightness.dark));
+      statusBarColor: Colors.white,
+      systemNavigationBarColor: Colors.white,
+      systemNavigationBarIconBrightness: Brightness.dark,
+    ));
     return StreamProvider<Account>.value(
       value: AuthService().user,
       initialData: Account(),
