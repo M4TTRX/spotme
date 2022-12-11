@@ -24,7 +24,7 @@ class Workout {
       'id': id,
       'name': name,
       'userId': userId,
-      'color': color,
+      'color': color.name,
     };
   }
 
@@ -68,7 +68,7 @@ class Workout {
 enum WorkoutColor { PRIMARY, RED, YELLOW, BLUE, ORANGE, PURPLE, PINK, NEUTRAL }
 
 extension getMaterialColor on WorkoutColor {
-  MaterialStateProperty<Color> getColor() {
+  Color getColor() {
     switch (this) {
       case WorkoutColor.PRIMARY:
         return primaryWorkoutColor;
@@ -82,6 +82,10 @@ extension getMaterialColor on WorkoutColor {
         return orangeWorkoutColor;
       case WorkoutColor.PURPLE:
         return purpleWorkoutColor;
+      case WorkoutColor.PINK:
+        return pinkWorkoutColor;
+      case WorkoutColor.NEUTRAL:
+        return neutralWorkoutColor;
       default:
         return neutralWorkoutColor;
     }

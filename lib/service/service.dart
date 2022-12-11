@@ -1,6 +1,7 @@
 import 'package:spotme/model/database/exercise_db_model.dart';
 import 'package:spotme/model/exercise_model.dart';
 import 'package:spotme/model/account_model.dart';
+import 'package:spotme/model/workout_model.dart';
 import 'package:spotme/service/database/firestore_database_service.dart';
 import 'package:uuid/uuid.dart';
 
@@ -46,6 +47,32 @@ class AppService {
     yield exerciseDataStream;
   }
 
+  Stream<List<Workout>> get userWorkoutStream async* {
+    List<Workout> workoutDataStream = [];
+
+    // get the userID from stream
+    String userID = this.account.id!;
+
+    if (userID.length > 0) {
+      final FireStoreDatabaseService fireStoreDb =
+          FireStoreDatabaseService(userId: userID);
+
+      await for (List<Workout?> workouts in fireStoreDb.workouts.distinct()) {
+        print(workouts);
+        // add workouts
+        workouts.forEach((workout) {
+          if (workout != null) {
+            workoutDataStream.add(workout);
+          }
+        });
+        yield workoutDataStream;
+      }
+    } else {
+      print("Error getting user workouts: UserId could not be retrieved");
+    }
+    yield workoutDataStream;
+  }
+
   // Methods
   // ===============================================================
   Future registerUser(String username, String email, String password) async {
@@ -81,6 +108,20 @@ class AppService {
       notes: exercise.notes ?? "",
     );
     await fireStoreDb.upsertExercise(databaseExercise);
+  }
+
+  // putExercise stores an exercise for the user
+  Future putWorkout(String id, String name, WorkoutColor color) async {
+    // get the userID
+    String? userID = this.account.id;
+    try {
+      final FireStoreDatabaseService fireStoreDb =
+          FireStoreDatabaseService(userId: userID);
+      Workout workout = Workout(Uuid().v4(), name, userID!, color: color);
+      await fireStoreDb.upsertUserWorkout(workout);
+    } catch (e) {
+      print("Failed to save workout with name: $name and id: $id");
+    }
   }
 
   // SharedPreference stuff (useless)

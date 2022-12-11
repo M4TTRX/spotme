@@ -40,6 +40,9 @@ class _AddExerciseViewState extends State<AddExerciseView> {
 
   @override
   Widget build(BuildContext context) {
+    if (exercise == null) {
+      this.exercise = Exercise();
+    }
     return ScrollConfiguration(
       behavior: CupertinoScrollBehavior(),
       child: Scaffold(
@@ -134,7 +137,7 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                   ])),
           WorkoutList(
             service: service,
-            exercise: exercise,
+            exercise: exercise!,
           ),
           Padding(
             padding: containerPadding,

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:spotme/helpers/color_helpers.dart';
 import 'package:spotme/model/exercise_model.dart';
 import 'package:spotme/model/workout_model.dart';
 import 'package:spotme/service/service.dart';
@@ -14,40 +16,54 @@ import 'add_workout_modal_view.dart';
 class WorkoutList extends StatefulWidget {
   WorkoutList({super.key, required this.service, required this.exercise});
   final AppService service;
-  Exercise? exercise;
+  Exercise exercise;
 
   @override
-  State<WorkoutList> createState() => _WorkoutListState();
+  State<WorkoutList> createState() => _WorkoutListState(exercise, service);
 }
 
 class _WorkoutListState extends State<WorkoutList> {
-  int? _value = 1;
+  _WorkoutListState(this.exercise, this.service);
+  Exercise exercise;
+  final AppService service;
   WorkoutColor? _color = WorkoutColor.PRIMARY;
 
-  List<Widget> _workoutsChipList() {
+  List<Widget> _workoutsChipList(workoutList) {
     var workoutChips = List<Widget>.generate(
-      2,
+      workoutList.length,
       (int index) {
         return Padding(
           padding: const EdgeInsets.only(left: LayoutValues.SMALL),
-          child: ChoiceChip(
-            label: Text('Workout $index'),
-            selected: _value == index,
+          child: RawChip(
+            pressElevation: 0,
+            checkmarkColor: workoutList[index].color.getColor().darken(0.5),
+            label: Text(workoutList[index].name),
+            labelStyle: TextStyle(
+                color: workoutList[index].color.getColor().darken(0.5)),
+            backgroundColor: workoutList[index].color.getColor().withAlpha(64),
+            selectedColor: workoutList[index].color.getColor().withAlpha(196),
+            selected: exercise.workout == workoutList[index].id,
+            side: BorderSide(style: BorderStyle.none),
             onSelected: (bool selected) {
               setState(() {
-                _value = selected ? index : null;
+                exercise.workout = selected ? workoutList[index] : null;
               });
             },
           ),
         );
       },
     ).toList();
-    ActionChip actionChip = ActionChip(
-        label: Text('Add Workout'),
-        avatar: Icon(Icons.add),
-        onPressed: _addWorkoutModal);
+    RawChip actionChip = RawChip(
+      label: Text('Add Workout'),
+      avatar: Icon(Icons.add),
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      side: BorderSide(style: BorderStyle.none),
+      onPressed: _addWorkoutModal,
+    );
     workoutChips.add(Padding(
-      padding: const EdgeInsets.only(left: LayoutValues.SMALL),
+      padding: const EdgeInsets.symmetric(
+        horizontal: LayoutValues.SMALL,
+      ),
       child: actionChip,
     ));
     return workoutChips;
@@ -78,17 +94,25 @@ class _WorkoutListState extends State<WorkoutList> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: _workoutsChipList(),
-          ),
-        ),
-      ],
-    );
+    return StreamBuilder<Object>(
+        stream: service.userWorkoutStream,
+        builder: (context, snapshot) {
+          if (snapshot.data == null) {
+            return Container();
+          }
+          return Container(
+              child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: _workoutsChipList(snapshot.data as List<Workout>),
+                ),
+              ),
+            ],
+          ));
+        });
   }
 }
