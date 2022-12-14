@@ -32,7 +32,6 @@ class AppService {
 
       await for (List<Exercise?> exercises
           in fireStoreDb.exercises.distinct()) {
-        print(exercises);
         // add exercises
         exercises.forEach((exercise) {
           if (exercise != null) {

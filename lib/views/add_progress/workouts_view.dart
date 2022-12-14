@@ -33,16 +33,24 @@ class _WorkoutListState extends State<WorkoutList> {
       workoutList.length,
       (int index) {
         return Padding(
-          padding: const EdgeInsets.only(left: LayoutValues.SMALL),
+          padding: EdgeInsets.only(
+              left: index == 0 ? LayoutValues.MEDIUM : LayoutValues.SMALL),
           child: RawChip(
             pressElevation: 0,
-            checkmarkColor: workoutList[index].color.getColor().darken(0.5),
+            checkmarkColor:
+                WorkoutColorHelpers.getColor(workoutList[index].color)
+                    .darken(0.5),
             label: Text(workoutList[index].name),
             labelStyle: TextStyle(
-                color: workoutList[index].color.getColor().darken(0.5)),
-            backgroundColor: workoutList[index].color.getColor().withAlpha(64),
-            selectedColor: workoutList[index].color.getColor().withAlpha(196),
-            selected: exercise.workout == workoutList[index].id,
+                color: WorkoutColorHelpers.getColor(workoutList[index].color)
+                    .darken(0.5)),
+            backgroundColor:
+                WorkoutColorHelpers.getColor(workoutList[index].color)
+                    .withAlpha(64),
+            selectedColor:
+                WorkoutColorHelpers.getColor(workoutList[index].color)
+                    .withAlpha(196),
+            selected: exercise.workout == workoutList[index],
             side: BorderSide(style: BorderStyle.none),
             onSelected: (bool selected) {
               setState(() {
@@ -54,6 +62,7 @@ class _WorkoutListState extends State<WorkoutList> {
       },
     ).toList();
     RawChip actionChip = RawChip(
+      pressElevation: 0,
       label: Text('Add Workout'),
       avatar: Icon(Icons.add),
       backgroundColor: Theme.of(context).colorScheme.surface,
@@ -61,8 +70,9 @@ class _WorkoutListState extends State<WorkoutList> {
       onPressed: _addWorkoutModal,
     );
     workoutChips.add(Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: LayoutValues.SMALL,
+      padding: const EdgeInsets.only(
+        left: LayoutValues.SMALL,
+        right: LayoutValues.MEDIUM,
       ),
       child: actionChip,
     ));
@@ -96,6 +106,7 @@ class _WorkoutListState extends State<WorkoutList> {
   Widget build(BuildContext context) {
     return StreamBuilder<Object>(
         stream: service.userWorkoutStream,
+        initialData: [],
         builder: (context, snapshot) {
           if (snapshot.data == null) {
             return Container();

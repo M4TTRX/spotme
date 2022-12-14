@@ -35,8 +35,8 @@ const lightColorScheme = ColorScheme(
   brightness: Brightness.light,
   primary: Color(0xFF006B5A),
   onPrimary: Color(0xFFFFFFFF),
-  primaryContainer: Color(0xFF64FADB),
-  onPrimaryContainer: Color(0xFF00201A),
+  primaryContainer: Color(_primaryColorVal),
+  onPrimaryContainer: Color(_darkColourVal),
   secondary: Color(0xFF4B635C),
   onSecondary: Color(0xFFFFFFFF),
   secondaryContainer: Color(0xFFCDE8DF),
@@ -58,7 +58,7 @@ const lightColorScheme = ColorScheme(
   outline: Color(0xFF6F7975),
   onInverseSurface: Color(0xFFE5F2FF),
   inverseSurface: Color(0xFF00344D),
-  inversePrimary: Color(0xFF3FDDBF),
+  inversePrimary: Color(_primaryColorVal),
   shadow: Color(0xFF000000),
   surfaceTint: Color(0xFF006B5A),
 );
@@ -109,6 +109,8 @@ ThemeData themeBuilder(ColorScheme colorScheme) => ThemeData(
       // splashColor: Color(_veryLightGrayBackground),
       // highlightColor: Color(_veryLightGrayBackground),
 
+      bottomAppBarColor: Color(0xFFFFFFFF),
+      appBarTheme: AppBarTheme(color: Color(0xFFFFFFFF)),
       // headline6 Title theme
       textTheme: TextTheme(
         headline6: GoogleFonts.poppins(
@@ -130,7 +132,7 @@ ThemeData themeBuilder(ColorScheme colorScheme) => ThemeData(
         //to display title of exercises
         headline2: GoogleFonts.poppins(
             textStyle: TextStyle(
-          fontSize: 15,
+          fontSize: 18,
           fontWeight: FontWeight.w600,
           color: colorScheme.onBackground,
         )),

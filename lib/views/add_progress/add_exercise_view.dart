@@ -41,7 +41,7 @@ class _AddExerciseViewState extends State<AddExerciseView> {
   @override
   Widget build(BuildContext context) {
     if (exercise == null) {
-      this.exercise = Exercise();
+      this.exercise = Exercise(sets: [ExerciseSet(repetitions: 1)]);
     }
     return ScrollConfiguration(
       behavior: CupertinoScrollBehavior(),
