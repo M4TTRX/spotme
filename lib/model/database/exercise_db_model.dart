@@ -67,7 +67,7 @@ class DatabaseExercise {
       'createDate': createDate?.millisecondsSinceEpoch,
       'userID': userID,
       'notes': notes,
-      'workout': workout,
+      'workout': workout?.toMap() ?? null,
     };
   }
 

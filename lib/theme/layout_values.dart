@@ -21,4 +21,9 @@ class LayoutValues {
     color: shadowColour,
     blurRadius: 5.0,
   );
+
+  // Workout Chips
+  static const int WORKOUT_CHIP_BACKGROUND_ALPHA = 128;
+  static const int WORKOUT_CHIP_SELECTED_ALPHA = 223;
+  static const double WORKOUT_CHIP_TEXT_DARKEN = 0.5;
 }

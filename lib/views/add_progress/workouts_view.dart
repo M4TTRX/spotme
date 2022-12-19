@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:spotme/helpers/color_helpers.dart';
+import 'package:spotme/helpers/string_helper.dart';
 import 'package:spotme/model/exercise_model.dart';
 import 'package:spotme/model/workout_model.dart';
 import 'package:spotme/service/service.dart';
@@ -28,59 +29,72 @@ class _WorkoutListState extends State<WorkoutList> {
   final AppService service;
   WorkoutColor? _color = WorkoutColor.PRIMARY;
 
-  List<Widget> _workoutsChipList(workoutList) {
-    var workoutChips = List<Widget>.generate(
-      workoutList.length,
-      (int index) {
-        return Padding(
-          padding: EdgeInsets.only(
-              left: index == 0 ? LayoutValues.MEDIUM : LayoutValues.SMALL),
-          child: RawChip(
-            pressElevation: 0,
-            checkmarkColor:
-                WorkoutColorHelpers.getColor(workoutList[index].color)
-                    .darken(0.5),
-            label: Text(workoutList[index].name),
-            labelStyle: TextStyle(
-                color: WorkoutColorHelpers.getColor(workoutList[index].color)
-                    .darken(0.5)),
-            backgroundColor:
-                WorkoutColorHelpers.getColor(workoutList[index].color)
-                    .withAlpha(64),
-            selectedColor:
-                WorkoutColorHelpers.getColor(workoutList[index].color)
-                    .withAlpha(196),
-            selected: exercise.workout == workoutList[index],
-            side: BorderSide(style: BorderStyle.none),
-            onSelected: (bool selected) {
-              setState(() {
-                exercise.workout = selected ? workoutList[index] : null;
-              });
-            },
-          ),
-        );
-      },
-    ).toList();
-    RawChip actionChip = RawChip(
-      pressElevation: 0,
-      label: Text('Add Workout'),
-      avatar: Icon(Icons.add),
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      side: BorderSide(style: BorderStyle.none),
-      onPressed: _addWorkoutModal,
-    );
-    workoutChips.add(Padding(
-      padding: const EdgeInsets.only(
-        left: LayoutValues.SMALL,
-        right: LayoutValues.MEDIUM,
-      ),
-      child: actionChip,
-    ));
-    return workoutChips;
+  List<Widget> _workoutsChipList(List<Object?> rawWorkoutList) {
+    try {
+      var seen = Set<String>();
+      List<Workout> workoutList = (rawWorkoutList as List<Workout>)
+          .where((workout) => seen.add(workout.name))
+          .toList();
+
+      var workoutChips = List<Widget>.generate(
+        workoutList.length,
+        (int index) {
+          return Padding(
+            padding: EdgeInsets.only(
+                left: index == 0 ? LayoutValues.MEDIUM : LayoutValues.SMALL),
+            child: GestureDetector(
+              onLongPress: (() => _showWorkoutModal(
+                  workout: workoutList[index], editMode: true)),
+              child: RawChip(
+                pressElevation: 0,
+                checkmarkColor:
+                    WorkoutColorHelpers.getColor(workoutList[index].color)
+                        .darken(0.5),
+                label: Text(workoutList[index].name.capitalize()),
+                labelStyle: TextStyle(
+                    color:
+                        WorkoutColorHelpers.getColor(workoutList[index].color)
+                            .darken(LayoutValues.WORKOUT_CHIP_TEXT_DARKEN)),
+                backgroundColor:
+                    WorkoutColorHelpers.getColor(workoutList[index].color)
+                        .withAlpha(LayoutValues.WORKOUT_CHIP_BACKGROUND_ALPHA),
+                selectedColor:
+                    WorkoutColorHelpers.getColor(workoutList[index].color)
+                        .withAlpha(LayoutValues.WORKOUT_CHIP_SELECTED_ALPHA),
+                selected: exercise.workout == workoutList[index],
+                side: BorderSide(style: BorderStyle.none),
+                onSelected: (bool selected) {
+                  setState(() {
+                    exercise.workout = selected ? workoutList[index] : null;
+                  });
+                },
+              ),
+            ),
+          );
+        },
+      ).toList();
+      RawChip actionChip = RawChip(
+        pressElevation: 0,
+        label: Text('Add Workout'),
+        avatar: Icon(Icons.add),
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        side: BorderSide(style: BorderStyle.none),
+        onPressed: _showWorkoutModal,
+      );
+      workoutChips.add(Padding(
+        padding: const EdgeInsets.only(
+          left: LayoutValues.SMALL,
+          right: LayoutValues.MEDIUM,
+        ),
+        child: actionChip,
+      ));
+      return workoutChips;
+    } catch (e) {
+      return [Container()];
+    }
   }
 
-  void _addWorkoutModal() {
-    Workout _newWorkout = Workout(Uuid().v4().toString(), "", "");
+  void _showWorkoutModal({Workout? workout = null, bool editMode = false}) {
     // create the list of colors associated to a radio button
     var _colorRadio = List<Widget>.generate(4, (int index) {
       return Radio(
@@ -96,8 +110,7 @@ class _WorkoutListState extends State<WorkoutList> {
       builder: ((context) => Material(
             type: MaterialType.transparency,
             child: AddWorkoutView(
-              workout: _newWorkout,
-            ),
+                workout: workout ?? Workout("", ""), editMode: editMode),
           )),
     );
   }
@@ -119,7 +132,7 @@ class _WorkoutListState extends State<WorkoutList> {
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  children: _workoutsChipList(snapshot.data as List<Workout>),
+                  children: _workoutsChipList(snapshot.data as List<Object?>),
                 ),
               ),
             ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:spotme/helpers/string_helper.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../model/account_model.dart';
@@ -10,19 +11,25 @@ import '../../theme/layout_values.dart';
 import '../shared/buttons/buttonStyles.dart';
 
 class AddWorkoutView extends StatefulWidget {
-  AddWorkoutView({super.key, this.workout});
+  AddWorkoutView({super.key, this.workout, required bool this.editMode});
   Workout? workout;
+  final bool editMode;
   @override
-  State<AddWorkoutView> createState() => _AddWorkoutViewState(workout);
+  State<AddWorkoutView> createState() =>
+      _AddWorkoutViewState(workout, editMode);
 }
 
 class _AddWorkoutViewState extends State<AddWorkoutView> {
-  _AddWorkoutViewState(this._workout);
+  _AddWorkoutViewState(this._workout, this.editMode) {
+    _color = _workout?.color ?? WorkoutColor.PRIMARY;
+    _name = _workout?.name ?? "";
+  }
   final _formKey = GlobalKey<FormState>();
-
-  WorkoutColor _color = WorkoutColor.PRIMARY;
+  final bool editMode;
   Workout? _workout;
-  String _name = "";
+
+  late WorkoutColor _color;
+  late String _name;
   late AppService service;
 
   _colorRadio() =>
@@ -44,6 +51,7 @@ class _AddWorkoutViewState extends State<AddWorkoutView> {
       }).toList();
   @override
   Widget build(BuildContext context) {
+
     return Consumer<Account>(
         builder: (context, Account account, Widget? widget) {
       this.service = AppService(account: account);
@@ -71,6 +79,7 @@ class _AddWorkoutViewState extends State<AddWorkoutView> {
                   ),
                   SizedBox(height: LayoutValues.SMALL),
                   TextFormField(
+                    enabled: !editMode,
                     decoration: InputDecoration(
                       hintText: "Workout Name",
                     ),
@@ -81,6 +90,7 @@ class _AddWorkoutViewState extends State<AddWorkoutView> {
                         return "Workout name should be 20 characters max";
                       return null;
                     },
+                    initialValue: _name.capitalize(),
                     onChanged: (String val) {
                       _name = val;
                     },
@@ -96,33 +106,41 @@ class _AddWorkoutViewState extends State<AddWorkoutView> {
                   ),
                   SizedBox(height: LayoutValues.MEDIUM),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      TextButton(
-                        child: Text("Cancel"),
-                        style: ButtonStyles.greyButton(context),
-                        onPressed: () {
-                          HapticFeedback.selectionClick();
-                          Navigator.pop(context);
-                        },
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          editMode
+                              ? TextButton(
+                                  child: Text("Delete"),
+                                  style: ButtonStyles.dangerButton(context),
+                                  onPressed: () {
+                                    HapticFeedback.selectionClick();
+                                    this.service.deleteWorkout(
+                                        this._name.toLowerCase());
+                                    Navigator.pop(context);
+
+                                  },
+                                )
+                              : Container(
+                                  width: 1,
+                                ),
+                          TextButton(
+                            child: Text("Submit"),
+                            style: ButtonStyles.actionButton(context),
+                            onPressed: () {
+                              HapticFeedback.selectionClick();
+                              if (_formKey.currentState!.validate()) {
+                                this.service.putWorkout(
+                                    this._name.toLowerCase(), _color);
+                                Navigator.pop(context);
+                              } else {
+                                HapticFeedback.heavyImpact();
+                              }
+                            },
+                          )
+                        ],
                       ),
-                      SizedBox(width: LayoutValues.SMALL),
-                      TextButton(
-                        child: Text("Submit"),
-                        style: ButtonStyles.actionButton(context),
-                        onPressed: () {
-                          HapticFeedback.selectionClick();
-                          if (_formKey.currentState!.validate()) {
-                            this
-                                .service
-                                .putWorkout(Uuid().v4(), this._name, _color);
-                            Navigator.pop(context);
-                          } else {
-                            HapticFeedback.heavyImpact();
-                          }
-                   
-                        },
-                      )
                     ],
                   )
                 ],

@@ -60,13 +60,15 @@ class FireStoreDatabaseService {
         .snapshots()
         .map(_getExercisesFromSnapshot);
   }
-  
+
   // Exercise Firestore collection
   final CollectionReference userWorkoutCollection =
       FirebaseFirestore.instance.collection(_USER_WORKOUTS_COLLECTION);
 
   Future upsertUserWorkout(Workout workout) async {
-    return await userWorkoutCollection.doc(workout.id).set(workout.toMap());
+    return await userWorkoutCollection
+        .doc(workout.getId())
+        .set(workout.toMap());
   }
 
   List<Workout?> _getUserWorkoutsFromSnapshot(QuerySnapshot snapshot) {
@@ -80,6 +82,10 @@ class FireStoreDatabaseService {
         .where("userID", isEqualTo: this.userId)
         .snapshots()
         .map(_getUserWorkoutsFromSnapshot);
+  }
+
+  Future<void> deleteWorkout(String workoutID) {
+    return userWorkoutCollection.doc(workoutID).delete();
   }
 
   final CollectionReference challengesCollection =

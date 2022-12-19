@@ -105,21 +105,33 @@ class AppService {
       createDate: exercise.createDate ?? DateTime.now(),
       userID: userID,
       notes: exercise.notes ?? "",
+      workout: exercise.workout,
     );
     await fireStoreDb.upsertExercise(databaseExercise);
   }
 
   // putExercise stores an exercise for the user
-  Future putWorkout(String id, String name, WorkoutColor color) async {
+  Future putWorkout(String name, WorkoutColor color) async {
     // get the userID
     String? userID = this.account.id;
     try {
       final FireStoreDatabaseService fireStoreDb =
           FireStoreDatabaseService(userId: userID);
-      Workout workout = Workout(Uuid().v4(), name, userID!, color: color);
+      Workout workout = Workout(name, userID!, color: color);
       await fireStoreDb.upsertUserWorkout(workout);
     } catch (e) {
-      print("Failed to save workout with name: $name and id: $id");
+      print("Failed to save workout with name: $name");
+    }
+  }
+
+  Future<void> deleteWorkout(String name) async {
+    String? userID = this.account.id;
+    try {
+      final FireStoreDatabaseService fireStoreDb =
+          FireStoreDatabaseService(userId: userID);
+      await fireStoreDb.deleteWorkout(name + "_" + userID!);
+    } catch (e) {
+      print("Failed to delete workout with name: $name");
     }
   }
 

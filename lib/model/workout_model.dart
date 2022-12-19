@@ -4,24 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:spotme/theme/workout_colors.dart';
 
 class Workout {
-  Workout(this.id, this.name, this.userID, {this.color = WorkoutColor.NEUTRAL});
-  final String id;
+  Workout(this.name, this.userID, {this.color = WorkoutColor.NEUTRAL});
   final String name;
   final String userID;
   WorkoutColor color;
 
   Workout copyWith({
-    required String id,
     required String name,
     required String userID,
     color = WorkoutColor.NEUTRAL,
   }) {
-    return Workout(id, name, userID, color: color);
+    return Workout(name, userID, color: color);
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
       'name': name,
       'userID': userID,
       'color': color.name,
@@ -32,7 +29,6 @@ class Workout {
     if (map == null) return null;
     try {
       return Workout(
-        map['id'],
         map['name'],
         map['userID'],
         color: _getWorkoutColorFromMap(map),
@@ -70,7 +66,7 @@ class Workout {
 
   @override
   String toString() {
-    return 'Workout(id: $id, name: $name, userID: $userID, color: $color)';
+    return 'Workout(name: $name, userID: $userID, color: $color)';
   }
 
   // We assume that if an exercise has the same name, it is the same exercise
@@ -78,12 +74,15 @@ class Workout {
   bool operator ==(Object o) {
     if (identical(this, o)) return true;
 
-    return o is Workout && o.name == name;
+    return o is Workout && o.getId() == this.getId();
   }
+
+  // the id of a workout is name_userID
+  String getId() => this.name + "_" + this.userID;
 
   @override
   int get hashCode {
-    return id.hashCode ^ name.hashCode ^ userID.hashCode ^ color.hashCode;
+    return name.hashCode ^ userID.hashCode;
   }
 }
 
