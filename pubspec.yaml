@@ -47,6 +47,7 @@ dependencies:
   reorderables: ^0.4.1
   implicitly_animated_reorderable_list: ^0.4.1
   firebase_ui_auth: ^1.0.4
+  modal_bottom_sheet: ^2.1.2
 
 dev_dependencies:
   flutter_test:

@@ -10,6 +10,7 @@ import 'package:spotme/theme/layout_values.dart';
 import 'package:spotme/theme/theme_Data.dart';
 import 'package:spotme/views/shared/padding.dart';
 import 'package:spotme/views/shared/scroll_behavior.dart';
+import 'package:spotme/views/shared/workout_chip.dart';
 import 'package:uuid/uuid.dart';
 
 class ExerciseView extends StatefulWidget {
@@ -61,12 +62,23 @@ class _ExerciseViewState extends State<ExerciseView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(
-                getDayAndTimeString(exercise!.createDate),
-                style: Theme.of(context).textTheme.bodyText2,
+              Row(
+                children: [
+                  exercise?.workout != null
+                      ? Padding(
+                          padding:
+                              const EdgeInsets.only(right: LayoutValues.SMALL),
+                          child: WorkoutChip(exercise!.workout!),
+                        )
+                      : Container(),
+                  Text(
+                    getDayAndTimeString(exercise!.createDate),
+                    style: Theme.of(context).textTheme.bodyText2,
+                  ),
+                ],
               ),
               Text(
-                toCapitalized(exercise!.type),
+                exercise?.type.capitalize() ?? "Unknown exercise",
                 style: Theme.of(context).textTheme.headline6,
               ),
               SizedBox(
@@ -152,7 +164,8 @@ class _ExerciseViewState extends State<ExerciseView> {
                 // Display the unit if there is one
                 (exercise.unit == null
                     ? ""
-                    : (" " + toCapitalized(exercise.unit)))))
+                    : (" " +
+                        (exercise.unit.capitalize() ?? "Unknown Exercise")))))
       ],
     );
   }

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 
 import '../exercise_set.dart';
+import '../workout_model.dart';
 
 class DatabaseExercise {
   // the unique id to identify that exercise
@@ -19,6 +20,8 @@ class DatabaseExercise {
   String? userID;
   // notes represents the optional notes a user may put on their exercise
   String? notes;
+  // workout describes the workout this exercise is part of
+  Workout? workout;
 
   // Generated methods
   // ==============================================================================
@@ -30,6 +33,7 @@ class DatabaseExercise {
     this.createDate,
     this.userID,
     this.notes,
+    this.workout,
   });
 
   DatabaseExercise copyWith({
@@ -40,6 +44,7 @@ class DatabaseExercise {
     DateTime? createDate,
     String? userID,
     String? notes,
+    Workout? workout,
   }) {
     return DatabaseExercise(
       id: id ?? this.id,
@@ -49,6 +54,7 @@ class DatabaseExercise {
       createDate: createDate ?? this.createDate,
       userID: userID ?? this.userID,
       notes: notes ?? this.notes,
+      workout: workout ?? this.workout,
     );
   }
 
@@ -61,6 +67,7 @@ class DatabaseExercise {
       'createDate': createDate?.millisecondsSinceEpoch,
       'userID': userID,
       'notes': notes,
+      'workout': workout?.toMap() ?? null,
     };
   }
 
@@ -76,6 +83,7 @@ class DatabaseExercise {
       createDate: DateTime.fromMillisecondsSinceEpoch(map['createDate']),
       userID: map['userID'],
       notes: map['notes'],
+      workout: Workout.fromMap(map['workout']),
     );
   }
 
@@ -86,7 +94,7 @@ class DatabaseExercise {
 
   @override
   String toString() {
-    return 'DatabaseExercise(id: $id, type: $type, sets: $sets, unit: $unit, createDate: $createDate, userID: $userID, notes: $notes)';
+    return 'DatabaseExercise(id: $id, type: $type, sets: $sets, unit: $unit, createDate: $createDate, userID: $userID, notes: $notes, workout: $workout)';
   }
 
   @override
@@ -100,6 +108,7 @@ class DatabaseExercise {
         o.unit == unit &&
         o.createDate == createDate &&
         o.userID == userID &&
+        o.workout == workout &&
         o.notes == notes;
   }
 
@@ -111,6 +120,7 @@ class DatabaseExercise {
         unit.hashCode ^
         createDate.hashCode ^
         userID.hashCode ^
+        workout.hashCode ^
         notes.hashCode;
   }
 }

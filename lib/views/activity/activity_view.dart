@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:spotme/helpers/date_time_helper.dart';
 import 'package:spotme/helpers/string_helper.dart';
 import 'package:spotme/model/exercise_set.dart';
+import 'package:spotme/helpers/string_helper.dart';
+
 
 import 'package:spotme/service/service.dart';
 import 'package:spotme/theme/layout_values.dart';
@@ -15,6 +17,7 @@ import 'package:spotme/model/exercise_model.dart';
 import 'package:spotme/views/shared/padding.dart';
 
 import '../shared/list_header.dart';
+import '../shared/workout_chip.dart';
 
 class ActivityView extends StatefulWidget {
   final AppService service;
@@ -101,12 +104,29 @@ class _ActivityViewState extends State<ActivityView> {
                 style: Theme.of(context).textTheme.subtitle1,
               ),
               Text(
-                toCapitalized(exercise.type),
+                exercise.type.capitalize() ?? "Unknown exercise",
                 style: Theme.of(context).textTheme.headline2,
               ),
-              Text(
-                exercise.getDisplayAmount(),
-                style: Theme.of(context).textTheme.bodyText2,
+              SizedBox(
+                height: LayoutValues.SMALLER,
+              ),
+              Row(
+                children: [
+                  exercise.workout == null
+                      ? Container()
+                      : Row(
+                          children: [
+                            WorkoutChip(exercise.workout!),
+                            SizedBox(
+                              width: LayoutValues.SMALL,
+                            )
+                          ],
+                        ),
+                  Text(
+                    exercise.getDisplayAmount(),
+                    style: Theme.of(context).textTheme.bodyText2,
+                  ),
+                ],
               ),
             ],
           ),
@@ -243,7 +263,7 @@ class _ActivityViewState extends State<ActivityView> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        toCapitalized(exercises[i].type),
+                        exercises[i].type.capitalize() ?? "Unknown exercise",
                         style: Theme.of(context).textTheme.headline2,
                       ),
                       Text(

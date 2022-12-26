@@ -7,6 +7,7 @@ import 'package:spotme/model/exercise_set.dart';
 import 'package:spotme/service/service.dart';
 import 'package:spotme/theme/layout_values.dart';
 import 'package:spotme/theme/theme_Data.dart';
+import 'package:spotme/views/add_progress/workouts_view.dart';
 import 'package:spotme/views/shared/padding.dart';
 import 'package:uuid/uuid.dart';
 
@@ -39,6 +40,9 @@ class _AddExerciseViewState extends State<AddExerciseView> {
 
   @override
   Widget build(BuildContext context) {
+    if (exercise == null) {
+      this.exercise = Exercise(sets: [ExerciseSet(repetitions: 1)]);
+    }
     return ScrollConfiguration(
       behavior: CupertinoScrollBehavior(),
       child: Scaffold(
@@ -119,6 +123,31 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                     height: LayoutValues.LARGE,
                   ),
                   Text(
+                      "Workouts",
+                      style: Theme.of(context).textTheme.headline1,
+                    ),
+                    Divider(
+                      thickness: LayoutValues.DIVIDER_THICKNESS,
+                      height: LayoutValues.DIVIDER_THICKNESS,
+                      color: primaryColor,
+                    ),
+                    Container(
+                      height: LayoutValues.SMALL,
+                    ),
+                  ])),
+          WorkoutList(
+            service: service,
+            exercise: exercise!,
+          ),
+          Padding(
+            padding: containerPadding,
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(
+                    height: LayoutValues.LARGE,
+                  ),
+                  Text(
                     "Repetitions & Weight",
                     style: Theme.of(context).textTheme.headline1,
                   ),
@@ -131,7 +160,7 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                     height: LayoutValues.SMALL,
                   ),
                 ]),
-          )
+          ),
         ])),
         _displaySets(exercise!),
         SliverList(

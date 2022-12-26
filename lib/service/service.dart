@@ -1,6 +1,7 @@
 import 'package:spotme/model/database/exercise_db_model.dart';
 import 'package:spotme/model/exercise_model.dart';
 import 'package:spotme/model/account_model.dart';
+import 'package:spotme/model/workout_model.dart';
 import 'package:spotme/service/database/firestore_database_service.dart';
 import 'package:uuid/uuid.dart';
 
@@ -31,7 +32,6 @@ class AppService {
 
       await for (List<Exercise?> exercises
           in fireStoreDb.exercises.distinct()) {
-        print(exercises);
         // add exercises
         exercises.forEach((exercise) {
           if (exercise != null) {
@@ -44,6 +44,32 @@ class AppService {
       print("bad");
     }
     yield exerciseDataStream;
+  }
+
+  Stream<List<Workout>> get userWorkoutStream async* {
+    List<Workout> workoutDataStream = [];
+
+    // get the userID from stream
+    String userID = this.account.id!;
+
+    if (userID.length > 0) {
+      final FireStoreDatabaseService fireStoreDb =
+          FireStoreDatabaseService(userId: userID);
+
+      await for (List<Workout?> workouts in fireStoreDb.workouts.distinct()) {
+        print(workouts);
+        // add workouts
+        workouts.forEach((workout) {
+          if (workout != null) {
+            workoutDataStream.add(workout);
+          }
+        });
+        yield workoutDataStream;
+      }
+    } else {
+      print("Error getting user workouts: UserId could not be retrieved");
+    }
+    yield workoutDataStream;
   }
 
   // Methods
@@ -79,8 +105,34 @@ class AppService {
       createDate: exercise.createDate ?? DateTime.now(),
       userID: userID,
       notes: exercise.notes ?? "",
+      workout: exercise.workout,
     );
     await fireStoreDb.upsertExercise(databaseExercise);
+  }
+
+  // putExercise stores an exercise for the user
+  Future putWorkout(String name, WorkoutColor color) async {
+    // get the userID
+    String? userID = this.account.id;
+    try {
+      final FireStoreDatabaseService fireStoreDb =
+          FireStoreDatabaseService(userId: userID);
+      Workout workout = Workout(name, userID!, color: color);
+      await fireStoreDb.upsertUserWorkout(workout);
+    } catch (e) {
+      print("Failed to save workout with name: $name");
+    }
+  }
+
+  Future<void> deleteWorkout(String name) async {
+    String? userID = this.account.id;
+    try {
+      final FireStoreDatabaseService fireStoreDb =
+          FireStoreDatabaseService(userId: userID);
+      await fireStoreDb.deleteWorkout(name + "_" + userID!);
+    } catch (e) {
+      print("Failed to delete workout with name: $name");
+    }
   }
 
   // SharedPreference stuff (useless)
