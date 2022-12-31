@@ -18,6 +18,9 @@ class ListHeader extends StatelessWidget {
           text,
           style: Theme.of(context).textTheme.headline1,
         ),
+        SizedBox(
+          height: LayoutValues.SMALLER,
+        ),
         Divider(
           thickness: LayoutValues.DIVIDER_THICKNESS,
           height: LayoutValues.DIVIDER_THICKNESS,

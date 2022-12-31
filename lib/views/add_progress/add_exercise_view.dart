@@ -98,12 +98,7 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                   Text(
                     "Exercise Name",
                     style: Theme.of(context).textTheme.headline1,
-                  ),
-                  Divider(
-                    thickness: LayoutValues.DIVIDER_THICKNESS,
-                    height: LayoutValues.DIVIDER_THICKNESS,
-                    color: primaryColor,
-                  ),
+                    ),
                   Container(
                     height: 16,
                   ),
@@ -126,11 +121,6 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                       "Workouts",
                       style: Theme.of(context).textTheme.headline1,
                     ),
-                    Divider(
-                      thickness: LayoutValues.DIVIDER_THICKNESS,
-                      height: LayoutValues.DIVIDER_THICKNESS,
-                      color: primaryColor,
-                    ),
                     Container(
                       height: LayoutValues.SMALL,
                     ),
@@ -151,11 +141,6 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                     "Repetitions & Weight",
                     style: Theme.of(context).textTheme.headline1,
                   ),
-                  Divider(
-                    thickness: LayoutValues.DIVIDER_THICKNESS,
-                    height: LayoutValues.DIVIDER_THICKNESS,
-                    color: primaryColor,
-                  ),
                   Container(
                     height: LayoutValues.SMALL,
                   ),
@@ -174,11 +159,6 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                   Text(
                     "Other Properties",
                     style: Theme.of(context).textTheme.headline1,
-                  ),
-                  Divider(
-                    thickness: LayoutValues.DIVIDER_THICKNESS,
-                    height: 1,
-                    color: primaryColor,
                   ),
                   SizedBox(
                     height: 32,

@@ -53,7 +53,7 @@ class _ActivityViewState extends State<ActivityView> {
           Container(
             width: MediaQuery.of(context).size.width * 1,
             child: Text(
-              "You have no activity! \n WTF bro! STOP SLACKING! START GRINDING!",
+              "You have no activity yet...",
               textAlign: TextAlign.center,
             ),
           ),
