@@ -9,6 +9,8 @@ import 'package:spotme/views/shared/padding.dart';
 import 'package:spotme/views/shared/whitespace.dart';
 import 'package:reorderables/reorderables.dart';
 import 'package:uuid/uuid.dart';
+import 'package:spring_button/spring_button.dart';
+
 
 import '../shared/buttons/buttonStyles.dart';
 
@@ -64,14 +66,20 @@ class _AddSetsViewState extends State<AddSetsView> {
           },
           background: Container(
             padding: containerPadding,
-            color: Theme.of(context).colorScheme.errorContainer,
+            color: Theme.of(context).colorScheme.background,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Icon(
-                  Icons.delete_sweep_outlined,
-                  color: Theme.of(context).colorScheme.onErrorContainer,
+                Container(
+                  padding: EdgeInsets.all(LayoutValues.MEDIUM),
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.errorContainer,
+                      shape: BoxShape.circle),
+                  child: Icon(
+                    Icons.delete_sweep_outlined,
+                    color: Theme.of(context).colorScheme.onErrorContainer,
+                  ),
                 ),
               ],
             ),
@@ -99,12 +107,14 @@ class _AddSetsViewState extends State<AddSetsView> {
                           children: [
                             Container(
                               width: LayoutValues.LARGER,
-                              child: IconButton(
-                                padding: EdgeInsets.zero,
-                                alignment: Alignment.centerLeft,
-                                iconSize: LayoutValues.LARGER,
-                                splashRadius: LayoutValues.LARGE + 2,
-                                onPressed: () {
+                              child: SpringButton(
+                                SpringButtonType.WithOpacity,
+                                Icon(
+                                  Icons.remove_circle_outline,
+                                  color: Theme.of(context).colorScheme.primary,
+                                  size: LayoutValues.LARGER,
+                                ),
+                                onTapUp: (_) {
                                   setState(() {
                                     HapticFeedback.selectionClick();
                                     // lower sets repetitions if possible
@@ -115,10 +125,13 @@ class _AddSetsViewState extends State<AddSetsView> {
                                             : sets[i].repetitions! - 1;
                                   });
                                 },
-                                icon: Icon(
-                                  Icons.remove_circle_outline,
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
+                                onLongPress: () {
+                                  setState(() {
+                                    HapticFeedback.selectionClick();
+                                    // lower sets repetitions if possible
+                                    sets[i].repetitions = 1;
+                                  });
+                                },
                               ),
                             ),
                             Container(
@@ -145,21 +158,20 @@ class _AddSetsViewState extends State<AddSetsView> {
                             ),
                             Container(
                               width: 32,
-                              child: IconButton(
-                                onPressed: () {
+                              child: SpringButton(
+                                SpringButtonType.WithOpacity,
+                                Icon(
+                                  Icons.add_circle_outline,
+                                  color: Theme.of(context).colorScheme.primary,
+                                  size: LayoutValues.LARGER,
+                                ),
+                                onTapUp: (_) {
                                   HapticFeedback.selectionClick();
                                   setState(() {
                                     sets[i].repetitions =
                                         (sets[i].repetitions ?? 1) + 1;
                                   });
                                 },
-                                padding: EdgeInsets.zero,
-                                iconSize: 32,
-                                splashRadius: 36,
-                                icon: Icon(
-                                  Icons.add_circle_outline,
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
                               ),
                             ),
                           ],

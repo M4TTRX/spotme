@@ -42,12 +42,15 @@ dependencies:
   intl: ^0.17.0
   # used to acquire fonts
   google_fonts: ^2.1.0
+  spring_button: ^2.0.0
 
   # used for re-orderable list
   reorderables: ^0.4.1
   implicitly_animated_reorderable_list: ^0.4.1
   firebase_ui_auth: ^1.0.4
   modal_bottom_sheet: ^2.1.2
+  animations: ^2.0.7
+  flutter_svg: ^1.1.6
 
 dev_dependencies:
   flutter_test:
@@ -74,6 +77,8 @@ flutter:
   assets:
     - resources/images/work_in_progress/wip.png
     - resources/images/icon/dumbbell.png
+    - resources/images/visuals/undraw_working_out_re_nhkg.svg
+    - resources/images/visuals/undraw_personal_trainer_2.svg
   fonts:
     - family: Red Hat Text
       fonts:

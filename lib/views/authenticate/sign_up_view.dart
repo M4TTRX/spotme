@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:spotme/service/service.dart';
 import 'package:spotme/theme/layout_values.dart';
 import 'package:spotme/views/authenticate/sign_in_view.dart';
-import 'package:spotme/views/shared/buttons/primary_button.dart';
-import 'package:spotme/views/shared/buttons/secondary_button.dart';
 import 'package:spotme/views/shared/padding.dart';
 import 'package:spotme/views/shared/scroll_behavior.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
 
 import '../shared/buttons/buttonStyles.dart';
 
@@ -48,9 +48,31 @@ class _SignUpViewState extends State<SignUpView> {
         body: ScrollConfiguration(
       behavior: BasicScrollBehaviour(),
       child: ListView(
-        reverse: true,
         padding: containerPadding,
         children: <Widget>[
+          SizedBox(
+            height: LayoutValues.LARGEST,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Register",
+                style: Theme.of(context).textTheme.headline6,
+              ),
+            ],
+          ),
+          SizedBox(
+            height: LayoutValues.LARGE,
+          ),
+          SvgPicture.asset(
+            "resources/images/visuals/undraw_working_out_re_nhkg.svg",
+            height: 156,
+            width: 156,
+          ),
+          SizedBox(
+            height: LayoutValues.LARGE,
+          ),
           Form(
             key: _formKey,
             child: Column(
