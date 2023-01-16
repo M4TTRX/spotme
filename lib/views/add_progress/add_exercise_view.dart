@@ -11,6 +11,7 @@ import 'package:spotme/views/add_progress/workouts_view.dart';
 import 'package:spotme/views/shared/padding.dart';
 import 'package:uuid/uuid.dart';
 
+import '../shared/buttons/unit_toggle.dart';
 import 'add_sets_list_view.dart';
 
 class AddExerciseView extends StatefulWidget {
@@ -156,91 +157,85 @@ class _AddExerciseViewState extends State<AddExerciseView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox(
+                    height: LayoutValues.SMALL,
+                  ),
                   Text(
                     "Other Properties",
                     style: Theme.of(context).textTheme.headline1,
                   ),
                   SizedBox(
-                    height: 32,
+                    height: LayoutValues.SMALL,
                   ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(right: 10, top: 0),
-                        child: Icon(
-                          Icons.event_available,
-                          size: 29,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            right: LayoutValues.LARGE + 28.0),
-                        child: Container(
-                            key: Key(Uuid().v4()),
-                            width: 96,
-                            child: MaterialButton(
-                              padding: EdgeInsets.all(4),
-                              child: Row(
-                                children: <Widget>[
-                                  Text(
-                                    exercise!.createDate == null
-                                        ? "Today"
-                                        : toPrettyString(exercise!.createDate!),
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontFamily: "Red Hat Text",
-                                    ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Date",
+                            style: Theme.of(context).textTheme.bodyText2,
+                          ),
+                          Container(
+                              key: Key(Uuid().v4()),
+                              width: LayoutValues.CARD_WIDTH,
+                              height: LayoutValues.EVEN_LARGER + 2,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color:
+                                        Theme.of(context).colorScheme.surface,
                                   ),
-                                ],
-                              ),
-                              onPressed: () {
-                                showDatePicker(
-                                        context: context,
-                                        initialDate: DateTime.now(),
-                                        firstDate: DateTime(0),
-                                        lastDate: DateTime.now())
-                                    .then((date) {
-                                  exercise!.createDate = date;
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(LayoutValues.SMALL))),
+                              child: MaterialButton(
+                                padding: EdgeInsets.all(4),
+                                child: Row(
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.event_available,
+                                      size: 29,
+                                    ),
+                                    SizedBox(
+                                      width: LayoutValues.SMALL,
+                                    ),
+                                    Text(
+                                      exercise!.createDate == null
+                                          ? "Today"
+                                          : toPrettyString(
+                                              exercise!.createDate!),
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontFamily: "Red Hat Text",
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                onPressed: () {
+                                  showDatePicker(
+                                          context: context,
+                                          initialDate: DateTime.now(),
+                                          firstDate: DateTime(0),
+                                          lastDate: DateTime.now())
+                                      .then((date) {
+                                    exercise!.createDate = date;
+                                    setState(() {});
+                                  });
                                   setState(() {});
-                                });
-                                setState(() {});
-                              },
-                            )),
+                                },
+                              )),
+                          
+                        ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 14, top: 4),
-                        child: Icon(
-                          Icons.straighten,
-                          size: 29,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                      ),
-                      Flexible(
-                        child: TextFormField(
-                          initialValue: exercise!.unit?.isEmpty ?? true
-                              ? "kg"
-                              : exercise!.unit,
-                          style: TextStyle(
-                            fontSize: 18,
-                          ),
-                          decoration: InputDecoration(
-                            hintText: "Unit",
-                            border: InputBorder.none,
-                          ),
-                          onChanged: (val) {
-                            setState(() => exercise!.unit = val);
-                          },
-                        ),
-                      ),
+                      UnitSelect(exercise!)
                     ],
                   ),
                   Container(
-                    height: LayoutValues.SMALL,
+                    height: LayoutValues.LARGE,
                   ),
                   Text(
                     "Notes",
-                    style: Theme.of(context).textTheme.headline2,
+                    style: Theme.of(context).textTheme.headline1,
                   ),
                   Container(
                     height: 8,
