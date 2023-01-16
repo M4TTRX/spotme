@@ -4,13 +4,13 @@ import 'package:flutter/services.dart';
 import 'package:spotme/model/account_model.dart';
 import 'package:spotme/model/selected_screen_model.dart';
 import 'package:spotme/service/service.dart';
+import 'package:spotme/theme/layout_values.dart';
 import 'package:spotme/views/account/account_view.dart';
 import 'package:spotme/views/activity/activity_view.dart';
 import 'package:spotme/views/add_progress/add_exercise_view.dart';
-import 'package:spotme/views/home/home_view.dart';
 import 'package:spotme/views/shared/text/title.dart';
-import 'package:spotme/views/work_in_progress/wip_view.dart';
 import 'package:provider/provider.dart';
+import 'package:animations/animations.dart';
 
 class MainNavigationView extends StatefulWidget {
   @override
@@ -22,6 +22,10 @@ class _MainNavigationViewState extends State<MainNavigationView> {
   late AppService service;
   int _selectedScreenIndex = 0;
 
+  SharedAxisTransitionType? _transitionType =
+      SharedAxisTransitionType.horizontal;
+  bool _reverseAnimation = true;
+
   @override
   Widget build(BuildContext context) {
     return Consumer<Account>(
@@ -31,6 +35,8 @@ class _MainNavigationViewState extends State<MainNavigationView> {
         behavior: CupertinoScrollBehavior(),
         child: Scaffold(
           bottomNavigationBar: NavigationBar(
+            backgroundColor: Theme.of(context).colorScheme.background,
+            height: LayoutValues.LARGEST,
             onDestinationSelected: _updateSelectedView,
             selectedIndex: _selectedScreenIndex,
             destinations: [
@@ -48,13 +54,29 @@ class _MainNavigationViewState extends State<MainNavigationView> {
           ),
           floatingActionButton: _getFloatingActionButton(),
           backgroundColor: Colors.white,
-          body: _returnSelectedView(),
+          body: PageTransitionSwitcher(
+            reverse: !_reverseAnimation,
+            transitionBuilder: (
+              Widget child,
+              Animation<double> animation,
+              Animation<double> secondaryAnimation,
+            ) {
+              return SharedAxisTransition(
+                animation: animation,
+                secondaryAnimation: secondaryAnimation,
+                transitionType: _transitionType!,
+                child: child,
+              );
+            },
+            child: _returnSelectedView(),
+          ),
         ),
       );
     });
   }
 
   void _updateSelectedView(int newViewIndex) {
+    this._reverseAnimation = newViewIndex > this._selectedScreenIndex;
     this._selectedScreenIndex = newViewIndex;
     switch (newViewIndex) {
       case 1:

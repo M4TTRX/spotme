@@ -147,7 +147,7 @@ class _ActivityViewState extends State<ActivityView> {
               padding: containerPadding,
               child: Padding(
                 padding:
-                    const EdgeInsets.only(top: 96, bottom: LayoutValues.LARGE),
+                    const EdgeInsets.only(top: 24, bottom: LayoutValues.LARGE),
                 child: Text(
                   "Activity",
                   style: Theme.of(context).textTheme.headline6,
