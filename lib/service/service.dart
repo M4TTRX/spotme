@@ -11,6 +11,9 @@ import 'database/shared_preferences_service.dart';
 class AppService {
   AppService({required this.account});
 
+  // Cache values
+  List<Exercise> _cachedUserExercise = [];
+
   // Sub Services and Databases
   // ===============================================================
 
@@ -38,6 +41,9 @@ class AppService {
             exerciseDataStream.add(exercise);
           }
         });
+        // udpate cache
+        this._cachedUserExercise = exerciseDataStream;
+
         yield exerciseDataStream;
       }
     } else {
@@ -133,6 +139,25 @@ class AppService {
     } catch (e) {
       print("Failed to delete workout with name: $name");
     }
+  }
+
+  void updateExerciseCache() async =>
+      _cachedUserExercise = (await exerciseDataStream.toList())[0];
+
+  Future<List<Exercise>> searchExercise(String pattern) async {
+    // load exercises if they have not been loaded yet
+    if (_cachedUserExercise.length == 0) {
+      updateExerciseCache();
+    }
+    var seen = Set<String>();
+    List<Exercise> suggestions = _cachedUserExercise
+        .where((Exercise exercise) =>
+            exercise.type!.contains(pattern.toUpperCase()))
+        .toList();
+    suggestions = suggestions
+        .where((Exercise exercise) => seen.add(exercise.type ?? ""))
+        .toList();
+    return suggestions;
   }
 
   // SharedPreference stuff (useless)

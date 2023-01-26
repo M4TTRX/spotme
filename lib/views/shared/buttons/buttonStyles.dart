@@ -11,7 +11,7 @@ class ButtonStyles {
         foregroundColor: MaterialStateProperty.all<Color>(
             Theme.of(context).colorScheme.onPrimaryContainer),
         backgroundColor: MaterialStateProperty.all<Color>(
-            Theme.of(context).colorScheme.primaryContainer),
+            Theme.of(context).colorScheme.primary),
       );
   static dangerButton(context) => ButtonStyle(
         foregroundColor: MaterialStateProperty.all<Color>(

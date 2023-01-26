@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:spotme/helpers/date_time_helper.dart';
+import 'package:spotme/helpers/string_helper.dart';
 import 'package:spotme/model/exercise_model.dart';
 import 'package:spotme/model/exercise_set.dart';
 import 'package:spotme/service/service.dart';
@@ -38,12 +40,15 @@ class _AddExerciseViewState extends State<AddExerciseView> {
   final _formKey = GlobalKey<FormState>();
 
   int? selectedIndex;
-
+  String currentBuildType = "default";
   @override
   Widget build(BuildContext context) {
     if (exercise == null) {
       this.exercise = Exercise(sets: [ExerciseSet(repetitions: 1)]);
     }
+
+    // Update exercise cache so that recommendations work right away
+    service.updateExerciseCache();
     return ScrollConfiguration(
       behavior: CupertinoScrollBehavior(),
       child: Scaffold(
@@ -85,40 +90,80 @@ class _AddExerciseViewState extends State<AddExerciseView> {
         SliverList(
             delegate: SliverChildListDelegate([
           Padding(
-            padding: containerPadding,
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    "Add Exercise",
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
-                  Container(
-                    height: 16,
-                  ),
-                  Text(
-                    "Exercise Name",
-                    style: Theme.of(context).textTheme.headline1,
+              padding: containerPadding,
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "Add Exercise",
+                      style: Theme.of(context).textTheme.headline6,
                     ),
-                  Container(
-                    height: 16,
-                  ),
-                  TextFormField(
-                    initialValue: exercise!.type ?? "",
-                    validator: (val) => val!.isEmpty ? "Invalid name" : null,
-                    textCapitalization: TextCapitalization.sentences,
-                    style: Theme.of(context).textTheme.bodyText2,
-                    decoration: InputDecoration(
-                      hintText: "Exercise Name",
+                    Container(
+                      height: 16,
                     ),
-                    onChanged: (val) {
-                      setState(() => exercise!.type = val);
-                    },
-                  ),
-                  SizedBox(
-                    height: LayoutValues.LARGE,
-                  ),
-                  Text(
+                    Text(
+                      "Exercise Name",
+                      style: Theme.of(context).textTheme.headline1,
+                    ),
+                    Container(
+                      height: 16,
+                    ),
+                    TypeAheadFormField(
+                      initialValue: this.exercise!.type ?? "",
+                      textFieldConfiguration: TextFieldConfiguration(
+                          autofocus: true,
+                          style: Theme.of(context).textTheme.bodyText2,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: "Exercise Name",
+                          )),
+                      suggestionsCallback: (pattern) async {
+                        this.exercise!.type = pattern;
+                        return service.searchExercise(pattern);
+                      },
+                      minCharsForSuggestions: 1,
+                      itemBuilder: (context, suggestion) {
+                        if (suggestion == null || suggestion.type == null) {
+                          return Container();
+                        }
+                        return Container(
+                          padding: containerPadding,
+                          height: LayoutValues.EVEN_LARGER,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                suggestion.type.capitalize() ??
+                                    "Unknown exercise",
+                                style: Theme.of(context).textTheme.headline2,
+                              ),
+                              Text(
+                                suggestion.getDisplayAmount(),
+                                style: Theme.of(context).textTheme.bodyText2,
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                      onSuggestionSelected: (suggestion) {
+                        setState(() {
+                          try {
+                            this.exercise = suggestion as Exercise;
+                            this.currentBuildType =
+                                "prefilled_" + (this.exercise!.type ?? "");
+                          } catch (e) {
+                            print(
+                                "Error, suggestion is not an exercise: $suggestion");
+                          }
+                        });
+                      },
+                      validator: (val) => val!.isEmpty ? "Invalid name" : null,
+                    ),
+                    SizedBox(
+                      height: LayoutValues.LARGE,
+                    ),
+                    Text(
                       "Workouts",
                       style: Theme.of(context).textTheme.headline1,
                     ),
@@ -179,7 +224,6 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                           ),
                           Container(
                               key: Key(Uuid().v4()),
-                              width: LayoutValues.CARD_WIDTH,
                               height: LayoutValues.EVEN_LARGER + 2,
                               decoration: BoxDecoration(
                                   border: Border.all(
@@ -189,7 +233,7 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                                   borderRadius: BorderRadius.all(
                                       Radius.circular(LayoutValues.SMALL))),
                               child: MaterialButton(
-                                padding: EdgeInsets.all(4),
+                                padding: EdgeInsets.all(LayoutValues.SMALL),
                                 child: Row(
                                   children: <Widget>[
                                     Icon(
@@ -204,6 +248,7 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                                           ? "Today"
                                           : toPrettyString(
                                               exercise!.createDate!),
+                                      overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
                                         fontSize: 18,
                                         fontFamily: "Red Hat Text",
@@ -224,7 +269,6 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                                   setState(() {});
                                 },
                               )),
-                          
                         ],
                       ),
                       UnitSelect(exercise!)
@@ -243,7 +287,7 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                   TextFormField(
                     keyboardType: TextInputType.multiline,
                     maxLines: 5,
-                    initialValue: exercise!.unit ?? "",
+                    initialValue: exercise!.notes ?? "",
                     style: TextStyle(
                       fontSize: 18,
                     ),
@@ -267,6 +311,6 @@ class _AddExerciseViewState extends State<AddExerciseView> {
   }
 
   Widget _displaySets(Exercise exercise) {
-    return AddSetsView(sets: exercise.sets);
+    return AddSetsView(exercise.sets, Key(this.currentBuildType));
   }
 }

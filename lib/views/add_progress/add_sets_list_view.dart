@@ -11,7 +11,6 @@ import 'package:reorderables/reorderables.dart';
 import 'package:uuid/uuid.dart';
 import 'package:spring_button/spring_button.dart';
 
-
 import '../shared/buttons/buttonStyles.dart';
 
 const _dismissThreshold = 0.4; // must swipe at least 40% to dismiss
@@ -22,7 +21,8 @@ bool _deltaReached = false;
 
 class AddSetsView extends StatefulWidget {
   final List<ExerciseSet>? sets;
-  AddSetsView({this.sets});
+  final Key addSetsViewKey;
+  AddSetsView(this.sets, this.addSetsViewKey) : super(key: addSetsViewKey);
   @override
   _AddSetsViewState createState() => _AddSetsViewState(sets ?? []);
 }
@@ -111,7 +111,9 @@ class _AddSetsViewState extends State<AddSetsView> {
                                 SpringButtonType.WithOpacity,
                                 Icon(
                                   Icons.remove_circle_outline,
-                                  color: Theme.of(context).colorScheme.primary,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onPrimaryContainer,
                                   size: LayoutValues.LARGER,
                                 ),
                                 onTapUp: (_) {
@@ -162,7 +164,9 @@ class _AddSetsViewState extends State<AddSetsView> {
                                 SpringButtonType.WithOpacity,
                                 Icon(
                                   Icons.add_circle_outline,
-                                  color: Theme.of(context).colorScheme.primary,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onPrimaryContainer,
                                   size: LayoutValues.LARGER,
                                 ),
                                 onTapUp: (_) {

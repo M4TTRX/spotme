@@ -33,9 +33,9 @@ const _secondaryColoredText = Color(0xFF3E5259);
 
 const lightColorScheme = ColorScheme(
   brightness: Brightness.light,
-  primary: Color(0xFF006B5A),
+  primary: Color(_primaryColorVal),
   onPrimary: Color(0xFFFFFFFF),
-  primaryContainer: Color(_primaryColorVal),
+  primaryContainer: Color.fromARGB(255, 137, 244, 224),
   onPrimaryContainer: Color(_darkColourVal),
   secondary: Color(0xFF4B635C),
   onSecondary: Color(0xFFFFFFFF),
@@ -198,7 +198,7 @@ ThemeData themeBuilder(ColorScheme colorScheme) => ThemeData(
         focusedBorder: OutlineInputBorder(
             gapPadding: 0,
             borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide(color: colorScheme.primaryContainer)),
+            borderSide: BorderSide(color: colorScheme.primary)),
       ),
 
       // Define Button Themes
@@ -210,7 +210,7 @@ ThemeData themeBuilder(ColorScheme colorScheme) => ThemeData(
         foregroundColor:
             MaterialStateProperty.all<Color>(colorScheme.onPrimaryContainer),
         backgroundColor:
-            MaterialStateProperty.all<Color>(colorScheme.primaryContainer),
+            MaterialStateProperty.all<Color>(colorScheme.primary),
       )),
 
       elevatedButtonTheme: ElevatedButtonThemeData(
@@ -221,7 +221,7 @@ ThemeData themeBuilder(ColorScheme colorScheme) => ThemeData(
         foregroundColor:
             MaterialStateProperty.all<Color>(colorScheme.onPrimaryContainer),
         backgroundColor:
-            MaterialStateProperty.all<Color>(colorScheme.primaryContainer),
+            MaterialStateProperty.all<Color>(colorScheme.primary),
       )),
 
       // Define Card Theme

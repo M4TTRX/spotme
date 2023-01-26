@@ -43,6 +43,7 @@ dependencies:
   # used to acquire fonts
   google_fonts: ^2.1.0
   spring_button: ^2.0.0
+  flutter_typeahead: ^4.1.1
 
   # used for re-orderable list
   reorderables: ^0.4.1

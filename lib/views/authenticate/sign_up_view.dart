@@ -216,7 +216,7 @@ class _SignUpViewState extends State<SignUpView> {
                         foregroundColor: MaterialStateProperty.all<Color>(
                             Theme.of(context).colorScheme.onPrimaryContainer),
                         backgroundColor: MaterialStateProperty.all<Color>(
-                            Theme.of(context).colorScheme.primaryContainer),
+                            Theme.of(context).colorScheme.primary),
                       ),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {

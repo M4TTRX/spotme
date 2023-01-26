@@ -22,9 +22,10 @@ class ListHeader extends StatelessWidget {
           height: LayoutValues.SMALLER,
         ),
         Divider(
+          endIndent: LayoutValues.LARGE,
           thickness: LayoutValues.DIVIDER_THICKNESS,
           height: LayoutValues.DIVIDER_THICKNESS,
-          color: Theme.of(context).colorScheme.primaryContainer,
+          color: Theme.of(context).colorScheme.primary,
         ),
       ],
     );
