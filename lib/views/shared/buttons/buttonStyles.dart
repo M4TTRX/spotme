@@ -14,6 +14,7 @@ class ButtonStyles {
             Theme.of(context).colorScheme.primary),
       );
   static dangerButton(context) => ButtonStyle(
+        visualDensity: VisualDensity.compact,
         foregroundColor: MaterialStateProperty.all<Color>(
             Theme.of(context).colorScheme.error),
         backgroundColor: MaterialStateProperty.all<Color>(

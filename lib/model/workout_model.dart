@@ -4,17 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:spotme/theme/workout_colors.dart';
 
 class Workout {
-  Workout(this.name, this.userID, {this.color = WorkoutColor.NEUTRAL});
+  Workout(this.name, this.userID,
+      {this.color = WorkoutColor.NEUTRAL, active = true});
   final String name;
   final String userID;
   WorkoutColor color;
+  bool active = true;
 
   Workout copyWith({
     required String name,
     required String userID,
     color = WorkoutColor.NEUTRAL,
+      active = true
   }) {
-    return Workout(name, userID, color: color);
+    return Workout(name, userID, color: color, active: active);
   }
 
   Map<String, dynamic> toMap() {
@@ -22,6 +25,7 @@ class Workout {
       'name': name,
       'userID': userID,
       'color': color.name,
+      'active': active,
     };
   }
 
@@ -32,6 +36,7 @@ class Workout {
         map['name'],
         map['userID'],
         color: _getWorkoutColorFromMap(map),
+        active: map['userID'],
       );
     } catch (e) {
       print("Couldn't parse workout from map: $map");

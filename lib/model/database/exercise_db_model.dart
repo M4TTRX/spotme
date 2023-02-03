@@ -21,7 +21,7 @@ class DatabaseExercise {
   // notes represents the optional notes a user may put on their exercise
   String? notes;
   // workout describes the workout this exercise is part of
-  Workout? workout;
+  String? workout;
 
   // Generated methods
   // ==============================================================================
@@ -44,7 +44,7 @@ class DatabaseExercise {
     DateTime? createDate,
     String? userID,
     String? notes,
-    Workout? workout,
+    String? workout,
   }) {
     return DatabaseExercise(
       id: id ?? this.id,
@@ -67,7 +67,7 @@ class DatabaseExercise {
       'createDate': createDate?.millisecondsSinceEpoch,
       'userID': userID,
       'notes': notes,
-      'workout': workout?.toMap() ?? null,
+      'workout': workout,
     };
   }
 
@@ -83,7 +83,7 @@ class DatabaseExercise {
       createDate: DateTime.fromMillisecondsSinceEpoch(map['createDate']),
       userID: map['userID'],
       notes: map['notes'],
-      workout: Workout.fromMap(map['workout']),
+      workout: map['workout'],
     );
   }
 

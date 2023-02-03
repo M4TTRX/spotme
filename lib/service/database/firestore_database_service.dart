@@ -47,13 +47,14 @@ class FireStoreDatabaseService {
     return await exercisesCollection.doc(exercise.id).set(exercise.toMap());
   }
 
-  List<Exercise?> _getExercisesFromSnapshot(QuerySnapshot snapshot) {
+  List<DatabaseExercise?> _getExercisesFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs.map((DocumentSnapshot documentSnapshot) {
-      return Exercise.fromMap(documentSnapshot.data() as Map<String, dynamic>?);
+      return DatabaseExercise.fromMap(
+          documentSnapshot.data() as Map<String, dynamic>?);
     }).toList();
   }
 
-  Stream<List<Exercise?>> get exercises {
+  Stream<List<DatabaseExercise?>> get exercises {
     return exercisesCollection
         .where("userID", isEqualTo: this.userId)
         .orderBy("createDate", descending: true)
@@ -74,7 +75,7 @@ class FireStoreDatabaseService {
   List<Workout?> _getUserWorkoutsFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs.map((DocumentSnapshot documentSnapshot) {
       return Workout.fromMap(documentSnapshot.data() as Map<String, dynamic>?);
-    }).toList();
+    }).toList(growable: false);
   }
 
   Stream<List<Workout?>> get workouts {
@@ -84,8 +85,16 @@ class FireStoreDatabaseService {
         .map(_getUserWorkoutsFromSnapshot);
   }
 
+  Stream<List<Workout?>> get activeWorkouts {
+    return userWorkoutCollection
+        .where("userID", isEqualTo: this.userId)
+        .where("active", isEqualTo: true)
+        .snapshots()
+        .map(_getUserWorkoutsFromSnapshot);
+  }
+
   Future<void> deleteWorkout(String workoutID) {
-    return userWorkoutCollection.doc(workoutID).delete();
+    return userWorkoutCollection.doc(workoutID).update({'active': false});
   }
 
   final CollectionReference challengesCollection =

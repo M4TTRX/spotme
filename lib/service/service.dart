@@ -33,10 +33,11 @@ class AppService {
       final FireStoreDatabaseService fireStoreDb =
           FireStoreDatabaseService(userId: userID);
 
-      await for (List<Exercise?> exercises
+      await for (List<DatabaseExercise?> exercises
           in fireStoreDb.exercises.distinct()) {
         // add exercises
-        exercises.forEach((exercise) {
+        exercises.forEach((dbExercise) {
+          var exercise = Exercise.fromDatabaseExercise(dbExercise);
           if (exercise != null) {
             exerciseDataStream.add(exercise);
           }
@@ -53,7 +54,7 @@ class AppService {
   }
 
   Stream<List<Workout>> get userWorkoutStream async* {
-    List<Workout> workoutDataStream = [];
+    List<Workout> _activeWorkouts = [];
 
     // get the userID from stream
     String userID = this.account.id!;
@@ -62,20 +63,20 @@ class AppService {
       final FireStoreDatabaseService fireStoreDb =
           FireStoreDatabaseService(userId: userID);
 
-      await for (List<Workout?> workouts in fireStoreDb.workouts.distinct()) {
-        print(workouts);
+      await for (List<Workout?> workouts
+          in fireStoreDb.activeWorkouts.distinct()) {
         // add workouts
         workouts.forEach((workout) {
           if (workout != null) {
-            workoutDataStream.add(workout);
+            _activeWorkouts.add(workout);
           }
         });
-        yield workoutDataStream;
+        yield _activeWorkouts;
       }
     } else {
       print("Error getting user workouts: UserId could not be retrieved");
     }
-    yield workoutDataStream;
+    yield _activeWorkouts;
   }
 
   // Methods
@@ -105,13 +106,13 @@ class AppService {
         FireStoreDatabaseService(userId: userID);
     DatabaseExercise databaseExercise = DatabaseExercise(
       id: Uuid().v4(),
-      type: exercise.type?.toUpperCase() ?? "UNKNOWN",
+      type: exercise.type?.toUpperCase().trim() ?? "UNKNOWN",
       sets: exercise.sets ?? [],
-      unit: exercise.unit?.toUpperCase() ?? "",
+      unit: exercise.unit?.toUpperCase().trim() ?? "",
       createDate: exercise.createDate ?? DateTime.now(),
       userID: userID,
       notes: exercise.notes ?? "",
-      workout: exercise.workout,
+      workout: exercise.workout?.getId(),
     );
     await fireStoreDb.upsertExercise(databaseExercise);
   }

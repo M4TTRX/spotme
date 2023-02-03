@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 
 import 'package:spotme/model/account_model.dart';
+import 'package:spotme/model/database/exercise_db_model.dart';
 import 'package:spotme/model/workout_model.dart';
 
 import 'exercise_set.dart';
@@ -68,6 +69,19 @@ class Exercise {
       user: user ?? this.user,
       notes: notes ?? this.notes,
       workout: workout ?? this.workout,
+    );
+  }
+
+  static Exercise fromDatabaseExercise(DatabaseExercise databaseExercise,
+      {Workout? workout = null}) {
+    return Exercise(
+      id: databaseExercise.id,
+      type: databaseExercise.type,
+      sets: databaseExercise.sets,
+      unit: databaseExercise.unit,
+      createDate: databaseExercise.createDate,
+      notes: databaseExercise.notes,
+      workout: workout,
     );
   }
 

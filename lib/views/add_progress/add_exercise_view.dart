@@ -149,6 +149,12 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                       onSuggestionSelected: (suggestion) {
                         setState(() {
                           try {
+                            // use the data from previous exercise to pre-load most things
+                            var newExercise = suggestion as Exercise;
+                            // genereate a new ID so create a new exercise
+                            newExercise.id = Uuid().v4();
+                            // set creation to now
+                            newExercise.createDate = DateTime.now();
                             this.exercise = suggestion as Exercise;
                             this.currentBuildType =
                                 "prefilled_" + (this.exercise!.type ?? "");

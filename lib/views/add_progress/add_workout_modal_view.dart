@@ -66,81 +66,92 @@ class _AddWorkoutViewState extends State<AddWorkoutView> {
                   LayoutValues.MEDIUM,
                   LayoutValues.LARGEST),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    "New Workout",
-                    style: Theme.of(context).textTheme.headline3,
-                  ),
-                  SizedBox(height: LayoutValues.LARGE),
-                  Text(
-                    "Workout Name",
-                    style: Theme.of(context).textTheme.headline1,
-                  ),
-                  SizedBox(height: LayoutValues.SMALL),
-                  TextFormField(
-                    enabled: !editMode,
-                    decoration: InputDecoration(
-                      hintText: "Workout Name",
-                    ),
-                    validator: (value) {
-                      if (value == null || value.length <= 0)
-                        return "Workout must have a name";
-                      if (value.length > 20)
-                        return "Workout name should be 20 characters max";
-                      return null;
-                    },
-                    initialValue: _name.capitalize(),
-                    onChanged: (String val) {
-                      _name = val;
-                    },
-                  ),
-                  SizedBox(height: LayoutValues.MEDIUM),
-                  Text(
-                    "Workout Color",
-                    style: Theme.of(context).textTheme.headline1,
-                  ),
-                  SizedBox(height: LayoutValues.SMALL),
-                  Row(
-                    children: _colorRadio(),
-                  ),
-                  SizedBox(height: LayoutValues.MEDIUM),
-                  Row(
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Text(
+                        "New Workout",
+                        style: Theme.of(context).textTheme.headline3,
+                      ),
+                      SizedBox(height: LayoutValues.LARGE),
+                      Text(
+                        "Workout Name",
+                        style: Theme.of(context).textTheme.headline1,
+                      ),
+                      SizedBox(height: LayoutValues.SMALL),
+                      TextFormField(
+                        enabled: !editMode,
+                        decoration: InputDecoration(
+                          hintText: "Workout Name",
+                        ),
+                        validator: (value) {
+                          if (value == null || value.length <= 0)
+                            return "Workout must have a name";
+                          if (value.length > 20)
+                            return "Workout name should be 20 characters max";
+                          return null;
+                        },
+                        initialValue: _name.capitalize(),
+                        onChanged: (String val) {
+                          _name = val;
+                        },
+                      ),
+                      SizedBox(height: LayoutValues.MEDIUM),
+                      Text(
+                        "Workout Color",
+                        style: Theme.of(context).textTheme.headline1,
+                      ),
+                      SizedBox(height: LayoutValues.SMALL),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          editMode
-                              ? TextButton(
-                                  child: Text("Delete"),
-                                  style: ButtonStyles.dangerButton(context),
-                                  onPressed: () {
-                                    HapticFeedback.selectionClick();
-                                    this.service.deleteWorkout(
-                                        this._name.toLowerCase());
-                                    Navigator.pop(context);
+                        children: _colorRadio(),
+                      ),
+                      SizedBox(height: LayoutValues.MEDIUM),
 
-                                  },
-                                )
-                              : Container(
-                                  width: 1,
-                                ),
-                          TextButton(
-                            child: Text("Submit"),
-                            style: ButtonStyles.actionButton(context),
+                    ],
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      if (editMode)
+                        ConstrainedBox(
+                          constraints:
+                              const BoxConstraints(minWidth: double.infinity),
+                          child: TextButton(
+                            child: Text("Delete this workout"),
+                            style: ButtonStyles.dangerButton(context),
                             onPressed: () {
                               HapticFeedback.selectionClick();
-                              if (_formKey.currentState!.validate()) {
-                                this.service.putWorkout(
-                                    this._name.toLowerCase(), _color);
-                                Navigator.pop(context);
-                              } else {
-                                HapticFeedback.heavyImpact();
-                              }
+                              this.service.deleteWorkout(
+                                  this._name.toLowerCase().trim());
+                              Navigator.pop(context);
                             },
-                          )
-                        ],
-                      ),
+                          ),
+                        )
+                      else
+                        Container(
+                          width: 1,
+                        ),
+                      SizedBox(height: LayoutValues.SMALL),
+                      ConstrainedBox(
+                        constraints:
+                            const BoxConstraints(minWidth: double.infinity),
+                        child: TextButton(
+                          child: Text("Submit"),
+                          style: ButtonStyles.actionButton(context),
+                          onPressed: () {
+                            HapticFeedback.selectionClick();
+                            if (_formKey.currentState!.validate()) {
+                              this.service.putWorkout(
+                                  this._name.toLowerCase().trim(), _color);
+                              Navigator.pop(context);
+                            } else {
+                              HapticFeedback.heavyImpact();
+                            }
+                          },
+                        ),
+                      )
                     ],
                   )
                 ],
