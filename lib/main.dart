@@ -14,7 +14,6 @@ import 'package:firebase_auth/firebase_auth.dart'
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 
@@ -46,29 +45,36 @@ class App extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarBrightness: Brightness.light,
-      statusBarColor: Colors.white,
-      systemNavigationBarColor: Colors.white,
-      systemNavigationBarIconBrightness: Brightness.dark,
-    ));
+    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    //     statusBarBrightness: Brightness.light,
+    //   statusBarColor: Colors.white,
+    //   systemNavigationBarColor: Colors.white,
+    //   systemNavigationBarIconBrightness: Brightness.dark,
+    // ));
     return StreamProvider<Account>.value(
       value: AuthService().user,
       initialData: Account(),
-      child: MaterialApp(
-        
-        theme: lightTheme,
-        darkTheme: darkTheme,
+      child: GestureDetector(
+        // This GestureDetector makes sure the keyboard is dismissed
+        // if the user taps on a non interactive widget
+        onTap: () {
+          FocusManager.instance.primaryFocus?.unfocus();
+        },
 
-        // used to restore the naviagator when killing the app
-        restorationScopeId: 'app',
+        child: MaterialApp(
+          theme: lightTheme,
+          darkTheme: darkTheme,
 
-        localizationsDelegates: <LocalizationsDelegate<dynamic>>[
-          DefaultMaterialLocalizations.delegate,
-          DefaultWidgetsLocalizations.delegate,
-          DefaultCupertinoLocalizations.delegate,
-        ],
-        home: AuthWrapper(),
+          // used to restore the naviagator when killing the app
+          restorationScopeId: 'app',
+
+          localizationsDelegates: <LocalizationsDelegate<dynamic>>[
+            DefaultMaterialLocalizations.delegate,
+            DefaultWidgetsLocalizations.delegate,
+            DefaultCupertinoLocalizations.delegate,
+          ],
+          home: AuthWrapper(),
+        ),
       ),
     );
     // });

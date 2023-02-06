@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:spotme/model/database/exercise_db_model.dart';
 import 'package:spotme/model/exercise_model.dart';
 import 'package:spotme/model/account_model.dart';
@@ -32,14 +33,29 @@ class AppService {
     if (userID.length > 0) {
       final FireStoreDatabaseService fireStoreDb =
           FireStoreDatabaseService(userId: userID);
-
-      await for (List<DatabaseExercise?> exercises
-          in fireStoreDb.exercises.distinct()) {
+      List<Workout?> workouts = await fireStoreDb.activeWorkouts
+          .distinct()
+          .firstWhere((element) => element != null);
+      await for (var exercises in fireStoreDb.exercises.distinct()) {
         // add exercises
+        print(exercises);
         exercises.forEach((dbExercise) {
-          var exercise = Exercise.fromDatabaseExercise(dbExercise);
-          if (exercise != null) {
-            exerciseDataStream.add(exercise);
+          Workout? workout = null;
+          for (var w in workouts) {
+            if (w?.getId() == dbExercise?.workout) {
+              workout = w;
+              break;
+            }
+          }
+          if (dbExercise != null) {
+            exerciseDataStream.add(Exercise(
+                id: dbExercise.id,
+                type: dbExercise.type,
+                sets: dbExercise.sets,
+                unit: dbExercise.unit,
+                createDate: dbExercise.createDate,
+                notes: dbExercise.notes,
+                workout: workout));
           }
         });
         // udpate cache

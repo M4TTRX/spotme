@@ -83,7 +83,13 @@ class _AddExerciseViewState extends State<AddExerciseView> {
   Widget _buildBody() {
     ScrollController _scrollController =
         PrimaryScrollController.of(context) ?? ScrollController();
-    exercise = exercise ?? Exercise(type: "", unit: "", sets: [ExerciseSet()]);
+    exercise = exercise ??
+        Exercise(
+          type: "",
+          unit: "",
+          sets: [ExerciseSet()],
+          createDate: DateTime.now(),
+        );
     return Form(
       key: _formKey,
       child: CustomScrollView(controller: _scrollController, slivers: [
@@ -149,13 +155,13 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                       onSuggestionSelected: (suggestion) {
                         setState(() {
                           try {
-                            // use the data from previous exercise to pre-load most things
-                            var newExercise = suggestion as Exercise;
-                            // genereate a new ID so create a new exercise
-                            newExercise.id = Uuid().v4();
-                            // set creation to now
-                            newExercise.createDate = DateTime.now();
-                            this.exercise = suggestion as Exercise;
+                            // use the data from previous exercise to pre-load most thing                            newExercise.createDate = DateTime.now();
+                            this.exercise!.sets = suggestion.sets;
+                            this.exercise!.type = suggestion.type.capitalize();
+                            if (suggestion.workout != null) {
+                              this.exercise!.workout = suggestion.workout;
+                            }
+                            this.exercise!.unit = suggestion.unit;
                             this.currentBuildType =
                                 "prefilled_" + (this.exercise!.type ?? "");
                           } catch (e) {
