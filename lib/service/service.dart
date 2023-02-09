@@ -33,9 +33,7 @@ class AppService {
     if (userID.length > 0) {
       final FireStoreDatabaseService fireStoreDb =
           FireStoreDatabaseService(userId: userID);
-      List<Workout?> workouts = await fireStoreDb.activeWorkouts
-          .distinct()
-          .firstWhere((element) => element != null);
+      List<Workout?> workouts = await fireStoreDb.workouts;
       await for (var exercises in fireStoreDb.exercises.distinct()) {
         // add exercises
         print(exercises);

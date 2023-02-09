@@ -78,11 +78,11 @@ class FireStoreDatabaseService {
     }).toList(growable: false);
   }
 
-  Stream<List<Workout?>> get workouts {
+  Future<List<Workout?>> get workouts {
     return userWorkoutCollection
         .where("userID", isEqualTo: this.userId)
-        .snapshots()
-        .map(_getUserWorkoutsFromSnapshot);
+        .get()
+        .then(_getUserWorkoutsFromSnapshot);
   }
 
   Stream<List<Workout?>> get activeWorkouts {
