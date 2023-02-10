@@ -90,6 +90,10 @@ class _AddExerciseViewState extends State<AddExerciseView> {
           sets: [ExerciseSet()],
           createDate: DateTime.now(),
         );
+
+    var typeTextFieldController = TextEditingController();
+    typeTextFieldController.text = this.exercise!.type ?? "";
+
     return Form(
       key: _formKey,
       child: CustomScrollView(controller: _scrollController, slivers: [
@@ -115,10 +119,10 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                       height: 16,
                     ),
                     TypeAheadFormField(
-                      initialValue: this.exercise!.type ?? "",
                       textFieldConfiguration: TextFieldConfiguration(
                           autofocus: true,
                           style: Theme.of(context).textTheme.bodyText2,
+                          controller: typeTextFieldController,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: "Exercise Name",
@@ -158,7 +162,11 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                             // use the data from previous exercise to pre-load most thing                            newExercise.createDate = DateTime.now();
                             this.exercise!.sets = suggestion.sets;
                             this.exercise!.type = suggestion.type.capitalize();
-                            if (suggestion.workout != null) {
+                            typeTextFieldController.text =
+                                suggestion.type ?? "Error";
+
+                            if (suggestion.workout != null &&
+                                this.exercise!.workout == null) {
                               this.exercise!.workout = suggestion.workout;
                             }
                             this.exercise!.unit = suggestion.unit;
