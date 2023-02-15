@@ -147,24 +147,25 @@ class _ActivityViewState extends State<ActivityView> {
               padding: containerPadding,
               child: Padding(
                 padding:
-                    const EdgeInsets.only(top: 24, bottom: LayoutValues.LARGE),
+                    const EdgeInsets.only(
+                    top: LayoutValues.LARGEST, bottom: LayoutValues.SMALL),
                 child: Text(
                   "Activity",
                   style: Theme.of(context).textTheme.headline6,
                 ),
               ),
             ),
-            Padding(
-              padding: containerPadding,
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: LayoutValues.MEDIUM),
-                child: Text(
-                  "Recommended Exercises",
-                  style: Theme.of(context).textTheme.headline2,
-                ),
-              ),
-            ),
-            _getRecommendedExercises(),
+            // Padding(
+            //   padding: containerPadding,
+            //   child: Padding(
+            //     padding: const EdgeInsets.only(bottom: LayoutValues.MEDIUM),
+            //     child: Text(
+            //       "Recommended Exercises",
+            //       style: Theme.of(context).textTheme.headline2,
+            //     ),
+            //   ),
+            // ),
+            // _getRecommendedExercises(),
             Padding(
               padding: containerPadding,
               child: Column(

@@ -10,8 +10,10 @@ import 'auth_service.dart';
 import 'database/shared_preferences_service.dart';
 
 class AppService {
-  AppService({required this.account});
-
+  AppService({required this.account}) {
+    _fireStoreDb = FireStoreDatabaseService(userId: this.account.id);
+  }
+  late FireStoreDatabaseService _fireStoreDb;
   // Cache values
   List<Exercise> _cachedUserExercise = [];
 
@@ -31,10 +33,8 @@ class AppService {
     String userID = this.account.id!;
 
     if (userID.length > 0) {
-      final FireStoreDatabaseService fireStoreDb =
-          FireStoreDatabaseService(userId: userID);
-      List<Workout?> workouts = await fireStoreDb.workouts;
-      await for (var exercises in fireStoreDb.exercises.distinct()) {
+      List<Workout?> workouts = await _fireStoreDb.workouts;
+      await for (var exercises in _fireStoreDb.exercises.distinct()) {
         // add exercises
         print(exercises);
         exercises.forEach((dbExercise) {
@@ -74,11 +74,8 @@ class AppService {
     String userID = this.account.id!;
 
     if (userID.length > 0) {
-      final FireStoreDatabaseService fireStoreDb =
-          FireStoreDatabaseService(userId: userID);
-
       await for (List<Workout?> workouts
-          in fireStoreDb.activeWorkouts.distinct()) {
+          in _fireStoreDb.activeWorkouts.distinct()) {
         // add workouts
         workouts.forEach((workout) {
           if (workout != null) {
@@ -102,10 +99,8 @@ class AppService {
       return null;
     }
     Account user = Account(username: username, email: email, id: authResult.id);
-    final FireStoreDatabaseService fireStoreDb =
-        FireStoreDatabaseService(userId: authResult.id);
 
-    dynamic fireStoreDbResult = await fireStoreDb.upsertUser(user);
+    dynamic fireStoreDbResult = await _fireStoreDb.upsertUser(user);
     if (fireStoreDbResult == null) {
       return null;
     }
@@ -113,23 +108,21 @@ class AppService {
   }
 
   // putExercise stores an exercise for the user
-  Future putExercise(Exercise exercise) async {
-    // get the userID
-    String? userID = this.account.id;
-    final FireStoreDatabaseService fireStoreDb =
-        FireStoreDatabaseService(userId: userID);
-    DatabaseExercise databaseExercise = DatabaseExercise(
-      id: Uuid().v4(),
+  Future putExercise(Exercise exercise, {String? exerciseId = null}) async =>
+      await _fireStoreDb.upsertExercise(DatabaseExercise(
+        // generate an ID if it does not exist yet
+        id: exerciseId ?? Uuid().v4(),
       type: exercise.type?.toUpperCase().trim() ?? "UNKNOWN",
       sets: exercise.sets ?? [],
       unit: exercise.unit?.toUpperCase().trim() ?? "",
       createDate: exercise.createDate ?? DateTime.now(),
-      userID: userID,
+        userID: this.account.id,
       notes: exercise.notes ?? "",
       workout: exercise.workout?.getId(),
-    );
-    await fireStoreDb.upsertExercise(databaseExercise);
-  }
+      ));
+
+  Future deleteExercise(String exerciseID) async =>
+      await _fireStoreDb.deleteExercise(exerciseID);
 
   // putExercise stores an exercise for the user
   Future putWorkout(String name, WorkoutColor color) async {
@@ -176,7 +169,7 @@ class AppService {
   }
 
   // SharedPreference stuff (useless)
-  // =============ab==================================================
+  // ===============================================================
   static Future<Account?> getUser() async {
     var account = await SharedPreferencesService.getUser();
     return account;

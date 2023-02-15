@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:spotme/theme/layout_values.dart';
 
 // Color values
 // Primary Color
 const int _primaryColorVal = 0xFF35D7B9;
-const int _darkColourVal = 0xFF2A373C;
+const int _darkColorVal = 0xFF2A373C;
 const int _lightGrayBackground = 0xFFECECEC;
-const int _veryLightGrayBackground = 0xFFF3F3F3;
-const int _shadowColourVal = 0x552A373C;
+const int _shadowColorVal = 0x552A373C;
 
-// Colour Palette Valuers
+// Color Palette Valuers
 const int _redColorVal = 0xFFFD584E;
 const int _redLightColorVal = 0xFFFFC1BD;
 const int _redDarkColorVal = 0xFF7B120B;
@@ -22,13 +22,12 @@ const int _highlightColorVal = 0x33FFFFFF;
 // Colors
 const Color primaryColor = Color(_primaryColorVal);
 const lightGrayBackgroundColor = Color(_lightGrayBackground);
-const _veryLightGrayBackgroundColor = Color(_veryLightGrayBackground);
-const darkColour = Color(_darkColourVal);
-const shadowColour = Color(_shadowColourVal);
+const darkColor = Color(_darkColorVal);
+const shadowColor = Color(_shadowColorVal);
 
 // Text colors
-const _textColor = Color(_darkColourVal);
-const _primaryColoredText = Color(_darkColourVal);
+const _textColor = Color(_darkColorVal);
+const _primaryColoredText = Color(_darkColorVal);
 const _secondaryColoredText = Color(0xFF3E5259);
 
 const lightColorScheme = ColorScheme(
@@ -36,7 +35,7 @@ const lightColorScheme = ColorScheme(
   primary: Color(_primaryColorVal),
   onPrimary: Color(0xFFFFFFFF),
   primaryContainer: Color.fromARGB(255, 137, 244, 224),
-  onPrimaryContainer: Color(_darkColourVal),
+  onPrimaryContainer: Color(_darkColorVal),
   secondary: Color(0xFF4B635C),
   onSecondary: Color(0xFFFFFFFF),
   secondaryContainer: Color(0xFFCDE8DF),
@@ -60,15 +59,15 @@ const lightColorScheme = ColorScheme(
   inverseSurface: Color(0xFF00344D),
   inversePrimary: Color(_primaryColorVal),
   shadow: Color(0xFF000000),
-  surfaceTint: Color(0xFF006B5A),
+  surfaceTint: Color(_primaryColorVal),
 );
 
 const darkColorScheme = ColorScheme(
   brightness: Brightness.dark,
-  primary: Color(0xFF3FDDBF),
+  primary: Color(_primaryColorVal),
   onPrimary: Color(0xFF00382E),
   primaryContainer: Color(0xFF005143),
-  onPrimaryContainer: Color(0xFF64FADB),
+  onPrimaryContainer: Color(_primaryColorVal),
   secondary: Color(0xFFB1CCC3),
   onSecondary: Color(0xFF1D352F),
   secondaryContainer: Color(0xFF334B45),
@@ -103,14 +102,15 @@ ThemeData themeBuilder(ColorScheme colorScheme) => ThemeData(
       useMaterial3: true,
       colorScheme: colorScheme,
 
-      // // Define Colours
+      // // Define Colors
       // primaryColor: primaryColor,
       // accentColor: Color(_primaryColorVal),
-      // splashColor: Color(_veryLightGrayBackground),
-      // highlightColor: Color(_veryLightGrayBackground),
 
-      bottomAppBarColor: Color(0xFFFFFFFF),
-      appBarTheme: AppBarTheme(color: Color(0xFFFFFFFF)),
+      // bottomAppBarColor: Colors.transparent,
+      appBarTheme: AppBarTheme(
+        color: colorScheme.background,
+      ),
+      
       // headline6 Title theme
       textTheme: TextTheme(
         headline6: GoogleFonts.poppins(

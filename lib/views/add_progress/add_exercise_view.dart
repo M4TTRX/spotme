@@ -38,13 +38,15 @@ class _AddExerciseViewState extends State<AddExerciseView> {
 
   // Form Key used to validate the form input
   final _formKey = GlobalKey<FormState>();
-
+  String? _exerciseID;
   int? selectedIndex;
   String currentBuildType = "default";
   @override
   Widget build(BuildContext context) {
     if (exercise == null) {
       this.exercise = Exercise(sets: [ExerciseSet(repetitions: 1)]);
+    } else {
+      _exerciseID = exercise!.id;
     }
 
     // Update exercise cache so that recommendations work right away
@@ -60,7 +62,8 @@ class _AddExerciseViewState extends State<AddExerciseView> {
               child: TextButton(
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    await service.putExercise(exercise!);
+                    await service.putExercise(exercise!,
+                        exerciseId: _exerciseID);
                     Navigator.pop(context);
                   } else {
                     HapticFeedback.heavyImpact();
@@ -120,7 +123,8 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                     ),
                     TypeAheadFormField(
                       textFieldConfiguration: TextFieldConfiguration(
-                          autofocus: true,
+                          // autofocus exercise name if it is empty
+                          autofocus: (this.exercise?.type?.length ?? 0) > 0,
                           style: Theme.of(context).textTheme.bodyText2,
                           controller: typeTextFieldController,
                           decoration: InputDecoration(

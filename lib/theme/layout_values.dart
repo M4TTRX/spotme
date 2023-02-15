@@ -18,7 +18,7 @@ class LayoutValues {
   static const double CARD_WIDTH = 156.0;
   static const EdgeInsets CARD_PADDING = EdgeInsets.all(MEDIUM);
   static const BoxShadow CARD_SHADOW = BoxShadow(
-    color: shadowColour,
+    color: shadowColor,
     blurRadius: 5.0,
   );
 

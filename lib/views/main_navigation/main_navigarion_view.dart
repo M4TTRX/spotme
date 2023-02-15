@@ -53,7 +53,6 @@ class _MainNavigationViewState extends State<MainNavigationView> {
             ],
           ),
           floatingActionButton: _getFloatingActionButton(),
-          backgroundColor: Colors.white,
           body: PageTransitionSwitcher(
             reverse: !_reverseAnimation,
             transitionBuilder: (
@@ -174,7 +173,7 @@ class _MainNavigationViewState extends State<MainNavigationView> {
           ),
           icon: Icon(
             Icons.add,
-            size: 32,
+            size: LayoutValues.LARGER,
           ),
         );
       default:

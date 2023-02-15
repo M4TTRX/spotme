@@ -8,7 +8,6 @@ import 'package:spotme/views/shared/list_item.dart';
 import 'package:spotme/views/shared/padding.dart';
 import 'package:spotme/views/shared/text/headings.dart';
 import 'package:spotme/views/shared/text/title.dart';
-import 'package:spotme/views/shared/white_app_bar.dart';
 import 'package:spotme/views/shared/whitespace.dart';
 
 import '../../theme/layout_values.dart';

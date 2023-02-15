@@ -13,6 +13,9 @@ import 'package:spotme/views/shared/scroll_behavior.dart';
 import 'package:spotme/views/shared/workout_chip.dart';
 import 'package:uuid/uuid.dart';
 
+import '../add_progress/add_exercise_view.dart';
+import '../shared/list_header.dart';
+
 class ExerciseView extends StatefulWidget {
   final AppService service;
   final Exercise? exercise;
@@ -41,18 +44,51 @@ class _ExerciseViewState extends State<ExerciseView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
         elevation: 0,
         iconTheme: IconThemeData(
           color: Colors.black, //change your color here
         ),
+        actions: [],
       ),
-      backgroundColor: Colors.white,
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () async {
+          HapticFeedback.mediumImpact();
+          await Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) {
+            return AddExerciseView(
+              service: service,
+              exercise: this.exercise,
+            );
+          }));
+          setState(() {});
+        },
+        label: Text(
+          "Edit",
+          style: Theme.of(context).textTheme.headline2,
+        ),
+        icon: Icon(
+          Icons.edit_outlined,
+          size: LayoutValues.LARGE,
+        ),
+        elevation: 2,
+        focusElevation: 3,
+        highlightElevation: 4,
+      ),
       body: _buildBody(),
     );
   }
 
   Widget _buildBody() {
+    var _titleStyle = (int length) {
+      if (length > 16) {
+        return Theme.of(context).textTheme.headline6?.copyWith(fontSize: 28);
+      }
+      if (length > 10) {
+        return Theme.of(context).textTheme.headline6?.copyWith(fontSize: 36);
+      }
+      // 48
+      return Theme.of(context).textTheme.headline6;
+    };
     exercise = exercise ?? Exercise(type: "", unit: "", sets: [ExerciseSet()]);
     return ListView(
       padding: containerPadding,
@@ -62,6 +98,15 @@ class _ExerciseViewState extends State<ExerciseView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: LayoutValues.SMALL),
+                child: Text(
+                  exercise?.type.capitalize() ?? "Unknown exercise",
+                  style: _titleStyle(exercise?.type?.length ?? 0),
+                  maxLines: 2,
+                ),
+              ),
               Row(
                 children: [
                   exercise?.workout != null
@@ -77,24 +122,8 @@ class _ExerciseViewState extends State<ExerciseView> {
                   ),
                 ],
               ),
-              Text(
-                exercise?.type.capitalize() ?? "Unknown exercise",
-                style: Theme.of(context).textTheme.headline6,
-              ),
-              SizedBox(
-                height: LayoutValues.LARGE,
-              ),
-              Text(
-                "Details",
-                style: Theme.of(context).textTheme.headline1,
-              ),
-              Divider(
-                thickness: LayoutValues.DIVIDER_THICKNESS,
-                height: LayoutValues.DIVIDER_THICKNESS,
-                color: primaryColor,
-              ),
               Container(
-                height: LayoutValues.SMALL,
+                height: LayoutValues.MEDIUM,
               ),
               _displaySets(exercise),
               _displayNotes(exercise!),
@@ -150,22 +179,53 @@ class _ExerciseViewState extends State<ExerciseView> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
-          areThereWeights(sets) ? "Repetitions & Weights" : "Repetitions",
-          style: Theme.of(context).textTheme.headline2,
+        ListHeader(
+          text: areThereWeights(sets) ? "Repetitions & Weights" : "Repetitions",
         ),
-        ...List.generate(
-            sets.length,
-            (i) => Text(sets[i].repetitions.toString() +
-                // Display the amount if it exists
-                (sets[i].amount == null || sets[i].amount == 0
-                    ? ""
-                    : (" x " + sets[i].amount.toString())) +
-                // Display the unit if there is one
-                (exercise.unit == null
-                    ? ""
-                    : (" " +
-                        (exercise.unit.capitalize() ?? "Unknown Exercise")))))
+        SizedBox(
+          height: LayoutValues.SMALL,
+        ),
+        for (ExerciseSet set in sets)
+          _displayRep(set.repetitions!, set.amount, exercise.unit!),
+      ],
+    );
+  }
+
+  Widget _displayRep(int reps, double? amount, String unit) {
+    var style = TextStyle(
+        fontSize: 24, color: Theme.of(context).colorScheme.onPrimaryContainer);
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.baseline,
+      textBaseline: TextBaseline.alphabetic,
+      children: [
+        Container(
+          width: LayoutValues.MEDIUM * 3,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                reps.toString(),
+                style: style,
+              ),
+            ],
+          ),
+        ),
+        if (amount != null && amount != 0)
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.baseline,
+            textBaseline: TextBaseline.alphabetic,
+            children: [
+              Icon(Icons.close_rounded, size: LayoutValues.MEDIUM),
+              SizedBox(
+                width: LayoutValues.SMALLER,
+              ),
+              Text(
+                amount.toString(),
+                style: style,
+              ),
+              Text(unit.toLowerCase()),
+            ],
+          ),
       ],
     );
   }

@@ -62,7 +62,11 @@ class FireStoreDatabaseService {
         .map(_getExercisesFromSnapshot);
   }
 
-  // Exercise Firestore collection
+  Future<void> deleteExercise(String exerciseID) {
+    return userWorkoutCollection.doc(exerciseID).delete();
+  }
+
+  // Workout Firestore collection
   final CollectionReference userWorkoutCollection =
       FirebaseFirestore.instance.collection(_USER_WORKOUTS_COLLECTION);
 
