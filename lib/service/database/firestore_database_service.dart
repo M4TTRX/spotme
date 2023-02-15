@@ -62,8 +62,8 @@ class FireStoreDatabaseService {
         .map(_getExercisesFromSnapshot);
   }
 
-  Future<void> deleteExercise(String exerciseID) {
-    return userWorkoutCollection.doc(exerciseID).delete();
+  Future<void> deleteExercise(String exerciseID) async {
+    return await exercisesCollection.doc(exerciseID).delete();
   }
 
   // Workout Firestore collection

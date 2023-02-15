@@ -7,13 +7,11 @@ import 'package:spotme/model/exercise_model.dart';
 import 'package:spotme/model/exercise_set.dart';
 import 'package:spotme/service/service.dart';
 import 'package:spotme/theme/layout_values.dart';
-import 'package:spotme/theme/theme_Data.dart';
 import 'package:spotme/views/shared/padding.dart';
-import 'package:spotme/views/shared/scroll_behavior.dart';
 import 'package:spotme/views/shared/workout_chip.dart';
-import 'package:uuid/uuid.dart';
 
 import '../add_progress/add_exercise_view.dart';
+import '../shared/buttons/buttonStyles.dart';
 import '../shared/list_header.dart';
 
 class ExerciseView extends StatefulWidget {
@@ -48,31 +46,12 @@ class _ExerciseViewState extends State<ExerciseView> {
         iconTheme: IconThemeData(
           color: Colors.black, //change your color here
         ),
-        actions: [],
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () async {
-          HapticFeedback.mediumImpact();
-          await Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) {
-            return AddExerciseView(
-              service: service,
-              exercise: this.exercise,
-            );
-          }));
-          setState(() {});
-        },
-        label: Text(
-          "Edit",
-          style: Theme.of(context).textTheme.headline2,
-        ),
-        icon: Icon(
-          Icons.edit_outlined,
-          size: LayoutValues.LARGE,
-        ),
-        elevation: 2,
-        focusElevation: 3,
-        highlightElevation: 4,
+        actions: [
+          IconButton(onPressed: _editExercise, icon: Icon(Icons.edit_outlined)),
+          IconButton(
+              onPressed: () => _confirmExerciseDeletion(context),
+              icon: Icon(Icons.delete_outline_rounded))
+        ],
       ),
       body: _buildBody(),
     );
@@ -228,5 +207,51 @@ class _ExerciseViewState extends State<ExerciseView> {
           ),
       ],
     );
+  }
+
+  void _editExercise() async {
+    HapticFeedback.mediumImpact();
+    await Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+      return AddExerciseView(
+        service: service,
+        exercise: this.exercise,
+      );
+    }));
+    setState(() {});
+  }
+
+  _confirmExerciseDeletion(BuildContext context) {
+    // set up the buttons
+    var cancelButton = TextButton(
+      child: Text("Nope"),
+      style: ButtonStyles.greyButton(context),
+      onPressed: () => Navigator.of(context).pop(false),
+    );
+
+    var continueButton = TextButton(
+        child: Text("Yes"),
+        style: ButtonStyles.dangerButton(context),
+        onPressed: () => Navigator.of(context).pop(true));
+    // set up the AlertDialog
+    var alert = AlertDialog(
+      title: Text("Delete Exercise?"),
+      content: Text("You will not be able to undo this"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    ).then((value) async {
+      if (value) {
+        await this.service.deleteExercise(this.exercise?.id);
+        Navigator.of(context).pop("DELETE");
+      }
+    });
   }
 }

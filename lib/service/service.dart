@@ -112,17 +112,24 @@ class AppService {
       await _fireStoreDb.upsertExercise(DatabaseExercise(
         // generate an ID if it does not exist yet
         id: exerciseId ?? Uuid().v4(),
-      type: exercise.type?.toUpperCase().trim() ?? "UNKNOWN",
-      sets: exercise.sets ?? [],
-      unit: exercise.unit?.toUpperCase().trim() ?? "",
-      createDate: exercise.createDate ?? DateTime.now(),
+        type: exercise.type?.toUpperCase().trim() ?? "UNKNOWN",
+        sets: exercise.sets ?? [],
+        unit: exercise.unit?.toUpperCase().trim() ?? "",
+        createDate: exercise.createDate ?? DateTime.now(),
         userID: this.account.id,
-      notes: exercise.notes ?? "",
-      workout: exercise.workout?.getId(),
+        notes: exercise.notes ?? "",
+        workout: exercise.workout?.getId(),
       ));
 
-  Future deleteExercise(String exerciseID) async =>
-      await _fireStoreDb.deleteExercise(exerciseID);
+  Future<bool> deleteExercise(String? exerciseID) async {
+    if (exerciseID != null) {
+      try {
+        await _fireStoreDb.deleteExercise(exerciseID);
+        return false;
+      } catch (e) {}
+    }
+    return true;
+  }
 
   // putExercise stores an exercise for the user
   Future putWorkout(String name, WorkoutColor color) async {

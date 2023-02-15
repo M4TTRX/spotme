@@ -6,7 +6,6 @@ import 'package:spotme/helpers/string_helper.dart';
 import 'package:spotme/model/exercise_set.dart';
 import 'package:spotme/helpers/string_helper.dart';
 
-
 import 'package:spotme/service/service.dart';
 import 'package:spotme/theme/layout_values.dart';
 import 'package:spotme/theme/theme_Data.dart';
@@ -90,7 +89,11 @@ class _ActivityViewState extends State<ActivityView> {
                 service: service,
                 exercise: exercise,
               );
-            }));
+            })).then((value) {
+              if (value == "DELETE") {
+                data.removeWhere((element) => element == exercise);
+              }
+            });
           },
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -146,8 +149,7 @@ class _ActivityViewState extends State<ActivityView> {
             Padding(
               padding: containerPadding,
               child: Padding(
-                padding:
-                    const EdgeInsets.only(
+                padding: const EdgeInsets.only(
                     top: LayoutValues.LARGEST, bottom: LayoutValues.SMALL),
                 child: Text(
                   "Activity",

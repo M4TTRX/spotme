@@ -120,7 +120,7 @@ class _AddWorkoutViewState extends State<AddWorkoutView> {
                               const BoxConstraints(minWidth: double.infinity),
                           child: TextButton(
                             child: Text("Delete this workout"),
-                            style: ButtonStyles.dangerButton(context),
+                            style: ButtonStyles.compactDangerButton(context),
                             onPressed: () {
                               HapticFeedback.selectionClick();
                               this.service.deleteWorkout(
