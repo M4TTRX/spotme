@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:spotme/model/account_model.dart';
+import 'package:spotme/model/exercise_model.dart';
 import 'package:spotme/service/auth_service.dart';
 import 'package:spotme/service/service.dart';
 import 'package:spotme/views/shared/buttons/danger_button.dart';
+import 'package:spotme/views/shared/buttons/unit_toggle.dart';
 import 'package:spotme/views/shared/list_item.dart';
 import 'package:spotme/views/shared/padding.dart';
 import 'package:spotme/views/shared/text/headings.dart';
@@ -42,7 +44,8 @@ class _AccountViewState extends State<AccountView> {
     List<Widget> accountBodyView = [];
 
     accountBodyView.add(Padding(
-      padding: const EdgeInsets.only(top: 96, bottom: LayoutValues.LARGE),
+      padding: const EdgeInsets.only(
+          top: LayoutValues.LARGEST, bottom: LayoutValues.LARGE),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -61,9 +64,22 @@ class _AccountViewState extends State<AccountView> {
       ),
     ));
     accountBodyView.add(ListHeader(text: "User Preferences"));
-    accountBodyView.add(ListItem(
-      title: "Default weight unit",
-      details: "Pre loaded unit when adding exercises",
+    accountBodyView.add(Padding(
+      padding: const EdgeInsets.only(top: LayoutValues.MEDIUM),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            "Default weight unit",
+            style: Theme.of(context).textTheme.button,
+          ),
+          UnitSelect(Exercise(unit: "kg"), false)
+        ],
+      ),
+    ));
+    accountBodyView.add(SizedBox(
+      height: LayoutValues.LARGER,
     ));
     accountBodyView.add(ListHeader(text: "Account Management"));
     accountBodyView.add(

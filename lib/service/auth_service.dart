@@ -17,6 +17,7 @@ class AuthService {
   Stream<Account> get user async* {
     await for (User? firebaseUser in _auth.authStateChanges()) {
       if (firebaseUser != null) {
+        print(await firebaseUser.getIdToken());
         yield _accountFromFirebaseUser(firebaseUser);
       } else
         yield new Account(id: null);

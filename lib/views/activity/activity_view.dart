@@ -5,6 +5,7 @@ import 'package:spotme/helpers/date_time_helper.dart';
 import 'package:spotme/helpers/string_helper.dart';
 import 'package:spotme/model/exercise_set.dart';
 import 'package:spotme/helpers/string_helper.dart';
+import 'package:spotme/model/workout_model.dart';
 
 import 'package:spotme/service/service.dart';
 import 'package:spotme/theme/layout_values.dart';
@@ -13,6 +14,7 @@ import 'package:spotme/views/add_progress/add_exercise_view.dart';
 import 'package:spotme/views/exercise/exercise_view.dart';
 
 import 'package:spotme/model/exercise_model.dart';
+import 'package:spotme/views/exercise/recommended/recommended_exercise_view.dart';
 import 'package:spotme/views/shared/padding.dart';
 
 import '../shared/list_header.dart';
@@ -157,16 +159,15 @@ class _ActivityViewState extends State<ActivityView> {
                 ),
               ),
             ),
-            // Padding(
-            //   padding: containerPadding,
-            //   child: Padding(
-            //     padding: const EdgeInsets.only(bottom: LayoutValues.MEDIUM),
-            //     child: Text(
-            //       "Recommended Exercises",
-            //       style: Theme.of(context).textTheme.headline2,
-            //     ),
-            //   ),
-            // ),
+            Padding(
+              padding: containerPadding,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: LayoutValues.MEDIUM),
+                child: Text(
+                  "Recommended Exercises",
+                ),
+              ),
+            ),
             // _getRecommendedExercises(),
             Padding(
               padding: containerPadding,
@@ -183,14 +184,14 @@ class _ActivityViewState extends State<ActivityView> {
   Widget _getRecommendedExercises() {
     var exercises = [
       Exercise(
-        type: "Push Ups",
-        createDate: DateTime.now(),
-        sets: [
-          ExerciseSet(repetitions: 20),
-          ExerciseSet(repetitions: 20),
-          ExerciseSet(repetitions: 20)
-        ],
-      ),
+          type: "Push Ups",
+          createDate: DateTime.now(),
+          sets: [
+            ExerciseSet(repetitions: 20),
+            ExerciseSet(repetitions: 20),
+            ExerciseSet(repetitions: 20)
+          ],
+          workout: Workout("Push", "", color: WorkoutColor.BLUE)),
       Exercise(
         type: "Diamond Push Ups",
         createDate: DateTime.now(),
@@ -199,6 +200,7 @@ class _ActivityViewState extends State<ActivityView> {
           ExerciseSet(repetitions: 20),
           ExerciseSet(repetitions: 20)
         ],
+        workout: Workout("Pull", "", color: WorkoutColor.PRIMARY),
       ),
       Exercise(
         type: "Diamond Push Ups",
@@ -234,51 +236,8 @@ class _ActivityViewState extends State<ActivityView> {
         margin: EdgeInsets.symmetric(
             horizontal: LayoutValues.LARGE, vertical: LayoutValues.SMALLER),
         child: Row(
-          children: List<Widget>.generate(
-            exercises.length,
-            (i) => Container(
-              margin: EdgeInsets.only(
-                right: LayoutValues.MEDIUM,
-              ),
-              height: LayoutValues.CARD_HEIGHT,
-              width: LayoutValues.CARD_WIDTH,
-              decoration: new BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(LayoutValues.MEDIUM),
-                boxShadow: [LayoutValues.CARD_SHADOW],
-              ),
-              child: InkWell(
-                borderRadius: BorderRadius.circular(LayoutValues.MEDIUM),
-                onTap: () async {
-                  await Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) {
-                    return AddExerciseView(
-                      exercise: exercises[i],
-                      service: this.service,
-                    );
-                  }));
-                },
-                child: Padding(
-                  padding: LayoutValues.CARD_PADDING,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        exercises[i].type.capitalize() ?? "Unknown exercise",
-                        style: Theme.of(context).textTheme.headline2,
-                      ),
-                      Text(
-                        exercises[i].getDisplayAmount(),
-                        style: Theme.of(context).textTheme.bodyText2,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
+          children: List<Widget>.generate(exercises.length,
+              (i) => RecommendedExerciseCard(exercises[i], service)),
         ),
       ),
     );

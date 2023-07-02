@@ -295,7 +295,10 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                               )),
                         ],
                       ),
-                      UnitSelect(exercise!)
+                      UnitSelect(
+                        exercise!,
+                        true,
+                      )
                     ],
                   ),
                   Container(

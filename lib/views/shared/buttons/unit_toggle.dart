@@ -8,16 +8,18 @@ import '../../../model/exercise_model.dart';
 import '../units.dart';
 
 class UnitSelect extends StatefulWidget {
-  UnitSelect(Exercise this.exercise, {super.key});
-
+  UnitSelect(Exercise this.exercise, bool this.displayLabel, {super.key});
   Exercise exercise;
+  bool displayLabel;
   @override
-  State<UnitSelect> createState() => _UnitSelectState(this.exercise);
+  State<UnitSelect> createState() =>
+      _UnitSelectState(this.exercise, displayLabel);
 }
 
 class _UnitSelectState extends State<UnitSelect> {
-  _UnitSelectState(Exercise this._exercise);
+  _UnitSelectState(Exercise this._exercise, bool this._displayLabel);
   Exercise _exercise;
+  bool _displayLabel;
   List<bool> _selections = [true, false];
 
   @override
@@ -26,10 +28,12 @@ class _UnitSelectState extends State<UnitSelect> {
       _exercise.unit = Unit.KG.getString();
     }
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text(
-        "Unit",
-        style: Theme.of(context).textTheme.bodyText2,
-      ),
+      _displayLabel
+          ? Text(
+              "Unit",
+              style: Theme.of(context).textTheme.bodyText2,
+            )
+          : Container(),
       ToggleButtons(
         isSelected: _selections,
         borderRadius: BorderRadius.circular(LayoutValues.SMALL),
@@ -51,7 +55,6 @@ class _UnitSelectState extends State<UnitSelect> {
             return;
           }
           _exercise.unit = Unit.KG.getString();
-
         }),
         fillColor: Theme.of(context).colorScheme.surface,
       )

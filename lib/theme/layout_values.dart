@@ -14,7 +14,7 @@ class LayoutValues {
   static const double LARGEST = 64;
 
 // Cards
-  static const double CARD_HEIGHT = 188.0;
+  static const double CARD_HEIGHT = 156.0;
   static const double CARD_WIDTH = 156.0;
   static const EdgeInsets CARD_PADDING = EdgeInsets.all(MEDIUM);
   static const BoxShadow CARD_SHADOW = BoxShadow(
